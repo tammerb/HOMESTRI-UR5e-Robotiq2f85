@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+
+  <name>homestri_robot_description</name>
+  <version>0.0.0</version>
+  <description>
+     homestri
+  </description>
+  <author>Jason Dekarske</author>
+  <maintainer email="jdekarske@ucdavis.edu">Jason Dekarske</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">https://research.engineering.ucdavis.edu/rascal/</url>
+  <url type="bugtracker">https://github.com/jdekarske/homestri-ur5e/issues</url>
+  <url type="repository">https://github.com/jdekarske/homestri-ur5e</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>
