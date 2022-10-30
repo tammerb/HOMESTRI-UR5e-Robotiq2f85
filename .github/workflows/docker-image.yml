@@ -12,8 +12,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-    uses: mr-smithers-excellent/docker-build-push@v5
+  - name: Docker Build & Push Action
+    uses: mr-smithers-excellent/docker-build-push@v5.8
     with:
       image: thbarkouki/homestri-ur5e-robotiq2f85
       tag: latest
