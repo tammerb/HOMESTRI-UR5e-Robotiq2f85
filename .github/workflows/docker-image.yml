@@ -18,9 +18,9 @@ jobs:
       - name: Docker Build & Push Action
         uses: mr-smithers-excellent/docker-build-push@v5.8
         with:
-          image: repo/image
-          tags: v1, latest
-          registry: registry-url.io
-          dockerfile: Dockerfile.ci
+          image: thbarkouki/homestri-ur5e-robotiq2f85
+          tags: latest
+          registry: docker.io
+          dockerfile: noetic.Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
