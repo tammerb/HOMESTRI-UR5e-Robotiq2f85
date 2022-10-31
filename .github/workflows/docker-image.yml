@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+    
+      - name: Docker Build & Push Action
+        uses: mr-smithers-excellent/docker-build-push@v5.8
+        with:
+          image: thbarkouki/homestri-ur5e-robotiq2f85
+          tags: latest
+          registry: docker.io
+          dockerfile: noetic.Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
