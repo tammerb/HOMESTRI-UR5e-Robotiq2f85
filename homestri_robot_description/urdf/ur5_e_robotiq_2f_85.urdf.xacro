@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<robot name="robot_arm" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:arg name="xyz" default="0 0 0" />
-  <xacro:arg name="rpy" default="0 0 0" />
-
-  <xacro:include filename="$(find homestri_robot_description)/urdf/ur5_e_robotiq_2f_85_macro.urdf.xacro" />
-  <xacro:ur5_e_robotiq_2f_85 prefix="" origin_xyz="$(arg xyz)" origin_rpy="$(arg rpy)"/>
-</robot>
