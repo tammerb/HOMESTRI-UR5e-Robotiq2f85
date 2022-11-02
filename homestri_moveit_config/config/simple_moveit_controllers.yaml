@@ -1,18 +1,18 @@
 controller_list:
-  - name: a_bot_arm_controller
+  - name: arm_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: True
     joints:
-      - a_bot_shoulder_pan_joint
-      - a_bot_shoulder_lift_joint
-      - a_bot_elbow_joint
-      - a_bot_wrist_1_joint
-      - a_bot_wrist_2_joint
-      - a_bot_wrist_3_joint
-  - name: a_bot_gripper_controller
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+  - name: gripper_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: True
     joints:
-      - a_bot_finger_joint
+      - finger_joint

@@ -1,5 +1,5 @@
-stomp/a_bot_arm:
-  group_name: a_bot_arm
+stomp/arm:
+  group_name: arm
   optimization:
     num_timesteps: 60
     num_iterations: 40
@@ -37,8 +37,8 @@ stomp/a_bot_arm:
         publish_intermediate: True
         marker_topic: stomp_trajectory
         marker_namespace: optimized
-stomp/a_bot_gripper:
-  group_name: a_bot_gripper
+stomp/gripper:
+  group_name: gripper
   optimization:
     num_timesteps: 60
     num_iterations: 40

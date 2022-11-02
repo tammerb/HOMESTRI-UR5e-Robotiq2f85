@@ -1,19 +1,17 @@
 controller_list:
-  - name: fake_a_bot_arm_controller
+  - name: fake_arm_controller
     type: $(arg fake_execution_type)
     joints:
-      - a_bot_shoulder_pan_joint
-      - a_bot_shoulder_lift_joint
-      - a_bot_elbow_joint
-      - a_bot_wrist_1_joint
-      - a_bot_wrist_2_joint
-      - a_bot_wrist_3_joint
-  - name: fake_a_bot_gripper_controller
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+  - name: fake_gripper_controller
     type: $(arg fake_execution_type)
     joints:
-      - a_bot_finger_joint
+      - finger_joint
 initial:  # Define initial robot poses per group
-  - group: a_bot_arm
-    pose: home
-  - group: a_bot_gripper
-    pose: closed
+  - group: gripper
+    pose: open

@@ -6,7 +6,7 @@
   <xacro:include filename="$(find ur_description)/urdf/inc/ur_macro.xacro"/>
 
   <xacro:ur_robot
-    prefix="a_bot_"
+    prefix=""
     joint_limits_parameters_file='$(find ur_description)/config/ur5e/joint_limits.yaml'
     kinematics_parameters_file='$(find ur_description)/config/ur5e/default_kinematics.yaml'
     physical_parameters_file='$(find ur_description)/config/ur5e/physical_parameters.yaml'
@@ -16,7 +16,7 @@
     safety_pos_margin="0.15"
     safety_k_position="20"
   />
-  <link name="a_bot_ee_link">
+  <link name="ee_link">
     <collision>
       <geometry>
         <box size="0.01 0.01 0.01"/>
@@ -24,34 +24,34 @@
       <origin rpy="0 0 0" xyz="-0.01 0 0"/>
     </collision>
   </link>
-  <joint name="a_bot_ee_fixed_joint" type="fixed">
-    <parent link="a_bot_wrist_3_link"/>
-    <child link="a_bot_ee_link"/>
+  <joint name="ee_fixed_joint" type="fixed">
+    <parent link="wrist_3_link"/>
+    <child link="ee_link"/>
     <origin rpy="0.0 -1.57079632679 1.57079632679" xyz="0.0 0.0 0.0"/>
   </joint>
 
   <!-- Spawn and attach robotiq 85 gripper (+ cameras) -->
   <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_macro.xacro" />
-  <xacro:robotiq_arg2f_85 prefix="a_bot_" transmission_hw_interface="hardware_interface/EffortJointInterface"/>
-  <joint name="a_bot_robotiq_85_base_joint" type="fixed"> 
-    <parent link="a_bot_ee_link"/> 
-    <child link="a_bot_robotiq_arg2f_base_link"/> 
+  <xacro:robotiq_arg2f_85 prefix="" transmission_hw_interface="hardware_interface/EffortJointInterface"/>
+  <joint name="robotiq_85_base_joint" type="fixed"> 
+    <parent link="ee_link"/> 
+    <child link="robotiq_arg2f_base_link"/> 
     <origin xyz="0 0 0" rpy="${pi} ${-pi/2} 0" /> 
     <!-- <origin xyz="0.01 0 0" rpy="${pi} ${-pi/2} 0" /> -->
   </joint> 
   <!-- Add an additional link to plan with. Oriented like the UR ee_link frame. -->
-  <link name="a_bot_gripper_tip_link"/>
-  <joint name="a_bot_gripper_tip_link_joint" type="fixed">
-    <parent link="a_bot_ee_link"/>
-    <child link="a_bot_gripper_tip_link"/>
+  <link name="gripper_tip_link"/>
+  <joint name="gripper_tip_link_joint" type="fixed">
+    <parent link="ee_link"/>
+    <child link="gripper_tip_link"/>
     <origin rpy="0 0 0" xyz="0.163 0 0"/>
   </joint>
   
 
   <link name="world" />
-  <joint name="world_a_bot_joint" type="fixed">
+  <joint name="world_joint" type="fixed">
     <parent link="world" />
-    <child link="a_bot_base_link" />
+    <child link="base_link" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 

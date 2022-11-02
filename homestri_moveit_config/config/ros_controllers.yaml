@@ -1,49 +1,49 @@
-a_bot_arm_controller:
+arm_controller:
   type: effort_controllers/JointTrajectoryController
   joints:
-    - a_bot_shoulder_pan_joint
-    - a_bot_shoulder_lift_joint
-    - a_bot_elbow_joint
-    - a_bot_wrist_1_joint
-    - a_bot_wrist_2_joint
-    - a_bot_wrist_3_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
   gains:
-    a_bot_shoulder_pan_joint:
+    shoulder_pan_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-    a_bot_shoulder_lift_joint:
+    shoulder_lift_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-    a_bot_elbow_joint:
+    elbow_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-    a_bot_wrist_1_joint:
+    wrist_1_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-    a_bot_wrist_2_joint:
+    wrist_2_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-    a_bot_wrist_3_joint:
+    wrist_3_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-a_bot_gripper_controller:
+gripper_controller:
   type: effort_controllers/JointTrajectoryController
   joints:
-    - a_bot_finger_joint
+    - finger_joint
   gains:
-    a_bot_finger_joint:
+    finger_joint:
       p: 100
       d: 1
       i: 1
