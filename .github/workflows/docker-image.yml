@@ -21,6 +21,6 @@ jobs:
           image: thbarkouki/homestri-ur5e-robotiq2f85
           tags: latest
           registry: docker.io
-          dockerfile: noetic.Dockerfile
+          dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
