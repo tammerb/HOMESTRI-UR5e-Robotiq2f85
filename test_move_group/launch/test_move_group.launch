@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="test_move_group" type="test_move_group_node" name="test_move_group_node" output="screen" />
+</launch>

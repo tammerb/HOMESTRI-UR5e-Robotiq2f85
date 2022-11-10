@@ -9,7 +9,7 @@ const double tau = 2 * M_PI;
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "move_group_interface_test");
+    ros::init(argc, argv, "test_move_group_node");
     ros::NodeHandle nh;
 
     // ROS spinning must be running for the MoveGroupInterface to get information
@@ -22,6 +22,9 @@ int main(int argc, char** argv)
     //moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 //
     //const moveit::core::JointModelGroup* joint_model_group = move_group_interface.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+
+    ROS_INFO("test move group interface node");
+
 
     ros::shutdown();
     return 0;
