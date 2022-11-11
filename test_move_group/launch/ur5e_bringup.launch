@@ -1,0 +1,11 @@
+<launch>
+    <arg name="kinematics_config" default="$(env HOME)/my_robot_calibration.yaml"/>
+    <arg name="robot_ip" default="192.168.1.102"/>
+    <arg name="reverse_ip" default="192.168.1.2"/>
+    
+    <include file="$(find ur_robot_driver)/launch/ur5e_bringup.launch">
+        <arg name="robot_ip" value="$(arg robot_ip)" />
+        <arg name="reverse_ip" value="$(arg reverse_ip)" />
+        <arg name="kinematics_config" value="$(arg kinematics_config)" />
+    </include>
+</launch>
