@@ -1,10 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"
        name="base_scene" >
-
+       
   <!-- ur5e arm and robotiq gripper -->
-  <xacro:include filename="$(find homestri_robot_description)/urdf/ur5e_robotiq.urdf.xacro" />
-  <xacro:ur5e_robotiq />
+  <xacro:include filename="$(find homestri_robot_description)/urdf/ur5e_macro.urdf.xacro" />
+  <xacro:ur5e prefix="" />
+
+
+  <xacro:include filename="$(find homestri_robot_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+  <xacro:robotiq_2f_85 prefix="" parent="ee_link" />
   
   <!-- scene environment (pedestal and table) -->
   <xacro:include filename="$(find homestri_robot_description)/urdf/environment.urdf.xacro" />
@@ -17,13 +21,18 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-  <!-- attach arm to world. -->
+  <!-- attach table to world. -->
   <link name="world" />
   <joint name="world_joint" type="fixed">
     <parent link="world" />
     <child link="table" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
+
+  <gazebo>
+    <plugin name="ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+  </gazebo>
 
 
 

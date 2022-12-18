@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<!-- This macro adds a convenient TF frame at the tip of the closed gripper. -->
+<!-- The position of the TF frame has not been measured at all and needs to be calibrated. -->
+
+<robot name="ur5e" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ur5e" params="prefix">
+
+    <!-- ur5e -->
+    <xacro:include filename="$(find ur_description)/urdf/inc/ur_macro.xacro" />
+    <xacro:ur_robot
+      prefix="${prefix}"
+      joint_limits_parameters_file='$(find homestri_robot_description)/config/ur5e_joint_limits.yaml'
+      kinematics_parameters_file='$(find ur_description)/config/ur5e/default_kinematics.yaml'
+      physical_parameters_file='$(find ur_description)/config/ur5e/physical_parameters.yaml'
+      visual_parameters_file='$(find ur_description)/config/ur5e/visual_parameters.yaml'
+      transmission_hw_interface='hardware_interface/EffortJointInterface'
+      safety_limits="false"
+      safety_pos_margin="0.15"
+      safety_k_position="20"
+    />
+
+    <!-- end effector link -->
+    <link name="${prefix}ee_link">
+      <collision>
+        <geometry>
+          <box size="0.01 0.01 0.01" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="-0.01 0 0" />
+      </collision>
+    </link>
+    <joint name="${prefix}ee_fixed_joint" type="fixed">
+      <parent link="${prefix}wrist_3_link" />
+      <child link="${prefix}ee_link" />
+      <origin rpy="0.0 -1.57079632679 1.57079632679" xyz="0.0 0.0 0.0" />
+    </joint>
+
+    <!-- Add an additional link to plan with. Oriented like the UR ee_link frame. -->
+    <link name="${prefix}gripper_tip_link" />
+    <joint name="${prefix}gripper_tip_link_joint" type="fixed">
+      <parent link="${prefix}ee_link" />
+      <child link="${prefix}gripper_tip_link" />
+      <origin rpy="0 0 0" xyz="0.163 0 0" />
+    </joint>
+
+
+    <!-- Configure self collision properties per link -->
+    <gazebo reference="${prefix}shoulder_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="${prefix}upper_arm_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="${prefix}forearm_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="${prefix}wrist_1_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="${prefix}wrist_3_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="${prefix}wrist_2_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="${prefix}ee_link">
+      <selfCollide>true</selfCollide>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

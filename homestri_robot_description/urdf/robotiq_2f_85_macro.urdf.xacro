@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<!-- This macro adds a convenient TF frame at the tip of the closed gripper. -->
+<!-- The position of the TF frame has not been measured at all and needs to be calibrated. -->
+
+<robot name="robotiq_2f_85" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="robotiq_2f_85" params="prefix parent">
+
+        <!-- Spawn and attach robotiq 85 gripper -->
+        <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_macro.xacro" />
+        <xacro:robotiq_arg2f_85 prefix="${prefix}" transmission_hw_interface="hardware_interface/EffortJointInterface" />
+        <joint name="robotiq_85_base_joint" type="fixed">
+            <parent link="${parent}" />
+            <child link="${prefix}robotiq_arg2f_base_link" />
+            <origin xyz="0.01 0 0" rpy="${pi} ${-pi/2} 0" /> <!-- This 0.01 offset is the Robotiq/UR coupling -->
+        </joint>
+
+        <!-- robotiq coupling link -->
+        <link name="${prefix}coupling">
+            <visual>
+                <origin rpy="0 ${pi/2} 0" xyz=".005 0 0" />
+                <geometry>
+                    <cylinder length="0.01" radius="0.0375" />
+                </geometry>
+                <material name="black">
+                    <color rgba=".1 .1 .1 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin rpy="0 ${pi/2} 0" xyz=".005 0 0" />
+                <geometry>
+                    <cylinder length="0.01" radius="0.0375" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${prefix}coupling_joint" type="fixed">
+            <parent link="${parent}" />
+            <child link="${prefix}coupling" />
+            <origin rpy="0 0 0" xyz="0 0 0" />
+        </joint>
+
+        <!-- Mimic joints plugin-->
+        <gazebo>
+            <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="${prefix}mimic_robotiq_85_1">
+                <joint>${prefix}finger_joint</joint>
+                <mimicJoint>${prefix}left_inner_knuckle_joint</mimicJoint>
+                <multiplier>1.0</multiplier>
+            </plugin>
+            <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="${prefix}mimic_robotiq_85_2">
+                <joint>${prefix}finger_joint</joint>
+                <mimicJoint>${prefix}left_inner_finger_joint</mimicJoint>
+                <multiplier>-1.0</multiplier>
+            </plugin>
+            <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="${prefix}mimic_robotiq_85_3">
+                <joint>${prefix}finger_joint</joint>
+                <mimicJoint>${prefix}right_inner_knuckle_joint</mimicJoint>
+                <multiplier>1.0</multiplier>
+            </plugin>
+            <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="${prefix}mimic_robotiq_85_4">
+                <joint>${prefix}finger_joint</joint>
+                <mimicJoint>${prefix}right_inner_finger_joint</mimicJoint>
+                <multiplier>-1.0</multiplier>
+            </plugin>
+            <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="${prefix}mimic_robotiq_85_5">
+                <joint>${prefix}finger_joint</joint>
+                <mimicJoint>${prefix}right_finger_joint</mimicJoint>
+                <multiplier>1.0</multiplier>
+            </plugin>
+        </gazebo>
+
+        <!-- Links colors  -->
+        <gazebo reference="${prefix}robotiq_arg2f_base_link">
+            <material>Gazebo/Black</material>
+        </gazebo>
+        <gazebo reference="${prefix}left_outer_knuckle">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+        <gazebo reference="${prefix}left_outer_finger">
+            <material>Gazebo/Black</material>
+        </gazebo>
+        <gazebo reference="${prefix}left_inner_finger">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+        <gazebo reference="${prefix}left_inner_knuckle">
+            <material>Gazebo/Black</material>
+        </gazebo>
+        <gazebo reference="${prefix}right_outer_knuckle">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+        <gazebo reference="${prefix}right_outer_finger">
+            <material>Gazebo/Black</material>
+        </gazebo>
+        <gazebo reference="${prefix}right_inner_finger">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+        <gazebo reference="${prefix}right_inner_knuckle">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+    </xacro:macro>
+</robot>

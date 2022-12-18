@@ -3,7 +3,7 @@
   <arg name="paused" default="false"/>
   <arg name="gazebo_gui" default="true"/>
   <arg name="initial_joint_positions" doc="Initial joint configuration of the robot"
-       default=" -J elbow_joint 1.5447 -J finger_joint 0 -J shoulder_lift_joint -1.5447 -J shoulder_pan_joint 0 -J wrist_1_joint -1.5794 -J wrist_2_joint -1.5794 -J wrist_3_joint 0"/>
+       default=" -J elbow_joint 1.5708 -J finger_joint 0 -J shoulder_lift_joint -1.5708 -J shoulder_pan_joint 0 -J wrist_1_joint -1.5708 -J wrist_2_joint -1.5708 -J wrist_3_joint 0"/>
 
   <!-- startup simulated world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -13,7 +13,7 @@
   </include>
 
   <!-- send robot urdf to param server -->
-  <param name="robot_description" command="xacro  '$(find homestri_robot_description)/urdf/base_scene.urdf.xacro'" />
+  <param name="robot_description" command="xacro '$(find homestri_robot_description)/urdf/base_scene.urdf.xacro'" />
 
   <!-- unpause only after loading robot model -->
   <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" />
@@ -25,8 +25,8 @@
   <!-- Load joint controller parameters for Gazebo -->
   <rosparam file="$(find homestri_moveit_config)/config/gazebo_controllers.yaml" />
   <!-- Spawn Gazebo ROS controllers -->
-  <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
+  <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller arm_controller gripper_controller" />
   <!-- Load ROS controllers -->
-  <include file="$(dirname)/ros_controllers.launch"/>
+  <!-- <include file="$(dirname)/ros_controllers.launch"/> -->
 
 </launch>
