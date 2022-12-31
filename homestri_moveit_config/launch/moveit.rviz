@@ -10,7 +10,7 @@ Panels:
         - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 549
+    Tree Height: 368
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -135,11 +135,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          pedestal:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           right_inner_finger:
             Alpha: 1
             Show Axes: false
@@ -171,11 +166,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           shoulder_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          table:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -315,11 +305,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          pedestal:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           right_inner_finger:
             Alpha: 1
             Show Axes: false
@@ -351,11 +336,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           shoulder_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          table:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -407,7 +387,7 @@ Visualization Manager:
         coupling:
           Value: false
         ee_link:
-          Value: true
+          Value: false
         flange:
           Value: false
         forearm_link:
@@ -424,8 +404,6 @@ Visualization Manager:
           Value: false
         left_outer_knuckle:
           Value: false
-        pedestal:
-          Value: false
         right_inner_finger:
           Value: false
         right_inner_finger_pad:
@@ -439,8 +417,6 @@ Visualization Manager:
         robotiq_arg2f_base_link:
           Value: false
         shoulder_link:
-          Value: false
-        table:
           Value: false
         tool0:
           Value: false
@@ -462,41 +438,39 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          table:
-            pedestal:
-              base_link:
-                base:
-                  {}
-                base_link_inertia:
-                  shoulder_link:
-                    upper_arm_link:
-                      forearm_link:
-                        wrist_1_link:
-                          wrist_2_link:
-                            wrist_3_link:
-                              ee_link:
-                                coupling:
-                                  {}
-                                gripper_tip_link:
-                                  {}
-                                robotiq_arg2f_base_link:
-                                  left_inner_knuckle:
-                                    {}
-                                  left_outer_knuckle:
-                                    left_outer_finger:
-                                      left_inner_finger:
-                                        left_inner_finger_pad:
-                                          {}
-                                  right_inner_knuckle:
-                                    {}
-                                  right_outer_knuckle:
-                                    right_outer_finger:
-                                      right_inner_finger:
-                                        right_inner_finger_pad:
-                                          {}
-                              flange:
-                                tool0:
-                                  {}
+          base_link:
+            base:
+              {}
+            base_link_inertia:
+              shoulder_link:
+                upper_arm_link:
+                  forearm_link:
+                    wrist_1_link:
+                      wrist_2_link:
+                        wrist_3_link:
+                          ee_link:
+                            coupling:
+                              {}
+                            gripper_tip_link:
+                              {}
+                            robotiq_arg2f_base_link:
+                              left_inner_knuckle:
+                                {}
+                              left_outer_knuckle:
+                                left_outer_finger:
+                                  left_inner_finger:
+                                    left_inner_finger_pad:
+                                      {}
+                              right_inner_knuckle:
+                                {}
+                              right_outer_knuckle:
+                                right_outer_finger:
+                                  right_inner_finger:
+                                    right_inner_finger_pad:
+                                      {}
+                          flange:
+                            tool0:
+                              {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -523,17 +497,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: 0.03364190086722374
-        Y: -0.05658373981714249
-        Z: 0.8246942758560181
+        X: 0.13414831459522247
+        Y: 0.024354353547096252
+        Z: 0.4596956968307495
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5999996662139893
+      Pitch: 0.26999980211257935
       Target Frame: world
-      Yaw: 2.635392189025879
+      Yaw: 1.0853928327560425
     Saved: ~
 Window Geometry:
   Displays:
@@ -547,9 +521,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002f700000581fc0200000007fb000000100044006900730070006c006100790073010000003b000002b4000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000002f5000002c70000016900ffffff000006f70000058100000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000001000000000000020d00000581fc0200000007fb000000100044006900730070006c006100790073010000003b000001ff000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000002400000037c0000016900ffffff000007e10000058100000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 2548
-  X: 1888
-  Y: -32
+  X: 1920
+  Y: 0

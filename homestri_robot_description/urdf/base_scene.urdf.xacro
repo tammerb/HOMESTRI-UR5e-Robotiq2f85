@@ -11,21 +11,14 @@
   <xacro:robotiq_2f_85 prefix="" parent="ee_link" />
   
   <!-- scene environment (pedestal and table) -->
-  <xacro:include filename="$(find homestri_robot_description)/urdf/environment.urdf.xacro" />
-  <xacro:environment />
-  
-  <!-- attach arm to pedestal. -->
-  <joint name="arm_to_pedestal" type="fixed">
-    <parent link="pedestal" />
-    <child link="base_link" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </joint>
+  <!-- <xacro:include filename="$(find homestri_robot_description)/urdf/environment.urdf.xacro" />
+  <xacro:environment /> -->
 
   <!-- attach table to world. -->
   <link name="world" />
   <joint name="world_joint" type="fixed">
     <parent link="world" />
-    <child link="table" />
+    <child link="base_link" />
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 

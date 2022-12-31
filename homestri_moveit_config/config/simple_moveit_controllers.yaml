@@ -1,7 +1,8 @@
 controller_list:
-- name: "scaled_pos_joint_traj_controller"
+- name: arm_controller
   action_ns: follow_joint_trajectory
   type: FollowJointTrajectory
+  default: True
   joints:
     - shoulder_pan_joint
     - shoulder_lift_joint
@@ -9,9 +10,9 @@ controller_list:
     - wrist_1_joint
     - wrist_2_joint
     - wrist_3_joint
-- name: ""
-  action_ns: gripper
-  type: GripperCommand
+- name: gripper_controller
+  action_ns: gripper_cmd
   default: True
+  type: GripperCommand
   joints:
     - finger_joint

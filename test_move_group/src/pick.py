@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     manip.move_gripper(0)
     
-    pose = create_pose(0.4, 0.0, 0.04, 0.0, pi/2, 0.0)
+    pose = create_pose(0.4, 0.0, 0.02, 0.0, pi/2, 0.0)
     manip.move_cartesian_path(pose)
 
     # rate.sleep()
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     # manip.scene.attach_box(eef_link, 'cube', touch_links=touch_links)
     # rate.sleep()
 
-    manip.move_gripper(0.6)
+    manip.move_gripper(0.8)
 
     pose = create_pose(0.4, 0.0, 0.2, 0.0, pi/2, 0.0)
     manip.move_cartesian_path(pose)

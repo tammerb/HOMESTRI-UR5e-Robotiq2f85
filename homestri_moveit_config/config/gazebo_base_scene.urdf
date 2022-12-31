@@ -316,7 +316,7 @@
         <child link="wrist_1_link" />
         <origin rpy="0 0 0" xyz="-0.3922 0 0.1333" />
         <axis xyz="0 0 1" />
-        <limit effort="28.0" lower="-4.71238898038469" upper="3.141592653589793" velocity="3.141592653589793" />
+        <limit effort="28.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
         <dynamics damping="0" friction="0" />
     </joint>
     <joint name="wrist_2_joint" type="revolute">
@@ -324,7 +324,7 @@
         <child link="wrist_2_link" />
         <origin rpy="1.570796327 0 0" xyz="0 -0.0997 -2.044881182297852e-11" />
         <axis xyz="0 0 1" />
-        <limit effort="28.0" lower="-4.71238898038469" upper="4.71238898038469" velocity="3.141592653589793" />
+        <limit effort="28.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
         <dynamics damping="0" friction="0" />
     </joint>
     <joint name="wrist_3_joint" type="revolute">
@@ -332,7 +332,7 @@
         <child link="wrist_3_link" />
         <origin rpy="1.570796326589793 3.141592653589793 3.141592653589793" xyz="0 0.0996 -2.042830148012698e-11" />
         <axis xyz="0 0 1" />
-        <limit effort="28.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+        <limit effort="28.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
         <dynamics damping="0" friction="0" />
     </joint>
     <!-- ROS-Industrial 'base' frame: base_link to UR 'Base' Coordinates transform -->
@@ -388,10 +388,35 @@
         <child link="gripper_tip_link" />
         <origin rpy="0 0 0" xyz="0.163 0 0" />
     </joint>
+    <!-- Configure self collision properties per link -->
+    <gazebo reference="shoulder_link">
+        <selfCollide>true</selfCollide>
+        <plugin name="gazebo_ros_control">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+    <gazebo reference="upper_arm_link">
+        <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="forearm_link">
+        <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="wrist_1_link">
+        <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="wrist_3_link">
+        <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="wrist_2_link">
+        <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="ee_link">
+        <selfCollide>true</selfCollide>
+    </gazebo>
     <transmission name="finger_joint_trans">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="finger_joint">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </joint>
         <actuator name="finger_joint_motor">
             <mechanicalReduction>1</mechanicalReduction>
@@ -399,16 +424,14 @@
         </actuator>
     </transmission>
     <!-- base link -->
-    <!-- <link name="${prefix}base_link"/>
-    <joint name="${prefix}base_link-${prefix}robotiq_arg2f_base_link" type="fixed">
-      <parent link="${prefix}base_link" />
-      <child link="${prefix}robotiq_arg2f_base_link" />
-    </joint> -->
     <link name="robotiq_arg2f_base_link">
         <inertial>
-            <origin rpy="0 0 0" xyz="8.625E-08 -4.6583E-06 0.03145" />
-            <mass value="0.22652" />
-            <inertia ixx="0.00020005" ixy="-4.2442E-10" ixz="-2.9069E-10" iyy="0.00017832" iyz="-3.4402E-08" izz="0.00013478" />
+            <!-- <origin xyz="8.625E-08 -4.6583E-06 0.03145" rpy="0 0 0" />
+          <mass value="0.22652" />
+          <inertia ixx="0.00020005" ixy="-4.2442E-10" ixz="-2.9069E-10" iyy="0.00017832" iyz="-3.4402E-08" izz="0.00013478" /> -->
+            <origin rpy="0 0 0" xyz="-5.185718748549181e-07 -3.2365468532620426e-06 0.031457950869623615" />
+            <mass value="0.22651999999800307" />
+            <inertia ixx="0.00019950046497849" ixy="0.0" ixz="0.0" iyy="0.00017795292872382998" iyz="-0.0" izz="0.00013411483772297" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -428,9 +451,12 @@
     </link>
     <link name="left_outer_knuckle">
         <inertial>
-            <origin rpy="0 0 0" xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" />
-            <mass value="0.00853198276973456" />
-            <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" />
+            <!-- <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
+          <mass value="0.00853198276973456" />
+          <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" /> -->
+            <origin rpy="0 0 0" xyz="-9.37041302356095e-12 0.01793673167077561 0.0009235341802113242" />
+            <mass value="0.018476648450763997" />
+            <inertia ixx="4e-06" ixy="0.0" ixz="0.0" iyy="1e-06" iyz="-0.0" izz="3e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -450,9 +476,12 @@
     </link>
     <link name="left_outer_finger">
         <inertial>
-            <origin rpy="0 0 0" xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" />
-            <mass value="0.022614240507152" />
-            <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" />
+            <!-- <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
+          <mass value="0.022614240507152" />
+          <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" /> -->
+            <origin rpy="0 0 0" xyz="-2.381768015458948e-12 0.00277667011824432 0.021399053905477743" />
+            <mass value="0.02729659380694228" />
+            <inertia ixx="7e-06" ixy="0.0" ixz="0.0" iyy="8e-06" iyz="-1e-06" izz="2e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -472,9 +501,12 @@
     </link>
     <link name="left_inner_finger">
         <inertial>
-            <origin rpy="0 0 0" xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" />
-            <mass value="0.0104003125914103" />
-            <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" />
+            <!-- <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
+          <mass value="0.0104003125914103" />
+          <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" /> -->
+            <origin rpy="0 0 0" xyz="5.39621183048144e-08 -0.011873888098226633 0.013214451657752282" />
+            <mass value="0.01957844415989899" />
+            <inertia ixx="5e-06" ixy="-0.0" ixz="0.0" iyy="4e-06" iyz="1e-06" izz="1e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -493,6 +525,11 @@
         </collision>
     </link>
     <link name="left_inner_finger_pad">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.014144625000000003" />
+            <inertia ixx="2e-06" ixy="-0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="1e-06" />
+        </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -511,17 +548,15 @@
                 <color rgba="0.9 0.0 0.0 1" />
             </material>
         </collision>
-        <inertial>
-            <mass value="0.1" />
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
-        </inertial>
     </link>
     <link name="left_inner_knuckle">
         <inertial>
-            <origin rpy="0 0 0" xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" />
-            <mass value="0.0271177346495152" />
-            <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" />
+            <!-- <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
+          <mass value="0.0271177346495152" />
+          <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" /> -->
+            <origin rpy="0 0 0" xyz="-5.434135948284727e-09 0.018348857047576116 0.02148375395505462" />
+            <mass value="0.029949543712543904" />
+            <inertia ixx="1.1e-05" ixy="0.0" ixz="-0.0" iyy="1.1e-05" iyz="-5e-06" izz="9e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -606,9 +641,12 @@
     </joint>
     <link name="right_outer_knuckle">
         <inertial>
-            <origin rpy="0 0 0" xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" />
-            <mass value="0.00853198276973456" />
-            <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" />
+            <!-- <origin xyz="-0.000200000000003065 0.0199435877845359 0.0292245259211331" rpy="0 0 0" />
+          <mass value="0.00853198276973456" />
+          <inertia ixx="2.89328108496468E-06" ixy="-1.57935047237397E-19" ixz="-1.93980378593255E-19" iyy="1.86719750325683E-06" iyz="-1.21858577871576E-06" izz="1.21905238907251E-06" /> -->
+            <origin rpy="0 0 0" xyz="-9.37041302356095e-12 0.01793673167077561 0.0009235341802113242" />
+            <mass value="0.018476648450763997" />
+            <inertia ixx="4e-06" ixy="0.0" ixz="0.0" iyy="1e-06" iyz="-0.0" izz="3e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -628,9 +666,12 @@
     </link>
     <link name="right_outer_finger">
         <inertial>
-            <origin rpy="0 0 0" xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" />
-            <mass value="0.022614240507152" />
-            <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" />
+            <!-- <origin xyz="0.00030115855001899 0.0373907951953854 -0.0208027427000385" rpy="0 0 0" />
+          <mass value="0.022614240507152" />
+          <inertia ixx="1.52518312458174E-05" ixy="9.76583423954399E-10" ixz="-5.43838577022588E-10" iyy="6.17694243867776E-06" iyz="6.78636130740228E-06" izz="1.16494917907219E-05" /> -->
+            <origin rpy="0 0 0" xyz="-2.381768015458948e-12 0.00277667011824432 0.021399053905477743" />
+            <mass value="0.02729659380694228" />
+            <inertia ixx="7e-06" ixy="0.0" ixz="0.0" iyy="8e-06" iyz="-1e-06" izz="2e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -650,9 +691,12 @@
     </link>
     <link name="right_inner_finger">
         <inertial>
-            <origin rpy="0 0 0" xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" />
-            <mass value="0.0104003125914103" />
-            <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" />
+            <!-- <origin xyz="0.000299999999999317 0.0160078233491243 -0.0136945669206257" rpy="0 0 0" />
+          <mass value="0.0104003125914103" />
+          <inertia ixx="2.71909453810972E-06" ixy="1.35402465472579E-21" ixz="-7.1817349065269E-22" iyy="7.69100314106116E-07" iyz="6.74715432769696E-07" izz="2.30315190420171E-06" /> -->
+            <origin rpy="0 0 0" xyz="5.39621183048144e-08 -0.011873888098226633 0.013214451657752282" />
+            <mass value="0.01957844415989899" />
+            <inertia ixx="5e-06" ixy="-0.0" ixz="0.0" iyy="4e-06" iyz="1e-06" izz="1e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -671,6 +715,11 @@
         </collision>
     </link>
     <link name="right_inner_finger_pad">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
+            <mass value="0.014144625000000003" />
+            <inertia ixx="2e-06" ixy="-0.0" ixz="0.0" iyy="2e-06" iyz="0.0" izz="1e-06" />
+        </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
             <geometry>
@@ -689,17 +738,15 @@
                 <color rgba="0.9 0.0 0.0 1" />
             </material>
         </collision>
-        <inertial>
-            <mass value="0.1" />
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
-        </inertial>
     </link>
     <link name="right_inner_knuckle">
         <inertial>
-            <origin rpy="0 0 0" xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" />
-            <mass value="0.0271177346495152" />
-            <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" />
+            <!-- <origin xyz="0.000123011831763771 0.0507850843201817 0.00103968640075166" rpy="0 0 0" />
+          <mass value="0.0271177346495152" />
+          <inertia ixx="2.61910379223783E-05" ixy="-2.43616858946494E-07" ixz="-6.37789906117123E-09" iyy="2.8270243746167E-06" iyz="-5.37200748039765E-07" izz="2.83695868220296E-05" /> -->
+            <origin rpy="0 0 0" xyz="-5.434135948284727e-09 0.018348857047576116 0.02148375395505462" />
+            <mass value="0.029949543712543904" />
+            <inertia ixx="1.1e-05" ixy="0.0" ixz="-0.0" iyy="1.1e-05" iyz="-5e-06" izz="9e-06" />
         </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0" />
@@ -759,69 +806,75 @@
         <child link="coupling" />
         <origin rpy="0 0 0" xyz="0 0 0" />
     </joint>
-    <!-- robotiq coupling link -->
-    <link name="pedestal">
-        <visual>
-            <origin rpy="0 0 0" xyz="0 0 -0.1" />
-            <geometry>
-                <cylinder length="0.2" radius="0.2" />
-            </geometry>
-            <material name="grey">
-                <color rgba=".5 .5 .5 1" />
-            </material>
-        </visual>
-        <collision>
-            <origin rpy="0 0 0" xyz="0 0 -0.1" />
-            <geometry>
-                <cylinder length="0.2" radius="0.2" />
-            </geometry>
-        </collision>
-        <inertial>
-            <mass value="0.1" />
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
-        </inertial>
-    </link>
-    <link name="table">
-        <visual>
-            <origin rpy="0 0 0" xyz="0 0 0.01" />
-            <geometry>
-                <box size="3 3 0.02" />
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0" />
-            </material>
-        </visual>
-        <collision>
-            <origin rpy="0 0 0" xyz="0 0 0.01" />
-            <geometry>
-                <box size="3 3 0.02" />
-            </geometry>
-        </collision>
-        <inertial>
-            <mass value="0.1" />
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
-        </inertial>
-    </link>
-    <joint name="pedestal_to_table" type="fixed">
-        <parent link="table" />
-        <child link="pedestal" />
-        <origin xyz="0 0 0.22" />
-    </joint>
-    <!-- attach arm to pedestal. -->
-    <joint name="arm_to_pedestal" type="fixed">
-        <parent link="pedestal" />
-        <child link="base_link" />
-        <origin rpy="0 0 0" xyz="0 0 0" />
-    </joint>
-    <!-- attach arm to world. -->
+    <!-- Mimic joints plugin-->
+    <gazebo>
+        <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="mimic_robotiq_85_1">
+            <joint>finger_joint</joint>
+            <mimicJoint>left_inner_knuckle_joint</mimicJoint>
+            <multiplier>1.0</multiplier>
+        </plugin>
+        <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="mimic_robotiq_85_2">
+            <joint>finger_joint</joint>
+            <mimicJoint>left_inner_finger_joint</mimicJoint>
+            <multiplier>-1.0</multiplier>
+        </plugin>
+        <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="mimic_robotiq_85_3">
+            <joint>finger_joint</joint>
+            <mimicJoint>right_inner_knuckle_joint</mimicJoint>
+            <multiplier>1.0</multiplier>
+        </plugin>
+        <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="mimic_robotiq_85_4">
+            <joint>finger_joint</joint>
+            <mimicJoint>right_inner_finger_joint</mimicJoint>
+            <multiplier>-1.0</multiplier>
+        </plugin>
+        <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="mimic_robotiq_85_5">
+            <joint>finger_joint</joint>
+            <mimicJoint>right_finger_joint</mimicJoint>
+            <multiplier>1.0</multiplier>
+        </plugin>
+    </gazebo>
+    <!-- Links colors  -->
+    <gazebo reference="robotiq_arg2f_base_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <gazebo reference="left_outer_knuckle">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="left_outer_finger">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <gazebo reference="left_inner_finger">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="left_inner_knuckle">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <gazebo reference="right_outer_knuckle">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="right_outer_finger">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <gazebo reference="right_inner_finger">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="right_inner_knuckle">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <!-- scene environment (pedestal and table) -->
+    <!-- <xacro:include filename="$(find homestri_robot_description)/urdf/environment.urdf.xacro" />
+  <xacro:environment /> -->
+    <!-- attach table to world. -->
     <link name="world" />
     <joint name="world_joint" type="fixed">
         <parent link="world" />
-        <child link="table" />
+        <child link="base_link" />
         <origin rpy="0 0 0" xyz="0 0 0" />
     </joint>
+    <gazebo>
+        <plugin filename="libgazebo_ros_control.so" name="ros_control" />
+    </gazebo>
     <transmission name="trans_left_inner_knuckle_joint">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="left_inner_knuckle_joint">
@@ -872,10 +925,5 @@
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
-    <gazebo>
-        <plugin name="gazebo_ros_control">
-            <robotNamespace>/</robotNamespace>
-        </plugin>
-    </gazebo>
 </robot>
 

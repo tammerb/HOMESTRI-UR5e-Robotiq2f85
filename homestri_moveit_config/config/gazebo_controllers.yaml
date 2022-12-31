@@ -3,21 +3,14 @@ joint_state_controller:
   publish_rate: &loop_hz 125
 
 arm_controller:
-  type: effort_controllers/JointTrajectoryController
+  type: position_controllers/JointTrajectoryController
   joints: &robot_joints
     - shoulder_pan_joint
     - shoulder_lift_joint
     - elbow_joint
     - wrist_1_joint
     - wrist_2_joint
-    - wrist_3_joint
-  gains: # Required because we're controlling an effort interface
-    shoulder_pan_joint: { p: 4000, d: 200, i: 1, i_clamp: 1 }
-    shoulder_lift_joint: { p: 10000, d: 200, i: 1, i_clamp: 1 }
-    elbow_joint: { p: 2000, d: 20, i: 1, i_clamp: 1 }
-    wrist_1_joint: { p: 500, d: 1, i: 1, i_clamp: 1 }
-    wrist_2_joint: { p: 500, d: 1, i: 1, i_clamp: 1 }
-    wrist_3_joint: { p: 10, d: 0.1, i: 0, i_clamp: 1 }
+    - wrist_3_joint    
   constraints:
     goal_time: 0.6
     stopped_velocity_tolerance: 0.05
@@ -31,20 +24,24 @@ arm_controller:
   state_publish_rate: *loop_hz
   action_monitor_rate: 10
 
-# gripper_controller:
-#   type: effort_controllers/GripperActionController
-#   gains:
-#     finger_joint: {p: 10,  d: 0.1, i: 1, i_clamp: 1}
-#   joint: finger_joint 
-#   action_monitor_rate: 20
-#   goal_tolerance: 0.002
-#   max_effort: 100
-#   stall_velocity_threshold: 0.001
-#   stall_timeout: 1.0
-
 gripper_controller:
-  type: effort_controllers/JointTrajectoryController
-  joints: 
-    - finger_joint
-  gains:
+  type: position_controllers/GripperActionController
+  joint: finger_joint
+  goal_tolerance: 0.1
+  stall_position_threshold: 0.05 # Tune to fit your robot
+  stall_timeout: 0.5
+  action_monitor_rate: 10
+
+gazebo_ros_control:
+  pid_gains:
+    # arm
+    shoulder_pan_joint: { p: 4000, d: 200, i: 1, i_clamp: 1 }
+    shoulder_lift_joint: { p: 10000, d: 200, i: 1, i_clamp: 1 }
+    elbow_joint: { p: 2000, d: 20, i: 1, i_clamp: 1 }
+    wrist_1_joint: { p: 500, d: 1, i: 1, i_clamp: 1 }
+    wrist_2_joint: { p: 500, d: 1, i: 1, i_clamp: 1 }
+    wrist_3_joint: { p: 10, d: 0.1, i: 0, i_clamp: 1 }
+    # gripper
     finger_joint: {p: 10,  d: 0.1, i: 1, i_clamp: 1}
+    right_finger_joint: {p: 20,  d: 0.1, i: 1, i_clamp: 1}
+

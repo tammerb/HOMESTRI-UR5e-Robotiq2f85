@@ -11,11 +11,11 @@
     <xacro:include filename="$(find ur_description)/urdf/inc/ur_macro.xacro" />
     <xacro:ur_robot
       prefix="${prefix}"
-      joint_limits_parameters_file='$(find homestri_robot_description)/config/ur5e_joint_limits.yaml'
+      joint_limits_parameters_file='$(find homestri_robot_description)/config/gazebo_ur5e_joint_limits.yaml'
       kinematics_parameters_file='$(find ur_description)/config/ur5e/default_kinematics.yaml'
       physical_parameters_file='$(find ur_description)/config/ur5e/physical_parameters.yaml'
       visual_parameters_file='$(find ur_description)/config/ur5e/visual_parameters.yaml'
-      transmission_hw_interface='hardware_interface/EffortJointInterface'
+      transmission_hw_interface='hardware_interface/PositionJointInterface'
       safety_limits="false"
       safety_pos_margin="0.15"
       safety_k_position="20"
@@ -44,29 +44,37 @@
       <origin rpy="0 0 0" xyz="0.163 0 0" />
     </joint>
 
+    <xacro:macro name="ur5e_gazebo_link_properties" params="reference">
+      <gazebo reference="${reference}">
+        <kp>1000000.0</kp>
+        <kd>1.0</kd>
+        <mu1>0.8</mu1>
+        <mu2>0.8</mu2>
+        <maxVel>0.0</maxVel>
+        <minDepth>0.001</minDepth>
+        <selfCollide>true</selfCollide>
+      </gazebo>
+    </xacro:macro>
 
-    <!-- Configure self collision properties per link -->
-    <gazebo reference="${prefix}shoulder_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
-    <gazebo reference="${prefix}upper_arm_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
-    <gazebo reference="${prefix}forearm_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
-    <gazebo reference="${prefix}wrist_1_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
-    <gazebo reference="${prefix}wrist_3_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
-    <gazebo reference="${prefix}wrist_2_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
-    <gazebo reference="${prefix}ee_link">
-      <selfCollide>true</selfCollide>
-    </gazebo>
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}shoulder_link" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}upper_arm_link" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}forearm_link" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_1_link" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_2_link" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_3_link" />
+
+    <xacro:macro name="ur5e_gazebo_joint_properties" params="reference">
+      <gazebo reference="${reference}">
+        <implicitSpringDamper>true</implicitSpringDamper>
+      </gazebo>
+    </xacro:macro>
+
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}shoulder_pan_joint" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}shoulder_lift_joint" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}elbow_joint" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_1_joint" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_2_joint" />
+    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_3_joint" />
 
   </xacro:macro>
 </robot>
