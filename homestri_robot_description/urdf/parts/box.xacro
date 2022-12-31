@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<robot name="red_box">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="box">
+
+  <xacro:arg name="color" default="255 255 255 1"/>
 
   <link name="base_link">
     <collision>
@@ -32,8 +34,8 @@
   <gazebo reference="base_link">
     <visual>
       <material>
-        <ambient>0.3137254 0.3254902 0.2352941 1</ambient>
-        <diffuse>0.3137254 0.3254902 0.2352941 1</diffuse>
+        <ambient>$(arg color)</ambient>
+        <diffuse>$(arg color)</diffuse>
         <specular>0.1 0.1 0.1 1</specular>
         <emissive>0 0 0 0</emissive>
       </material>

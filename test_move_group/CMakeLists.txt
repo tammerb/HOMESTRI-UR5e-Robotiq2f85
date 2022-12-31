@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_core
   roscpp
   rospy
+  gazebo_msgs
 )
 
 ## System dependencies are found with CMake's conventions
