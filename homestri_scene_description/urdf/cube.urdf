@@ -29,13 +29,13 @@
   </link>
 
 
- 
+
 
   <gazebo reference="base_link">
     <visual>
       <material>
-        <ambient>$(arg color)</ambient>
-        <diffuse>$(arg color)</diffuse>
+        <ambient>255 0 0 1</ambient>
+        <diffuse>255 0 0 1</diffuse>
         <specular>0.1 0.1 0.1 1</specular>
         <emissive>0 0 0 0</emissive>
       </material>

@@ -1,0 +1,10 @@
+# Define the goal
+string id
+string description
+geometry_msgs/Pose pose
+string target
+float64 position
+---
+# Define the result
+---
+# Define a feedback message

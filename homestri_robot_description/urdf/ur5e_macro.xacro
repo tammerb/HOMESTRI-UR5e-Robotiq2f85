@@ -5,7 +5,7 @@
 
 <robot name="ur5e" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="ur5e" params="prefix">
+  <xacro:macro name="ur5e" params="prefix parent transmission_hw_interface *origin">
 
     <!-- ur5e -->
     <xacro:include filename="$(find ur_description)/urdf/inc/ur_macro.xacro" />
@@ -15,11 +15,16 @@
       kinematics_parameters_file='$(find ur_description)/config/ur5e/default_kinematics.yaml'
       physical_parameters_file='$(find ur_description)/config/ur5e/physical_parameters.yaml'
       visual_parameters_file='$(find ur_description)/config/ur5e/visual_parameters.yaml'
-      transmission_hw_interface='hardware_interface/PositionJointInterface'
+      transmission_hw_interface="${transmission_hw_interface}"
       safety_limits="false"
       safety_pos_margin="0.15"
       safety_k_position="20"
     />
+    <joint name="${prefix}ur5e_base_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${prefix}base_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
 
     <!-- end effector link -->
     <link name="${prefix}ee_link">
@@ -43,6 +48,8 @@
       <child link="${prefix}gripper_tip_link" />
       <origin rpy="0 0 0" xyz="0.163 0 0" />
     </joint>
+
+    <!-- ############ GAZEBO PROPERTIES ############ -->
 
     <xacro:macro name="ur5e_gazebo_link_properties" params="reference">
       <gazebo reference="${reference}">

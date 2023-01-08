@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>homestri_behavior_trees</name>
+  <version>0.0.0</version>
+  <description>The homestri_behavior_trees package</description>
+
+  <maintainer email="itchuang@ucdavis.edu">Ian Chuang</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>behaviortree_cpp_v3</depend>
+  <depend>behaviortree_ros</depend>
+  <depend>std_msgs</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+
+  <depend>homestri_msgs</depend>
+
+</package>

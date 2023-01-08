@@ -10,7 +10,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://homestri_robot_description/meshes/parts/plastic_bin.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://homestri_scene_description/meshes/plastic_bin.stl" scale="0.001 0.001 0.001"/>
         </geometry>
         <material name="green">
             <color rgba=".2 .5 .1 1.0" />
@@ -19,7 +19,7 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://homestri_robot_description/meshes/parts/plastic_bin.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://homestri_scene_description/meshes/plastic_bin.stl" scale="0.001 0.001 0.001"/>
         </geometry>
       </collision>
   </link>
@@ -27,8 +27,8 @@
   <gazebo reference="base_link">
     <visual>
       <material>
-        <ambient>$(arg color)</ambient>
-        <diffuse>$(arg color)</diffuse>
+        <ambient>0 255 0 1</ambient>
+        <diffuse>0 255 0 1</diffuse>
         <specular>0.1 0.1 0.1 1</specular>
         <emissive>0 0 0 0</emissive>
       </material>
