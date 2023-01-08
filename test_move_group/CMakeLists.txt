@@ -9,6 +9,7 @@ project(test_move_group)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   moveit_core
+  moveit_visual_tools
   roscpp
   rospy
 )
@@ -107,6 +108,8 @@ catkin_package(
 #  LIBRARIES test_move_group
 #  CATKIN_DEPENDS moveit_core roscpp rospy
 #  DEPENDS system_lib
+  CATKIN_DEPENDS
+    moveit_visual_tools
 )
 
 ###########
