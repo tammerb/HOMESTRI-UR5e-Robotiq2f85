@@ -1,0 +1,28 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="PickAndPlace">
+    <Sequence>
+      <ManipulationAction server_name="manip_as" id="move arm to pose" description="" pose="{target}"/>
+      <ManipulationAction server_name="manip_as" id="move arm pregrasp approach" description="" position="0.08"/>
+      <ManipulationAction server_name="manip_as" id="move gripper to target" description="" target="close"/>
+      <ManipulationAction server_name="manip_as" id="move arm pregrasp approach" description="" position="-0.2"/>
+      <ManipulationAction server_name="manip_as" id="move arm cartesian path" description="" pose="0.4;-0.2;0.2;0;1.5707;0"/>
+      <ManipulationAction server_name="manip_as" id="move gripper to target" description="" target="open"/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="MainTree">
+    <Sequence name="door_open_sequence">
+      <ManipulationAction server_name="manip_as" id="move arm to target" description="" target="home"/>
+      <SetBlackboard output_key="id_1" value="0.3;0.2;0.1;0;1.5707;0" />
+      <SubTree ID="PickAndPlace" target="id_1" />
+      <ManipulationAction server_name="manip_as" id="move arm to target" description="" target="home"/>
+      <SetBlackboard output_key="id_1" value="0.4;0.2;0.1;0;1.5707;0" />
+      <SubTree ID="PickAndPlace" target="id_1" />
+      <ManipulationAction server_name="manip_as" id="move arm to target" description="" target="home"/>
+      <SetBlackboard output_key="id_1" value="0.5;0.2;0.1;0;1.5707;0" />
+      <SubTree ID="PickAndPlace" target="id_1" />
+      <ManipulationAction server_name="manip_as" id="move arm to target" description="" target="home"/>
+    </Sequence>
+  </BehaviorTree>
+
+</root>
