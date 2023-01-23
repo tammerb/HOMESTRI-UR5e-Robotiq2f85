@@ -4,7 +4,7 @@ import rospy
 import actionlib
 from move_groups import Arm, Gripper
 from threading import Thread
-from homestri_msgs.msg import ManipulationAction
+from homestri_msgs.msg import ManipulationAction, ManipulationResult
     
 class ThreadWithReturnValue(Thread):
     def __init__(self, group=None, target=None, name=None,
@@ -39,19 +39,24 @@ class ManipulationActionServer():
         id = goal.id
 
         if id == 'move arm to pose':
-            self.start_thread_and_wait_for_result(self.arm.move_to_pose, (goal.pose, ))
-        elif id == 'move arm to target':
-            self.start_thread_and_wait_for_result(self.arm.move_to_target, (goal.target, ))
-        elif id == 'move arm pregrasp approach':
-            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (goal.position, ))
-        elif id == 'move arm cartesian path':
-            self.start_thread_and_wait_for_result(self.arm.move_cartesian_path, (goal.pose, ))
-        elif id == 'move gripper to target':
-            self.start_thread_and_wait_for_result(self.gripper.move_to_target, (goal.target, ))
-        elif id == 'move gripper to position':
-            self.start_thread_and_wait_for_result(self.gripper.move_to_position, (goal.position, ))
+            print(goal.pose)
 
-    def start_thread_and_wait_for_result(self, function, args):
+            self.start_thread_and_wait_for_result(self.arm.move_to_pose, (goal.pose, ), id)
+        elif id == 'move arm to target':
+            self.start_thread_and_wait_for_result(self.arm.move_to_target, (goal.target, ), id)
+        elif id == 'move arm pregrasp approach':
+            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (goal.position, ), id)
+        elif id == 'move arm cartesian path':
+            self.start_thread_and_wait_for_result(self.arm.move_cartesian_path, (goal.pose, ), id)
+        elif id == 'move gripper to target':
+            self.start_thread_and_wait_for_result(self.gripper.move_to_target, (goal.target, ), id)
+        elif id == 'move gripper to position':
+            self.start_thread_and_wait_for_result(self.gripper.move_to_position, (goal.position, ), id)
+        else:
+            rospy.logerr("INVALID ID")
+            self.actserv.set_aborted()
+
+    def start_thread_and_wait_for_result(self, function, args, id):
         thread = ThreadWithReturnValue(target=function, args=args)
         thread.start()
 
@@ -59,8 +64,10 @@ class ManipulationActionServer():
             if self.actserv.is_preempt_requested():
                 self.arm.stop()
                 self.gripper.stop()
-                self.actserv.set_preempted()
                 thread.join()
+                self.actserv.set_preempted()
+                rospy.loginfo("PREEMPTED")
+                
                 return
             rospy.sleep(0.02)
             

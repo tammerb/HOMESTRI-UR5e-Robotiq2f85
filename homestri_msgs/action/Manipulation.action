@@ -6,5 +6,6 @@ string target
 float64 position
 ---
 # Define the result
+string id
 ---
 # Define a feedback message
