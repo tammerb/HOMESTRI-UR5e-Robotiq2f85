@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
     package: homestri_robot_description
-    relative_path: urdf/base_scene.urdf.xacro
+    relative_path: urdf/base_scene.xacro
     xacro_args: ""
   SRDF:
     relative_path: config/base_scene.srdf
   CONFIG:
     author_name: Tammer Barkouki
     author_email: thbarkouki@ucdavis.edu
-    generated_timestamp: 1673152233
+    generated_timestamp: 1674626627

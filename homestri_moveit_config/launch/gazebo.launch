@@ -15,7 +15,7 @@
   </include>
 
   <!-- Set the robot urdf on the parameter server -->
-  <arg name="urdf_path" default="$(find homestri_robot_description)/urdf/base_scene.urdf.xacro"/>
+  <arg name="urdf_path" default="$(find homestri_robot_description)/urdf/base_scene.xacro"/>
   <param name="robot_description" command="xacro '$(arg urdf_path)'" />
 
   <!-- Unpause the simulation after loading the robot model -->
