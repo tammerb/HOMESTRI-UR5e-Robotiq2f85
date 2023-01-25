@@ -26,9 +26,14 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
   {
     return { 
       InputPort<std::string>("id"),
-      InputPort<geometry_msgs::Pose>("pose"),
       InputPort<std::string>("target"),
-      InputPort<double>("position")
+      InputPort<double>("position"),
+      InputPort<double>("x"),
+      InputPort<double>("y"),
+      InputPort<double>("z"),
+      InputPort<double>("roll"),
+      InputPort<double>("pitch"),
+      InputPort<double>("yaw"),
     };
   }
 
@@ -38,9 +43,14 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
       ROS_ERROR("missing required input [id]");
       return false;
     }
-    getInput<geometry_msgs::Pose>("pose", goal.pose);
     getInput<std::string>("target", goal.target);
     getInput<double>("position", goal.position);
+    getInput<double>("x", goal.x);
+    getInput<double>("y", goal.y);
+    getInput<double>("z", goal.z);
+    getInput<double>("roll", goal.roll);
+    getInput<double>("pitch", goal.pitch);
+    getInput<double>("yaw", goal.yaw);
 
     ROS_INFO("SENDING GOAL: %s", goal.id.c_str());
 
@@ -80,17 +90,17 @@ public:
   static PortsList providedPorts()
   {
     return { 
-      InputPort<geometry_msgs::Pose>("fake_pose"),
-      OutputPort<geometry_msgs::Pose>("output") 
+      InputPort<double>("fake_pose"),
+      OutputPort<double>("output") 
     };
   }
 
   // This Action writes a value into the port "text"
   NodeStatus tick() override
   {
-    geometry_msgs::Pose pose;
+    double pose;
 
-    if (!getInput<geometry_msgs::Pose>("fake_pose", pose)) {
+    if (!getInput<double>("fake_pose", pose)) {
       ROS_ERROR("missing required input [fake_pose]");
       return NodeStatus::FAILURE;
     }

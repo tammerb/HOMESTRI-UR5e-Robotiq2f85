@@ -44,5 +44,7 @@ int main(int argc, char **argv) {
     sleep_time.sleep();
   }
 
+  ros::spin();
+
   return 0;
 }
