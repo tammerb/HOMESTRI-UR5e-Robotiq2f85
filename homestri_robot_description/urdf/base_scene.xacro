@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="base_scene">
 
-  <xacro:include filename="$(find homestri_robot_description)/urdf/environment.xacro" />
+  <xacro:include filename="$(find homestri_robot_description)/urdf/workspace.xacro" />
   <xacro:include filename="$(find homestri_robot_description)/urdf/ur5e_macro.xacro" />
   <xacro:include filename="$(find homestri_robot_description)/urdf/robotiq_2f_85_macro.xacro" />
 
-  <xacro:environment
-    pedestal_height="0.2" 
-    pedestal_radius="0.12"
+  <xacro:workspace
+    pedestal_height="0.145" 
+    pedestal_radius="0.1"
   />
   
   <xacro:ur5e 
