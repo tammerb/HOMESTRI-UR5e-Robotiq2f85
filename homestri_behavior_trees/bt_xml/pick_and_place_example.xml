@@ -1,0 +1,164 @@
+<root main_tree_to_execute="MainTree">
+
+  <BehaviorTree ID="pick">
+    <Sequence name="pick sequence">
+      <ManipulationAction
+        name="approach"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        position="0.23"
+      />
+      <ManipulationAction
+        name="close gripper"
+        server_name="manip_as"
+        id="move gripper to target"
+        target="close"
+      />
+      <ManipulationAction
+        name="retract"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        position="-0.23"
+      />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="place">
+    <Sequence name="place sequence">
+      <ManipulationAction
+        name="approach"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        position="0.22"
+      />
+      <ManipulationAction
+        name="open gripper"
+        server_name="manip_as"
+        id="move gripper to target"
+        target="open"
+      />
+      <ManipulationAction
+        name="retract"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        position="-0.22"
+      />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pick object 1">
+    <Sequence name="pick object 1 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.4" y="0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="pick" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pick object 2">
+    <Sequence name="pick object 2 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.5" y="0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="pick" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="pick object 3">
+    <Sequence name="pick object 3 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.6" y="0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="pick" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="place object 1">
+    <Sequence name="place object 1 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.6" y="-0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="place" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="place object 2">
+    <Sequence name="place object 2 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.5" y="-0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="place" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="place object 3">
+    <Sequence name="place object 3 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.4" y="-0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="place" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="put back object 1">
+    <Sequence name="put back object 1 sequence">
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.6" y="-0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="pick" />
+      <ManipulationAction
+        name="move to object"
+        server_name="manip_as"
+        id="move arm to pose"
+        x="0.4" y="0.2" z="0.25" roll="0" pitch="1.5707" yaw="0"
+      />
+      <SubTree ID="place" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="MainTree">
+    <Sequence name="pick and place 3 objects sequence">
+      <ManipulationAction
+        name="move to home position"
+        server_name="manip_as"
+        id="move arm to target"
+        target="home"
+      />
+      <SubTree ID="pick object 1" />
+      <SubTree ID="place object 1" />
+      <SubTree ID="pick object 2" />
+      <SubTree ID="place object 2" />
+      <SubTree ID="pick object 3" />
+      <SubTree ID="place object 3" />
+      <SubTree ID="put back object 1"/>
+      <ManipulationAction
+        name="move to home position"
+        server_name="manip_as"
+        id="move arm to target"
+        target="home"
+      />
+    </Sequence>
+  </BehaviorTree>
+
+</root>

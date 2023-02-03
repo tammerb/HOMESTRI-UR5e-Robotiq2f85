@@ -26,10 +26,14 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
   {
     return { 
       InputPort<std::string>("id"),
-      InputPort<std::string>("description"),
-      InputPort<geometry_msgs::Pose>("pose"),
       InputPort<std::string>("target"),
-      InputPort<double>("position")
+      InputPort<double>("position"),
+      InputPort<double>("x"),
+      InputPort<double>("y"),
+      InputPort<double>("z"),
+      InputPort<double>("roll"),
+      InputPort<double>("pitch"),
+      InputPort<double>("yaw"),
     };
   }
 
@@ -39,18 +43,23 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
       ROS_ERROR("missing required input [id]");
       return false;
     }
-    if (!getInput<std::string>("description", goal.description)) {
-      ROS_ERROR("missing required input [description]");
-      return false;
-    }
-    getInput<geometry_msgs::Pose>("pose", goal.pose);
     getInput<std::string>("target", goal.target);
     getInput<double>("position", goal.position);
+    getInput<double>("x", goal.x);
+    getInput<double>("y", goal.y);
+    getInput<double>("z", goal.z);
+    getInput<double>("roll", goal.roll);
+    getInput<double>("pitch", goal.pitch);
+    getInput<double>("yaw", goal.yaw);
+
+    ROS_INFO("SENDING GOAL: %s", goal.id.c_str());
+
     return true;
   }
 
   NodeStatus onResult( const ResultType& res) override
   {
+    ROS_INFO("SUCCEEDED: %s", res.id.c_str());
     return NodeStatus::SUCCESS;
   }
 
@@ -67,6 +76,38 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
       ROS_WARN("ManipulationAction halted");
       BaseClass::halt();
     }
+  }
+};
+
+
+class DetectObject : public SyncActionNode
+{
+public:
+  DetectObject(const std::string& name, const NodeConfiguration & conf)
+    : SyncActionNode(name, conf)
+  { }
+
+  static PortsList providedPorts()
+  {
+    return { 
+      InputPort<double>("fake_pose"),
+      OutputPort<double>("output") 
+    };
+  }
+
+  // This Action writes a value into the port "text"
+  NodeStatus tick() override
+  {
+    double pose;
+
+    if (!getInput<double>("fake_pose", pose)) {
+      ROS_ERROR("missing required input [fake_pose]");
+      return NodeStatus::FAILURE;
+    }
+
+    setOutput("output", pose);
+
+    return NodeStatus::SUCCESS;
   }
 };
 

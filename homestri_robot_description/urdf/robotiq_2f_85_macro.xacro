@@ -66,6 +66,7 @@
     </xacro:macro>
 
     <!-- Links colors  -->
+    <xacro:robotiq_2f_85_gazebo_link_properties reference="${prefix}robotiq_85_coupling" material="Gazebo/Black" />
     <xacro:robotiq_2f_85_gazebo_link_properties reference="${prefix}robotiq_arg2f_base_link" material="Gazebo/Black" />
     <xacro:robotiq_2f_85_gazebo_link_properties reference="${prefix}left_outer_knuckle" material="Gazebo/Grey" />
     <xacro:robotiq_2f_85_gazebo_link_properties reference="${prefix}left_outer_finger" material="Gazebo/Black" />

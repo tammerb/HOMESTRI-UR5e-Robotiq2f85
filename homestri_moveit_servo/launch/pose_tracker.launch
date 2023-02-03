@@ -1,0 +1,16 @@
+<launch>
+    <!-- Launch an example that sends commands via C++ API. -->
+  
+    <node name="servo_server" pkg="lara_moveit_servo" type="pose_tracking_server" output="screen" >
+      <rosparam command="load" file="$(find lara_moveit_servo)/config/pose_tracking_servo_config.yaml" />
+      <rosparam command="load" file="$(find lara_moveit_servo)/config/pose_tracking_settings.yaml" />
+    </node>
+
+    <param name="joy_node/dev" type="str" value="/dev/input/js1" />
+    <node pkg="joy" type="joy_node" name="joy_node" respawn="true" output="screen">
+    </node>
+
+    <node pkg="homestri_moveit_servo" type="xbox360_teleop_twist_joy.py" name="xbox360_teleop_twist_joy">
+    </node>
+  
+  </launch>

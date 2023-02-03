@@ -14,12 +14,11 @@ RUN git clone https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git src/homes
 && git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git src/universal_robots/Universal_Robots_ROS_Driver \
 && git clone -b melodic-devel-staging https://github.com/ros-industrial/universal_robot.git src/universal_robots/universal_robot \
 && git clone -b noetic-devel https://github.com/ian-chuang/robotiq.git src/robotiq \
-&& git clone https://github.com/ian-chuang/BehaviorTree.ROS.git src/behaviortree_ros \
-&& git clone https://github.com/ian-chuang/gazebo_gripper_action_controller.git src/gazebo_gripper_action_controller 
-
-# && git clone https://github.com/Pitrified/gazebo_ros_link_attacher.git src/gazebo_ros_link_attacher \
-# && git clone https://github.com/andreasBihlmaier/gazebo2rviz.git src/gazebo2rviz \
-# && git clone https://github.com/andreasBihlmaier/pysdf.git src/pysdf
+&& git clone https://github.com/ian-chuang/roboticsgroup_upatras_gazebo_plugins.git src/roboticsgroup_upatras_gazebo_plugins \
+&& git clone https://github.com/ian-chuang/gazebo_gripper_action_controller.git src/gazebo_gripper_action_controller \
+&& git clone https://github.com/ian-chuang/BehaviorTree.ROS.git src/behaviortree_ros \ 
+&& git clone https://github.com/ian-chuang/BehaviorTree.CPP.git src/behaviortree_cpp_v3 \
+&& git clone https://github.com/ian-chuang/robot-explanation-BTs.git src/explain_bt
 
 ENV MESH_WORKSPACE_PATH='/catkin_ws/src'
 ENV GAZEBO_MODEL_PATH='/catkin_ws/src'
