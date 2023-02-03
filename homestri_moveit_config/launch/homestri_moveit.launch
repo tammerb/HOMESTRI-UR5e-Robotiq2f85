@@ -1,0 +1,54 @@
+<launch>
+  <arg name="simulated" default="true"/>
+  <arg name="use_rviz" default="true" />
+
+  <!-- real robot arguments -->
+  <arg name="robot_ip" default="192.168.1.102" />
+  <arg name="reverse_ip" default="192.168.1.2" />
+  <arg name="tool_device_name" default="/tmp/ttyUR" />
+
+  <!-- simulated robot arguments -->
+  <arg name="paused" default="false" />
+  <arg name="gazebo_gui" default="true" />
+
+  <!-- run simulated robot -->
+  <group if="$(arg simulated)">  
+    <!-- launch gazebo -->
+    <include file="$(find homestri_moveit_config)/launch/gazebo.launch" >
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+    </include>
+
+    <!-- launch moveit -->
+    <include file="$(find homestri_moveit_config)/launch/demo.launch">
+      <arg name="load_robot_description" value="true" />
+      <arg name="moveit_controller_manager" value="gazebo" />
+      <arg name="use_rviz" value="$(arg use_rviz)"/>
+    </include>
+  </group>
+
+  <!-- run real robot -->
+  <group unless="$(arg simulated)">
+    <!-- launch ur5e driver -->
+    <include file="$(find ur_robot_driver)/launch/ur5e_bringup.launch">
+      <arg name="robot_ip" value="$(arg robot_ip)"/>
+      <arg name="reverse_ip" value="$(arg reverse_ip)"/>
+      <arg name="use_tool_communication" value="true"/>
+      <arg name="tool_voltage" value="24"/>
+      <arg name="tool_device_name" value="$(arg tool_device_name)"/>
+    </include>
+
+    <!-- launch gripper driver -->
+    <include file="$(find robotiq_2f_gripper_control)/launch/robotiq_2f_85_gripper_rtu.launch">
+      <arg name="port" value="$(arg tool_device_name)"/>
+    </include>
+    
+    <!-- launch moveit -->
+    <include file="$(find homestri_moveit_config)/launch/demo.launch">
+      <arg name="load_robot_description" value="true" />
+      <arg name="moveit_controller_manager" value="simple" />
+      <arg name="use_rviz" value="$(arg use_rviz)"/>
+    </include>
+  </group>
+  
+</launch>
