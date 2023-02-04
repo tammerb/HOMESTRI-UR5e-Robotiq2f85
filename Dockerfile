@@ -4,7 +4,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt update -qq && apt install -y \
 git python3-pip ros-noetic-moveit \
-&& pip3 install catkin_tools pyserial pymodbus
+&& pip3 install catkin_tools pyserial pymodbus===2.1.0
 
 # Setup environment, all installed things go here
 WORKDIR /catkin_ws
