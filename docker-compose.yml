@@ -12,6 +12,7 @@ services:
       - x11
     ports:
       - "50001-50004:50001-50004"
+      - "54321"
     # logging: # uncomment to hide the logs
     #   driver: none 
 
