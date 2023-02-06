@@ -39,7 +39,7 @@ RUN git clone https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git src/homes
  && git clone https://github.com/ian-chuang/robot-explanation-BTs.git src/explain_bt
 
 # Install ROS package dependencies
-RUN source /opt/ros/$ROS_DISTRO/setup.bash \
+RUN source /opt/ros/noetic/setup.bash \
  && rosdep update \
  && rosdep install --from-path src --ignore-src -y \
  && catkin build
