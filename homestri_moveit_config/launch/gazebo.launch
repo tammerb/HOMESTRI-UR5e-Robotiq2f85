@@ -29,10 +29,10 @@
   <rosparam file="$(find homestri_moveit_config)/config/gazebo_controllers.yaml" />
 
   <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
-		args="joint_state_controller arm_trajectory_controller gripper_action_controller"/>
+		args="joint_state_controller arm_traj_controller gripper_action_controller"/>
 
   <node name="ros_control_stopped_spawner" pkg="controller_manager" type="spawner"
-    args="--stopped arm_position_controller gripper_position_controller" output="screen" respawn="false" />
+    args="--stopped arm_pos_controller gripper_pos_controller" output="screen" respawn="false" />
 
   <!-- Given the published joint states, publish tf for the robot links -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
