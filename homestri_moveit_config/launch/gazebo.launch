@@ -29,7 +29,7 @@
   <rosparam file="$(find homestri_moveit_config)/config/gazebo_controllers.yaml" />
 
   <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
-		args="joint_state_controller arm_controller gripper_controller"/>
+		args="joint_state_controller arm_trajectory_controller gripper_action_controller"/>
 
   <node name="ros_control_stopped_spawner" pkg="controller_manager" type="spawner"
     args="--stopped arm_position_controller gripper_position_controller" output="screen" respawn="false" />
