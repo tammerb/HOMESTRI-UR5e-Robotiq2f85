@@ -3,16 +3,20 @@
 import rospy
 import geometry_msgs.msg   
 import sensor_msgs.msg 
+import control_msgs.msg
 from threading import Lock
 from copy import deepcopy
 
 class TeleopTwistJoy():
     def __init__(self):
         self.twist_pub = rospy.Publisher('/servo_server/cmd_vel', geometry_msgs.msg.TwistStamped, queue_size=1)
+        # self.gripper_pub = rospy.Publisher('/gripper_action_controller/gripper_cmd/goal', control_msgs.msg.GripperCommandGoal, queue_size=1)
         self.joy_sub = rospy.Subscriber("/joy", sensor_msgs.msg.Joy, self.callback)
         
         self.joy_msg = None
         self.joy_msg_mutex = Lock()
+
+        self.cur_gripper_position = None
 
     def publish(self):
         self.joy_msg_mutex.acquire()
@@ -24,6 +28,7 @@ class TeleopTwistJoy():
             twist_stamped.header.stamp = rospy.Time.now()
 
             axes = list(self.joy_msg.axes)
+            buttons = list(self.joy_msg.buttons)
             
             for i in range(len(axes)):
                 if abs(axes[i]) < 0.15:
@@ -32,9 +37,23 @@ class TeleopTwistJoy():
             twist_stamped.twist.linear.x = axes[1]
             twist_stamped.twist.linear.y = axes[0]
             twist_stamped.twist.linear.z = (1-(axes[5]+1)/2)-(1-(axes[2]+1)/2)
-            twist_stamped.twist.angular.x = 0 
-            twist_stamped.twist.angular.y = 0 
-            twist_stamped.twist.angular.z = 0
+            twist_stamped.twist.angular.x = -axes[3] 
+            twist_stamped.twist.angular.y = axes[4]
+            twist_stamped.twist.angular.z = buttons[2] - buttons[3]
+
+            
+            # if buttons[0] == 1 and cur_gripper_position != 0.0:
+            #     cur_gripper_position = 0.0
+            #     gripper_command = control_msgs.msg.GripperCommandGoal()
+            #     gripper_command.max_effort = 0
+            #     gripper_command.position = 0
+            #     self.gripper_pub.publish(gripper_command)
+            # elif buttons[1] == 1 and cur_gripper_position != 0.8:
+            #     cur_gripper_position = 0.8
+            #     gripper_command = control_msgs.msg.GripperCommandGoal()
+            #     gripper_command.max_effort = 0
+            #     gripper_command.position = 0.8
+            #     self.gripper_pub.publish(gripper_command)
 
             self.twist_pub.publish(twist_stamped)
 

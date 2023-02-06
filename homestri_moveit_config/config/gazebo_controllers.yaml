@@ -13,7 +13,7 @@ arm_traj_controller:
     - wrist_3_joint    
   constraints:
     goal_time: 0.6
-    stopped_velocity_tolerance: 0.05
+    stopped_velocity_tolerance: 0
     shoulder_pan_joint: {trajectory: 0.2, goal: 0.1}
     shoulder_lift_joint: {trajectory: 0.2, goal: 0.1}
     elbow_joint: {trajectory: 0.2, goal: 0.1}
@@ -49,13 +49,13 @@ gripper_pos_controller:
 
 gazebo_ros_control:
   pid_gains:
-#     # arm
-#     shoulder_pan_joint: { p: 4000, d: 200, i: 1, i_clamp: 1 }
-#     shoulder_lift_joint: { p: 10000, d: 200, i: 1, i_clamp: 1 }
-#     elbow_joint: { p: 3000, d: 20, i: 1, i_clamp: 1 }
-#     wrist_1_joint: { p: 1000, d: 1, i: 1, i_clamp: 1 }
-#     wrist_2_joint: { p: 500, d: 1, i: 1, i_clamp: 1 }
-#     wrist_3_joint: { p: 50, d: 0.1, i: 0, i_clamp: 1 }
+    # arm
+    shoulder_pan_joint: { p: 4000, d: 200, i: 1, i_clamp: 1 }
+    shoulder_lift_joint: { p: 10000, d: 200, i: 1, i_clamp: 1 }
+    elbow_joint: { p: 3000, d: 20, i: 1, i_clamp: 1 }
+    wrist_1_joint: { p: 1000, d: 1, i: 1, i_clamp: 1 }
+    wrist_2_joint: { p: 500, d: 1, i: 1, i_clamp: 1 }
+    wrist_3_joint: { p: 50, d: 0.1, i: 0, i_clamp: 1 }
     # gripper
     finger_joint: {p: 10,  d: 0.1, i: 1, i_clamp: 1}
     right_finger_joint: {p: 20,  d: 0.1, i: 1, i_clamp: 1}

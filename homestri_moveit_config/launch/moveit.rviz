@@ -42,7 +42,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 1
+    - Acceleration_Scaling_Factor: 0.40000000000000013
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -391,7 +391,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 1
+      Velocity_Scaling_Factor: 0.40000000000000013
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
@@ -443,6 +443,8 @@ Visualization Manager:
           Value: false
         tool0:
           Value: false
+        tool0_controller:
+          Value: true
         upper_arm_link:
           Value: false
         world:
@@ -466,7 +468,8 @@ Visualization Manager:
           pedestal:
             base_link:
               base:
-                {}
+                tool0_controller:
+                  {}
               base_link_inertia:
                 shoulder_link:
                   upper_arm_link:
