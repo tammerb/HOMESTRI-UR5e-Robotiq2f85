@@ -1,8 +1,7 @@
 version: '3.9'
 services:
   homestri-ros:
-    build: .
-    # image: thbarkouki/homestri-ur5e-robotiq2f85:latest
+    image: thbarkouki/homestri-ur5e-robotiq2f85:latest
     command: tail -F anything
     environment:
       # Display X Server GUI.
@@ -23,7 +22,4 @@ services:
               count: 1
               capabilities: [gpu]
     privileged: true
-    # network_mode: host
-    ports:
-      - "50001-50004:50001-50004"
-      - "54321"
+    network_mode: host
