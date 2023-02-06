@@ -1,17 +1,17 @@
 ###############################################
 # Modify all parameters related to servoing here
 ###############################################
-use_gazebo: true # Whether the robot is started in a Gazebo simulation environment
+use_gazebo: false # Whether the robot is started in a Gazebo simulation environment
 
 ## Properties of incoming commands
 command_in_type: "unitless" # "unitless"> in the range [-1:1], as if from joystick. "speed_units"> cmds are in m/s and rad/s
 scale:
   # Scale parameters are only used if command_in_type=="unitless"
-  linear:  0.6  # Max linear velocity. Meters per publish_period. Unit is [m/s]. Only used for Cartesian commands.
-  rotational:  0.3 # Max angular velocity. Rads per publish_period. Unit is [rad/s]. Only used for Cartesian commands.
+  linear:  0.2  # Max linear velocity. Meters per publish_period. Unit is [m/s]. Only used for Cartesian commands.
+  rotational:  0.2 # Max angular velocity. Rads per publish_period. Unit is [rad/s]. Only used for Cartesian commands.
   # Max joint angular/linear velocity. Rads or Meters per publish period. Only used for joint commands on joint_command_in_topic.
   joint: 0.01
-low_pass_filter_coeff: 2.  # Larger --> trust the filtered data more, trust the measurements less.
+low_pass_filter_coeff: 12  # Larger --> trust the filtered data more, trust the measurements less.
 
 ## Properties of outgoing commands
 publish_period: 0.008  # 1/Nominal publish rate [seconds]
@@ -23,8 +23,8 @@ low_latency_mode: false  # Set this to true to publish as soon as an incoming Tw
 command_out_type: std_msgs/Float64MultiArray
 
 # What to publish? Can save some bandwidth as most robots only require positions or velocities
-publish_joint_positions: true
-publish_joint_velocities: false
+publish_joint_positions: false
+publish_joint_velocities: true
 publish_joint_accelerations: false
 
 ## MoveIt properties

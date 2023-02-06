@@ -9,8 +9,8 @@ controller_list:
     - wrist_1_joint
     - wrist_2_joint
     - wrist_3_joint
-- name: ""
-  action_ns: gripper
+- name: gripper_controller
+  action_ns: gripper_cmd
   type: GripperCommand
   default: True
   joints:

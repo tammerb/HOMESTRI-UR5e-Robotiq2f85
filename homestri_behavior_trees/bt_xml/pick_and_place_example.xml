@@ -145,8 +145,9 @@
         id="move arm to target"
         target="home"
       />
-      <SubTree ID="pick object 1" />
-      <SubTree ID="place object 1" />
+      <!-- object 1 is already on other side so don't need to pick and place -->
+      <!-- <SubTree ID="pick object 1" />  -->
+      <!-- <SubTree ID="place object 1" /> -->
       <SubTree ID="pick object 2" />
       <SubTree ID="place object 2" />
       <SubTree ID="pick object 3" />

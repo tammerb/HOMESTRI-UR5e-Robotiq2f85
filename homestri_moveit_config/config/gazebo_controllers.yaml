@@ -1,8 +1,8 @@
 joint_state_controller:
   type: joint_state_controller/JointStateController
-  publish_rate: 50
+  publish_rate: &loop_hz 500
 
-arm_controller:
+arm_traj_controller:
   type: position_controllers/JointTrajectoryController
   joints: &robot_joints
     - shoulder_pan_joint
@@ -13,18 +13,18 @@ arm_controller:
     - wrist_3_joint    
   constraints:
     goal_time: 0.6
-    stopped_velocity_tolerance: 0.0
-    shoulder_pan_joint: { trajectory: 0.1, goal: 0.1 }
-    shoulder_lift_joint: { trajectory: 0.1, goal: 0.1 }
-    elbow_joint: { trajectory: 0.1, goal: 0.1 }
-    wrist_1_joint: { trajectory: 0.1, goal: 0.1 }
-    wrist_2_joint: { trajectory: 0.1, goal: 0.1 }
-    wrist_3_joint: { trajectory: 0.1, goal: 0.1 }
+    stopped_velocity_tolerance: 0
+    shoulder_pan_joint: {trajectory: 0.2, goal: 0.1}
+    shoulder_lift_joint: {trajectory: 0.2, goal: 0.1}
+    elbow_joint: {trajectory: 0.2, goal: 0.1}
+    wrist_1_joint: {trajectory: 0.2, goal: 0.1}
+    wrist_2_joint: {trajectory: 0.2, goal: 0.1}
+    wrist_3_joint: {trajectory: 0.2, goal: 0.1}
   stop_trajectory_duration: 0.5
-  state_publish_rate: 50
-  action_monitor_rate: 10
+  state_publish_rate: *loop_hz
+  action_monitor_rate: 20
 
-gripper_controller:
+gripper_action_controller:
   type: position_controllers/GazeboGripperActionController
   joint: finger_joint
   goal_tolerance: 0.1
@@ -33,7 +33,7 @@ gripper_controller:
   stall_timeout: 0.5
   action_monitor_rate: 10
   
-arm_position_controller:
+arm_pos_controller:
   type: position_controllers/JointGroupPositionController
   joints: 
     - shoulder_pan_joint
@@ -43,7 +43,7 @@ arm_position_controller:
     - wrist_2_joint
     - wrist_3_joint
 
-gripper_position_controller:
+gripper_pos_controller:
   type: position_controllers/JointPositionController
   joint: finger_joint
 
