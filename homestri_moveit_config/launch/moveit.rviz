@@ -42,7 +42,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 0.40000000000000013
+    - Acceleration_Scaling_Factor: 0.10000000000000003
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -391,7 +391,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.40000000000000013
+      Velocity_Scaling_Factor: 0.10000000000000003
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
@@ -517,7 +517,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.032485008239746
+      Distance: 3.58193302154541
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -525,17 +525,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.03689328953623772
-        Y: -0.007774888072162867
-        Z: 0.03250758349895477
+        X: 0.07922639697790146
+        Y: 0.00561458570882678
+        Z: -0.016787756234407425
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.43039846420288086
+      Pitch: 0.19039864838123322
       Target Frame: world
-      Yaw: 6.273583889007568
+      Yaw: 5.078577518463135
     Saved: ~
 Window Geometry:
   Displays:

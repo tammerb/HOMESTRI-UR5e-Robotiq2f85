@@ -6,7 +6,7 @@
   <xacro:include filename="$(find homestri_robot_description)/urdf/robotiq_2f_85_macro.xacro" />
 
   <xacro:workspace
-    pedestal_height="0.145" 
+    pedestal_height="0.135" 
     pedestal_radius="0.1"
   />
   
