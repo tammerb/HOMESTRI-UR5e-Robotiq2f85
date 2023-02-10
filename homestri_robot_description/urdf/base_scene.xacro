@@ -12,10 +12,10 @@
   
   <xacro:ur5e 
     prefix="" 
-    parent="pedestal" 
+    parent="ground" 
     transmission_hw_interface="hardware_interface/PositionJointInterface"
   >
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 -0.025" rpy="0 0 0" />
   </xacro:ur5e>
 
   <xacro:robotiq_2f_85 
