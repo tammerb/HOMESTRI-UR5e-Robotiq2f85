@@ -7,16 +7,16 @@ import control_msgs.msg
 from threading import Lock
 from copy import deepcopy
 
+from robotiq_2f_gripper_control.msg import Robotiq2FGripper_robot_output
+
 class TeleopTwistJoy():
     def __init__(self):
         self.twist_pub = rospy.Publisher('/servo_server/cmd_vel', geometry_msgs.msg.TwistStamped, queue_size=1)
-        # self.gripper_pub = rospy.Publisher('/gripper_action_controller/gripper_cmd/goal', control_msgs.msg.GripperCommandGoal, queue_size=1)
+        self.gripper_pub = rospy.Publisher('/robotiq_2f_85_gripper/control', Robotiq2FGripper_robot_output, queue_size=1)
         self.joy_sub = rospy.Subscriber("/joy", sensor_msgs.msg.Joy, self.callback)
         
         self.joy_msg = None
         self.joy_msg_mutex = Lock()
-
-        self.cur_gripper_position = None
 
     def publish(self):
         self.joy_msg_mutex.acquire()
@@ -41,19 +41,22 @@ class TeleopTwistJoy():
             twist_stamped.twist.angular.y = axes[4]
             twist_stamped.twist.angular.z = buttons[2] - buttons[3]
 
+
+            command = Robotiq2FGripper_robot_output()
+            command.rACT = 0x1
+            command.rGTO = 0x1 # go to position
+            command.rATR = 0x0 # No emergency release
+            command.rSP = 128 # speed
+            command.rPR = 0x0 # position
+            command.rFR = 150 # effort
+
             
-            # if buttons[0] == 1 and cur_gripper_position != 0.0:
-            #     cur_gripper_position = 0.0
-            #     gripper_command = control_msgs.msg.GripperCommandGoal()
-            #     gripper_command.max_effort = 0
-            #     gripper_command.position = 0
-            #     self.gripper_pub.publish(gripper_command)
-            # elif buttons[1] == 1 and cur_gripper_position != 0.8:
-            #     cur_gripper_position = 0.8
-            #     gripper_command = control_msgs.msg.GripperCommandGoal()
-            #     gripper_command.max_effort = 0
-            #     gripper_command.position = 0.8
-            #     self.gripper_pub.publish(gripper_command)
+            if buttons[0] == 1:
+                command.rPR = 230 # position
+                self.gripper_pub.publish(command)
+            elif buttons[1] == 1:
+                command.rPR = 0 # position
+                self.gripper_pub.publish(command)
 
             self.twist_pub.publish(twist_stamped)
 
