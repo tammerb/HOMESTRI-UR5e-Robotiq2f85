@@ -5,17 +5,14 @@
   <xacro:include filename="$(find homestri_robot_description)/urdf/ur5e_macro.xacro" />
   <xacro:include filename="$(find homestri_robot_description)/urdf/robotiq_2f_85_macro.xacro" />
 
-  <xacro:workspace
-    pedestal_height="0.135" 
-    pedestal_radius="0.1"
-  />
+  <xacro:workspace />
   
   <xacro:ur5e 
     prefix="" 
-    parent="ground" 
+    parent="world" 
     transmission_hw_interface="hardware_interface/PositionJointInterface"
   >
-    <origin xyz="0 0 -0.025" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ur5e>
 
   <xacro:robotiq_2f_85 
