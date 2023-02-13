@@ -6,6 +6,7 @@
   <arg name="robot_ip" default="192.168.1.102" />
   <arg name="reverse_ip" default="192.168.1.2" />
   <arg name="tool_device_name" default="/tmp/ttyUR" />
+  <arg name="kinematics_config" default="$(find homestri_bringup)/config/ur5e_calibration.yaml" />
 
   <!-- simulated robot arguments -->
   <arg name="paused" default="false" />
@@ -36,6 +37,7 @@
       <arg name="use_tool_communication" value="true"/>
       <arg name="tool_voltage" value="24"/>
       <arg name="tool_device_name" value="$(arg tool_device_name)"/>
+      <arg name="kinematics_config" value="$(arg kinematics_config)"/>
     </include>
 
     <!-- launch gripper driver -->

@@ -4,10 +4,10 @@
 <!-- The position of the TF frame has not been measured at all and needs to be calibrated. -->
 
 <robot name="workspace_homestri" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="workspace">
+  <!-- <xacro:macro name="workspace" params="pedestal_height:=0.2 pedestal_radius:=0.2"> -->
 
-  <xacro:macro name="workspace" params="pedestal_height:=0.2 pedestal_radius:=0.2">
-
-    <link name="pedestal">
+    <!-- <link name="pedestal">
       <visual>
         <origin rpy="0 0 0" xyz="0 0 ${-pedestal_height/2}"/>
         <geometry>
@@ -23,13 +23,12 @@
           <cylinder length="${pedestal_height}" radius="${pedestal_radius}"/>
         </geometry>
       </collision>
-      <!-- these are dummy intertial values to spawn the object in gazebo -->
       <inertial>
         <origin xyz="0.0 0.0 0.02" rpy="0 0 0" />
         <mass value=".006784" />
         <inertia ixx=".18e-05" iyy=".18e-05" izz=".18e-05" ixy="0.0" iyz="0.0" ixz="0.0" />
       </inertial>
-    </link>
+    </link> -->
 
     <link name="ground">
         <collision>
@@ -40,11 +39,11 @@
         </collision>
     </link>
 
-    <joint name="pedestal_to_world" type="fixed">
+    <!-- <joint name="pedestal_to_world" type="fixed">
         <parent link="world"/>
         <child link="pedestal"/>
         <origin xyz="0 0 ${pedestal_height}" />
-    </joint>
+    </joint> -->
 
     <joint name="ground_to_world" type="fixed">
         <parent link="world"/>
