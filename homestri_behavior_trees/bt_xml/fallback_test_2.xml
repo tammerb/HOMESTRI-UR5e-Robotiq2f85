@@ -1,0 +1,60 @@
+<root main_tree_to_execute="MainTree">
+
+
+    <BehaviorTree ID="MainTree">
+
+        <Sequence name="pick object sequence">
+            <ManipulationAction
+                name="open gripper"
+                server_name="manip_as"
+                id="move gripper to target"
+                target="open"
+            />
+            <ManipulationAction
+                name="move to object"
+                server_name="manip_as"
+                id="move arm to pose"
+                x="0.5" y="0.2" z="0.23" roll="0" pitch="1.5707" yaw="0"
+            />
+            <ManipulationAction
+                name="approach"
+                server_name="manip_as"
+                id="move arm pregrasp approach"
+                position="0.20"
+            />
+            <Fallback name="grasp object fallback">
+                <ManipulationAction
+                    name="close gripper"
+                    server_name="manip_as"
+                    id="move gripper to target"
+                    target="close"
+                />
+                <GraspedCondition
+                    name="check if grasped"
+                    topic_name="robotiq_2f_85_gripper/state"
+                />                    
+                <Inverter>
+                    <ManipulationAction
+                        name="open gripper"
+                        server_name="manip_as"
+                        id="move gripper to target"
+                        target="open"
+                    />
+                </Inverter>
+                <GraspedCondition
+                    name="check if grasped"
+                    topic_name="robotiq_2f_85_gripper/state"
+                />      
+                <ManipulationAction
+                    name="move to home position"
+                    server_name="manip_as"
+                    id="move arm to target"
+                    target="home"
+                />
+            </Fallback>
+            
+        </Sequence>
+
+    </BehaviorTree>
+
+</root>
