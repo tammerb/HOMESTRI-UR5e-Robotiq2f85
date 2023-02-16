@@ -20,5 +20,6 @@
   <depend>tf2_ros</depend>
   <depend>homestri_msgs</depend>
   <depend>explain_bt</depend>
+  <depend>robotiq_2f_gripper_control</depend>
 
 </package>

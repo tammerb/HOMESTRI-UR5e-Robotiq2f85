@@ -12,6 +12,7 @@ actionlib
 actionlib_msgs
 tf2
 tf2_ros
+robotiq_2f_gripper_control
 )
 
 find_package(catkin REQUIRED COMPONENTS ${ROS_DEPENDENCIES} )

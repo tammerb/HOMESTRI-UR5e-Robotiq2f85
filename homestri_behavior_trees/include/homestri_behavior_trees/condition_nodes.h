@@ -2,22 +2,17 @@
 #define CONDITION_NODE_H
 
 #include <ros/ros.h>
-#include <actionlib/client/simple_action_client.h>
-#include <actionlib/client/terminal_state.h>
-
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include <behaviortree_ros/bt_subscriber_node.h>
-
-#include "geometry_msgs/Twist.h"
-
 #include <homestri_behavior_trees/node_input_conversions.h>
+#include <robotiq_2f_gripper_control/Robotiq2FGripper_robot_input.h>
 
-class GraspedCondition: public RosSubscriberNode<geometry_msgs::Twist>
+class GraspedCondition: public RosSubscriberNode<robotiq_2f_gripper_control::Robotiq2FGripper_robot_input>
 {
 
 public:
   GraspedCondition( ros::NodeHandle& handle, const std::string& name, const NodeConfiguration & conf):
-RosSubscriberNode<geometry_msgs::Twist>(handle, name, conf) {}
+RosSubscriberNode<robotiq_2f_gripper_control::Robotiq2FGripper_robot_input>(handle, name, conf) {}
 
   static PortsList providedPorts()
   {
@@ -31,11 +26,14 @@ RosSubscriberNode<geometry_msgs::Twist>(handle, name, conf) {}
   }
 
   NodeStatus onReceive(const MessageType& msg) override {
-    double x = msg.linear.x;
-    if (x > 0) {
-      return NodeStatus::FAILURE;
+    int gOBJ = msg.gOBJ;
+    int gGTO = msg.gGTO;
+
+    if (gOBJ == 2 && gGTO == 1) {
+      return NodeStatus::SUCCESS; 
     }
-    return NodeStatus::SUCCESS;
+
+    return NodeStatus::FAILURE;
   }
 };
 
