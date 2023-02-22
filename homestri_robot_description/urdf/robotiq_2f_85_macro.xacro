@@ -9,7 +9,7 @@
   <xacro:macro name="robotiq_2f_85" params="prefix parent transmission_hw_interface coupling_width:=0.01 *origin">
 
     <!-- Spawn and attach robotiq 85 gripper -->
-    <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_macro.xacro" />
+    <xacro:include filename="$(find robotiq_2f_85_gripper_description)/urdf/robotiq_arg2f_85_macro.xacro" />
     <xacro:robotiq_arg2f_85 prefix="${prefix}" transmission_hw_interface="${transmission_hw_interface}" />
     <joint name="${prefix}robotiq_85_base_joint" type="fixed">
       <parent link="${prefix}robotiq_85_coupling" />
