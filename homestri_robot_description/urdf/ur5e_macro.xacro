@@ -50,6 +50,21 @@
     </joint>
 
     <!-- ############ GAZEBO PROPERTIES ############ -->
+    <gazebo reference="${prefix}wrist_3_joint">
+        <provideFeedback>true</provideFeedback>
+    </gazebo>
+    <gazebo>
+      <plugin filename="libgazebo_ros_ft_sensor.so" name="ft_sensor">
+        <updateRate>100.0</updateRate>
+        <topicName>wrench</topicName>
+        <jointName>${prefix}wrist_3_joint</jointName>
+        <!-- <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.003</stddev>
+        </noise> -->
+      </plugin>
+    </gazebo>
 
     <xacro:macro name="ur5e_gazebo_link_properties" params="reference">
       <gazebo reference="${reference}">
