@@ -3,7 +3,7 @@
 
   <xacro:include filename="$(find homestri_robot_description)/urdf/workspace.xacro" />
   <xacro:include filename="$(find homestri_robot_description)/urdf/ur5e_macro.xacro" />
-  <xacro:include filename="$(find homestri_robot_description)/urdf/robotiq_2f_85_macro.xacro" />
+  <xacro:include filename="$(find robotiq_2f_85_gripper_description)/urdf/robotiq_arg2f_85_macro.xacro" />
 
   <xacro:workspace />
   
@@ -15,14 +15,16 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ur5e>
 
-  <xacro:robotiq_2f_85 
+
+  
+
+  <xacro:robotiq_arg2f_85 
     prefix="" 
     parent="ee_link" 
     transmission_hw_interface="hardware_interface/PositionJointInterface" 
-    coupling_width="0.01"
   >
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:robotiq_2f_85>
+    <origin xyz="0 0 0" rpy="${-pi/2} ${pi} ${-pi/2}" />
+  </xacro:robotiq_arg2f_85 >
 
   <link name="world" />
 
