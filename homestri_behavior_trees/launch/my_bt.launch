@@ -1,4 +1,4 @@
 <launch>
-    <param name="bt_xml" value="$(find homestri_behavior_trees)/bt_xml/pick_and_place_example.xml"/>
+    <param name="bt_xml" value="$(find homestri_behavior_trees)/bt_xml/fallback_sub_tree_test.xml"/>
     <node pkg="homestri_behavior_trees" type="test_explain_bt" name="test_bt" output="screen"/>
 </launch>

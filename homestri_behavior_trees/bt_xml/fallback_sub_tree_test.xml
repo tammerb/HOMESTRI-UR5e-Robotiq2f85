@@ -25,7 +25,7 @@
                 name="check if grasped"
                 topic_name="robotiq_2f_85_gripper/state"
             />
-            <Inverter>
+            <Inverter name="check if grasped">
                 <ManipulationAction
                     name="move to home position"
                     server_name="manip_as"
