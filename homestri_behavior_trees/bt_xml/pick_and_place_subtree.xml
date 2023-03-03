@@ -1,12 +1,14 @@
 <root>
     <BehaviorTree ID="PickAndPlaceSubTree">
         <Sequence>
-            <SubTree ID="PickSubTree" />
+            <SubTree ID="PickSubTree"   object_pose="{object_pose}"
+                                        approach_offset="{approach_offset}"/>
             <GraspedCondition
                 name="check if grasped"
                 topic_name="robotiq_2f_85_gripper/state"
             />
-            <SubTree ID="PlaceSubTree" />
+            <SubTree ID="PlaceSubTree"  target_pose="{object_pose}"
+                                        approach_offset="{approach_offset}"/>/>
         </Sequence>
     </BehaviorTree>
 <root>
