@@ -1,0 +1,44 @@
+<root>
+  <!-- 
+  inputs: 
+    - place_pose
+    - approach_offset 
+  -->
+  <BehaviorTree ID="PickSubTree">
+
+    <Sequence name="pick object sequence">
+
+      <ManipulationAction
+        name="move arm to preplace position"
+        server_name="manip_as"
+        id="move arm to pose"
+        pose="{place_pose}"
+        offset="{approach_offset}"
+      />
+
+      <ManipulationAction
+        name="approach"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        offset="{approach_offset}"
+      />
+
+      <ManipulationAction
+        name="open gripper"
+        server_name="manip_as"
+        id="move gripper to target"
+        target="open"
+      />
+
+      <ManipulationAction
+        name="retract arm"
+        server_name="manip_as"
+        id="move arm retract"
+        offset="{approach_offset}"
+      />
+
+    </Sequence>
+  </BehaviorTree>
+
+</root>
+    

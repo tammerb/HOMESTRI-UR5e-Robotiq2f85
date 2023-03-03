@@ -43,21 +43,17 @@ class ManipulationActionServer():
         id = goal.id
         target = goal.target
         position = goal.position
-        pose = self.create_pose(
-            goal.x,
-            goal.y,
-            goal.z,
-            goal.roll,
-            goal.pitch,
-            goal.yaw
-        )
+        offset = goal.offset
+        pose = goal.pose
 
         if id == 'move arm to pose':
-            self.start_thread_and_wait_for_result(self.arm.move_to_pose, (pose, ))
+            self.start_thread_and_wait_for_result(self.arm.move_to_pose, (pose, offset, ))
         elif id == 'move arm to target':
             self.start_thread_and_wait_for_result(self.arm.move_to_target, (target, ))
         elif id == 'move arm pregrasp approach':
-            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (position, ))
+            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (offset, ))
+        elif id == 'retract arm':
+            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (-offset, ))
         elif id == 'move arm cartesian path':
             self.start_thread_and_wait_for_result(self.arm.move_cartesian_path, (pose, ))
         elif id == 'move gripper to target':

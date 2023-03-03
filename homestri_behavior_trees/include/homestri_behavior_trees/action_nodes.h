@@ -28,29 +28,23 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
       InputPort<std::string>("id"),
       InputPort<std::string>("target"),
       InputPort<double>("position"),
-      InputPort<double>("x"),
-      InputPort<double>("y"),
-      InputPort<double>("z"),
-      InputPort<double>("roll"),
-      InputPort<double>("pitch"),
-      InputPort<double>("yaw"),
+      InputPort<double>("offset"),
+      InputPort<geometry_msgs::Pose>("pose")
     };
   }
 
   bool sendGoal(GoalType& goal) override
   {
+    goal.offset = 0;
+
     if (!getInput<std::string>("id", goal.id)) {
       ROS_ERROR("missing required input [id]");
       return false;
     }
     getInput<std::string>("target", goal.target);
     getInput<double>("position", goal.position);
-    getInput<double>("x", goal.x);
-    getInput<double>("y", goal.y);
-    getInput<double>("z", goal.z);
-    getInput<double>("roll", goal.roll);
-    getInput<double>("pitch", goal.pitch);
-    getInput<double>("yaw", goal.yaw);
+    getInput<double>("offset", goal.offset);
+    getInput<geometry_msgs::Pose>("pose", goal.pose);
 
     ROS_INFO("SENDING GOAL: %s", goal.id.c_str());
 
