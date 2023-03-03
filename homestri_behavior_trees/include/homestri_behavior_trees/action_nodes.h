@@ -90,24 +90,33 @@ public:
   static PortsList providedPorts()
   {
     return { 
-      InputPort<double>("fake_pose"),
-      OutputPort<double>("output") 
+      InputPort<bool>("detected")
+      InputPort<std::string>("target_object"),
+      InputPort<std::string>("actual_object"),
+      InputPort<std::string>("predicted_object")    
     };
   }
 
   // This Action writes a value into the port "text"
   NodeStatus tick() override
   {
-    double pose;
+    bool detected;
 
-    if (!getInput<double>("fake_pose", pose)) {
-      ROS_ERROR("missing required input [fake_pose]");
+    if (!getInput<bool>("detected", detected)) {
+      ROS_ERROR("missing required input [detected]");
       return NodeStatus::FAILURE;
     }
 
-    setOutput("output", pose);
+    ros::Duration(1).sleep(); // wait 1 sec, pretend to process image 
 
-    return NodeStatus::SUCCESS;
+    if (detected) {
+      return NodeStatus::SUCCESS;
+    }
+    else {
+      return NodeStatus::FAILURE;
+    }
+
+    
   }
 };
 
