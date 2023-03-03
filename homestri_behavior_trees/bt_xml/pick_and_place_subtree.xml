@@ -1,0 +1,12 @@
+<root>
+    <BehaviorTree ID="PickAndPlaceSubTree">
+        <Sequence>
+            <SubTree ID="PickSubTree" />
+            <GraspedCondition
+                name="check if grasped"
+                topic_name="robotiq_2f_85_gripper/state"
+            />
+            <SubTree ID="PlaceSubTree" />
+        </Sequence>
+    </BehaviorTree>
+<root>
