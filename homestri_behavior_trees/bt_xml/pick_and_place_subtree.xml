@@ -7,7 +7,7 @@
                 name="check if grasped"
                 topic_name="robotiq_2f_85_gripper/state"
             />
-            <SubTree ID="PlaceSubTree"  target_pose="{object_pose}"
+            <SubTree ID="PlaceSubTree"  target_pose="{target_pose}"
                                         approach_offset="{approach_offset}"/>/>
         </Sequence>
     </BehaviorTree>
