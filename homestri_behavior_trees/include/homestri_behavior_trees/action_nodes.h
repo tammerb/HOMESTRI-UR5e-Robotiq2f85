@@ -100,23 +100,22 @@ public:
   // This Action writes a value into the port "text"
   NodeStatus tick() override
   {
-    bool detected;
+    auto status = NodeStatus::FAILURE;
 
+    bool detected;
     if (!getInput<bool>("detected", detected)) {
       ROS_ERROR("missing required input [detected]");
-      return NodeStatus::FAILURE;
+      status = NodeStatus::FAILURE;
+      return status;
+    }
+
+    if (detected) {
+      status = NodeStatus::SUCCESS;
     }
 
     ros::Duration(1).sleep(); // wait 1 sec, pretend to process image 
 
-    if (detected) {
-      return NodeStatus::SUCCESS;
-    }
-    else {
-      return NodeStatus::FAILURE;
-    }
-
-    
+    return status;    
   }
 };
 

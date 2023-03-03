@@ -185,12 +185,9 @@
         name="move to search area"
         server_name="manip_as"
         id="move arm to pose"
-        x="0.5" y="0.2" z="0.3" roll="0" pitch="1.5707" yaw="0"
+        x="0.5" y="0.2" z="0.23" roll="0" pitch="1.5707" yaw="0"
       />
-      <!-- <CamCalibratedCondition
-                  name="is camera calibrated"
-                  topic_name="robotiq_2f_85_gripper/state"
-      /> -->
+      <DetectObject detected="false" />
     </Sequence>
   </BehaviorTree>
 
@@ -200,12 +197,9 @@
         name="move to search area"
         server_name="manip_as"
         id="move arm to pose"
-        x="0.7" y="0.2" z="0.3" roll="0" pitch="1.5707" yaw="0"
+        x="0.7" y="0.2" z="0.23" roll="0" pitch="1.5707" yaw="0"
       />
-      <!-- <CamCalibratedCondition
-                  name="is camera calibrated"
-                  topic_name="robotiq_2f_85_gripper/state"
-      /> -->
+      <DetectObject detected="true" />
     </Sequence>
   </BehaviorTree>
 
@@ -219,11 +213,15 @@
 
       <Sequence name="search and sort objects">
         <Fallback name="search for object">
+
+
+
           <SubTree ID="search area 1" />
           <SubTree ID="search area 2" />
         </Fallback>
 
-        <SubTree ID="pick object 1" />
+        <SubTree ID="pick" />
+        <SubTree ID="place object 1" />
       </Sequence>
 
 
