@@ -5,6 +5,9 @@ SHELL ["/bin/bash", "-c"]
 # Setup environment, all installed things go here
 WORKDIR /catkin_ws
 
+# Install dependencies
+RUN apt install -y ros-$ROS_DISTRO-realsense2-camera
+
 # Install ROS packages
 RUN git clone https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git src/homestri \
  && git clone -b boost https://github.com/UniversalRobots/Universal_Robots_Client_Library.git src/universal_robots/Universal_Robots_Client_Library \
