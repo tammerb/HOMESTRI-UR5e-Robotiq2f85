@@ -90,7 +90,7 @@ public:
   static PortsList providedPorts()
   {
     return { 
-      InputPort<bool>("detected")
+      InputPort<bool>("detected"),
       InputPort<std::string>("target_object"),
       InputPort<std::string>("actual_object"),
       InputPort<std::string>("predicted_object")    
