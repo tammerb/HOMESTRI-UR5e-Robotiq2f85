@@ -4,9 +4,9 @@
     - place_pose
     - approach_offset 
   -->
-  <BehaviorTree ID="PickSubTree">
+  <BehaviorTree ID="PlaceSubTree">
 
-    <Sequence name="pick object sequence">
+    <Sequence name="place object sequence">
 
       <ManipulationAction
         name="move arm to preplace position"
