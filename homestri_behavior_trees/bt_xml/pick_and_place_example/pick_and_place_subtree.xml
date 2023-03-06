@@ -1,0 +1,11 @@
+<root>
+    <BehaviorTree ID="PickAndPlaceSubTree">
+        <Sequence>
+            <SubTreePlus ID="PickSubTree"   object_pose="{object_pose}"
+                                        approach_offset="{approach_offset}"/>
+
+            <SubTreePlus ID="PlaceSubTree"  place_pose="{place_pose}"  object_pose="{object_pose}"
+                                        approach_offset="{approach_offset}"  />
+        </Sequence>
+    </BehaviorTree>
+</root>
