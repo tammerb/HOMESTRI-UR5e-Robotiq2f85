@@ -38,7 +38,8 @@ class ManipulationActionServer():
         self.actserv.start()
 
     def action_cb(self, goal):
-        print("GOAL:", goal)
+        print("GOAL:")
+        print(goal)
 
         id = goal.id
         target = goal.target
@@ -46,19 +47,23 @@ class ManipulationActionServer():
         offset = goal.offset
         pose = goal.pose
 
-        if id == 'move arm to pose':
+        if id == 'arm_pose':
             self.start_thread_and_wait_for_result(self.arm.move_to_pose, (pose, offset, ))
-        elif id == 'move arm to target':
+        elif id == 'arm_approach':
+            self.start_thread_and_wait_for_result(self.arm.move_to_offset, (offset, 0, 0, ))
+        elif id == 'arm_retreat':
+            self.start_thread_and_wait_for_result(self.arm.move_to_offset, (-offset, 0, 0, ))
+        elif id == 'arm_home':
+            self.start_thread_and_wait_for_result(self.arm.move_to_target, ('home', ))
+        elif id == 'arm_target':
             self.start_thread_and_wait_for_result(self.arm.move_to_target, (target, ))
-        elif id == 'move arm pregrasp approach':
-            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (offset, ))
-        elif id == 'retract arm':
-            self.start_thread_and_wait_for_result(self.arm.pregrasp_approach, (-offset, ))
-        elif id == 'move arm cartesian path':
-            self.start_thread_and_wait_for_result(self.arm.move_cartesian_path, (pose, ))
-        elif id == 'move gripper to target':
+        elif id == 'gripper_open':
+            self.start_thread_and_wait_for_result(self.gripper.move_to_target, ('open', ))
+        elif id == 'gripper_close':
+            self.start_thread_and_wait_for_result(self.gripper.move_to_target, ('close', ))
+        elif id == 'gripper_target':
             self.start_thread_and_wait_for_result(self.gripper.move_to_target, (target, ))
-        elif id == 'move gripper to position':
+        elif id == 'gripper_position':
             self.start_thread_and_wait_for_result(self.gripper.move_to_position, (position, ))
         else:
             rospy.logerr("INVALID ID")
@@ -84,13 +89,6 @@ class ManipulationActionServer():
             return
 
         self.actserv.set_succeeded()
-
-    def create_pose(self, x, y, z, roll, pitch, yaw):
-        pose = Pose()
-        pose.position = Point(x, y, z)
-        pose.orientation = Quaternion(*quaternion_from_euler(roll, pitch, yaw))
-
-        return pose
 
 if __name__ == "__main__":
     rospy.init_node('manipulation_action_server')
