@@ -1,11 +1,23 @@
 <root>
     <BehaviorTree ID="PickAndPlaceSubTree">
         <Sequence>
-            <SubTreePlus ID="PickSubTree"   object_pose="{object_pose}"
-                                        approach_offset="{approach_offset}"/>
+            <SubTreePlus
+                ID="PickSubTree"
+                name="pick up {object_id}"
+                object_id="{object_id}"
+                object_pose="{object_pose}"
+                approach_offset="{approach_offset}"
+            />
 
-            <SubTreePlus ID="PlaceSubTree"  place_pose="{place_pose}"  object_pose="{object_pose}"
-                                        approach_offset="{approach_offset}"  />
+            <SubTreePlus
+                ID="PlaceSubTree"
+                name="place {object_id} at {area_id}"
+                object_id="{object_id}"
+                area_id="{area_id}"
+                place_pose="{place_pose}"
+                object_pose="{object_pose}"
+                approach_offset="{approach_offset}"
+            />
         </Sequence>
     </BehaviorTree>
 </root>
