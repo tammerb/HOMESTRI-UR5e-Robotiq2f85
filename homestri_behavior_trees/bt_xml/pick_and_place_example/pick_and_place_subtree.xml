@@ -1,6 +1,6 @@
 <root>
     <BehaviorTree ID="PickAndPlaceSubTree">
-        <Sequence>
+        <Sequence name="pick up {object_id} then place it at {area_id}">
             <SubTreePlus
                 ID="PickSubTree"
                 name="pick up {object_id}"

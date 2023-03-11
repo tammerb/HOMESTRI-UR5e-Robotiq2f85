@@ -6,7 +6,7 @@
   -->
   <BehaviorTree ID="PlaceSubTree">
 
-    <Sequence name="place {object_id} at {area_id} sequence">
+    <Sequence name="place {object_id} at {area_id}">
 
       <ManipulationAction
         name="move arm to {area_id}"

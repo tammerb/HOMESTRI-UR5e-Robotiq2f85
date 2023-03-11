@@ -1,13 +1,13 @@
 <root main_tree_to_execute="MainTree">
   <BehaviorTree ID="MainTree">
-    <Sequence>
+    <Sequence name="pick and place 2 objects">
 
-      <SetBlackboard output_key="approach_offset" value="0.20" />
-      <SetBlackboard output_key="object1_pose" value="0.5;0.2;0.03;0;1.5707;0" />
-      <SetBlackboard output_key="object2_pose" value="0.7;0.2;0.03;0;1.5707;0" />
-      <SetBlackboard output_key="target1_pose" value="0.5;-0.2;0.03;0;1.5707;0" />
-      <SetBlackboard output_key="target2_pose" value="0.7;-0.2;0.03;0;1.5707;0" />
-      <SetBlackboard output_key="target3_pose" value="0.6;-0.4;0.03;0;1.5707;0" />
+      <SetBlackboard name="SetBlackboard" output_key="approach_offset" value="0.20" />
+      <SetBlackboard name="SetBlackboard" output_key="object1_pose" value="0.5;0.2;0.03;0;1.5707;0" />
+      <SetBlackboard name="SetBlackboard" output_key="object2_pose" value="0.7;0.2;0.03;0;1.5707;0" />
+      <SetBlackboard name="SetBlackboard" output_key="target1_pose" value="0.5;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard name="SetBlackboard" output_key="target2_pose" value="0.7;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard name="SetBlackboard" output_key="target3_pose" value="0.6;-0.4;0.03;0;1.5707;0" />
 
       <Sequence name="pick and place 2 objects">
 
@@ -34,6 +34,16 @@
           object_pose="{object2_pose}"
           approach_offset="{approach_offset}"
           place_pose="{target2_pose}"
+        />
+
+        <SubTreePlus
+          ID="PickAndPlaceSubTree"
+          name="pick up object 1 and return to start"
+          object_id="object 1"
+          area_id="area 1"
+          object_pose="{object1_pose}"
+          approach_offset="{approach_offset}"
+          place_pose="{target3_pose}"
         />
 
         <ManipulationAction

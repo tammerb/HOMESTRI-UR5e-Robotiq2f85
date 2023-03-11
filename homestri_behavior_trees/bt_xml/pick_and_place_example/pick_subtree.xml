@@ -6,7 +6,7 @@
   -->
   <BehaviorTree ID="PickSubTree">
 
-    <Sequence name="pick {object_id} sequence">
+    <Sequence name="pick up {object_id}">
       
       <ManipulationAction
         name="move arm above {object_id}"
