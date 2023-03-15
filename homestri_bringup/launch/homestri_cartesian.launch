@@ -1,0 +1,39 @@
+<launch>
+    <arg name="use_rviz" default="true" />
+    <arg name="robot_ip" default="192.168.1.102" />
+    <arg name="reverse_ip" default="192.168.1.2" />
+    <arg name="tool_device_name" default="/tmp/ttyUR" />
+    <arg name="kinematics_config" default="$(find homestri_bringup)/config/ur5e_calibration.yaml" />  
+
+    <!-- launch ur5e driver -->
+    <remap from="wrench" to="cartesian_force_controller/ft_sensor_wrench" />
+
+    <include file="$(find ur_robot_driver)/launch/ur5e_bringup.launch">
+        <arg name="robot_ip" value="$(arg robot_ip)"/>
+        <arg name="reverse_ip" value="$(arg reverse_ip)"/>
+        <arg name="use_tool_communication" value="true"/>
+        <arg name="tool_voltage" value="24"/>
+        <arg name="tool_device_name" value="$(arg tool_device_name)"/>
+        <arg name="kinematics_config" value="$(arg kinematics_config)"/>
+        <arg name="controllers" value="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller"/>
+        <arg name="stopped_controllers" value="pos_joint_traj_controller joint_group_vel_controller cartesian_motion_controller motion_control_handle cartesian_force_controller" />
+        <arg name="controller_config_file" value="$(find homestri_bringup)/config/ur5e_controllers.yaml"/>
+    </include>
+
+    
+
+    <!-- launch gripper driver -->
+    <include file="$(find robotiq_2f_gripper_control)/launch/robotiq_2f_85_gripper_rtu.launch">
+        <arg name="port" value="$(arg tool_device_name)"/>
+    </include>
+
+    <!-- Load robot_description to parameter server -->
+    <param name="/robot_description" command="$(find xacro)/xacro '$(find homestri_robot_description)/urdf/base_scene.xacro'" />
+    
+    <!-- launch rviz -->
+    <group if="$(arg use_rviz)">
+        <arg name="my_rviz" value="-d $(find homestri_bringup)/config/cartesian.rviz" />
+        <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
+    </group>
+    
+  </launch>
