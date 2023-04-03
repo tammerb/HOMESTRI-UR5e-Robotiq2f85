@@ -6,39 +6,44 @@
   -->
   <BehaviorTree ID="PickSubTree">
 
-    <Sequence name="pick object sequence">
-
+    <Sequence name="pick up {object_id}">
+      
       <ManipulationAction
-        name="move arm to pregrasp position"
+        name="move arm above {object_id}"
         server_name="manip_as"
-        id="move arm to pose"
+        id="arm_pose"
         pose="{object_pose}"
         offset="{approach_offset}"
       />
 
       <ManipulationAction
-        name="approach object"
+        name="open gripper"
         server_name="manip_as"
-        id="move arm pregrasp approach"
+        id="gripper_open"
+      />
+
+      <ManipulationAction
+        name="approach {object_id}"
+        server_name="manip_as"
+        id="arm_approach"
         offset="{approach_offset}"
       />
 
       <ManipulationAction
-        name="close gripper"
+        name="close gripper and grasp {object_id}"
         server_name="manip_as"
-        id="move gripper to target"
-        target="close"
+        id="gripper_close"
       />
 
       <GraspedCondition
-        name="check if grasped"
+        name="check if {object_id} is grasped"
         topic_name="robotiq_2f_85_gripper/state"
       />
 
       <ManipulationAction
         name="retract arm"
         server_name="manip_as"
-        id="move arm pregrasp approach"
+        id="arm_retreat"
         offset="{approach_offset}"
       />
 

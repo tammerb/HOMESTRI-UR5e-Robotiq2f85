@@ -6,36 +6,37 @@
   -->
   <BehaviorTree ID="PlaceSubTree">
 
-    <Sequence name="place object sequence">
+    <Sequence name="place {object_id} at {area_id}">
 
       <ManipulationAction
-        name="move arm to preplace position"
+        name="move arm to {area_id}"
         server_name="manip_as"
-        id="move arm to pose"
+        id="arm_pose"
         pose="{place_pose}"
         offset="{approach_offset}"
       />
 
       <ManipulationAction
-        name="approach"
+        name="approach {area_id}"
         server_name="manip_as"
-        id="move arm pregrasp approach"
+        id="arm_approach"
         offset="{approach_offset}"
       />
 
       <ManipulationAction
-        name="open gripper"
+        name="open gripper and release {object_id}"
         server_name="manip_as"
-        id="move gripper to target"
-        target="open"
+        id="gripper_open"
       />
 
       <ManipulationAction
         name="retract arm"
         server_name="manip_as"
-        id="move arm retract"
+        id="arm_retreat"
         offset="{approach_offset}"
       />
+
+      <UpdatePose output_pose="{object_pose}" input_pose="{place_pose}" />
 
     </Sequence>
   </BehaviorTree>

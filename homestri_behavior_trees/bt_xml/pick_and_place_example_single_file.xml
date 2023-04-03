@@ -2,32 +2,40 @@
   <BehaviorTree ID="MainTree">
     <Sequence>
       <SetBlackboard output_key="approach_offset" value="0.20" />
-      <SetBlackBoard output_key="object1_pose" value="0.5;0.2;0.03;0;1.5707;0" />
-      <SetBlackBoard output_key="object2_pose" value="0.7;0.2;0.03;0;1.5707;0" />
-      <SetBlackBoard output_key="target1_pose" value="0.5;-0.2;0.03;0;1.5707;0" />
-      <SetBlackBoard output_key="target2_pose" value="0.7;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="object1_pose" value="0.5;0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="object2_pose" value="0.7;0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="target1_pose" value="0.5;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="target2_pose" value="0.7;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="target3_pose" value="0.5;0.2;0.03;0;1.5707;0" />
+
       <Sequence name="pick and place 2 objects">
-        <SubTree ID="PickAndPlaceSubTree" object_pose="{object1_pose}"
+        <SubTreePlus ID="PickAndPlaceSubTree" object_pose="{object1_pose}"
           approach_offset="{approach_offset}"
-          target_pose="{target1_pose}" />
-        <SubTree ID="PickAndPlaceSubTree" object_pose="{object2_pickpose}"
+          place_pose="{target1_pose}" />
+        <SubTreePlus ID="PickAndPlaceSubTree" object_pose="{object2_pose}"
           approach_offset="{approach_offset}"
-          target_pose="{target2_pose}" />
+          place_pose="{target2_pose}" />
+
+        <SubTreePlus ID="PickAndPlaceSubTree" object_pose="{object1_pose}"
+          approach_offset="{approach_offset}"
+          place_pose="{target3_pose}" />
       </Sequence>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="PickAndPlaceSubTree">
     <Sequence>
-      <SubTree ID="PickSubTree" object_pose="{object_pose}"
+      <SubTreePlus ID="PickSubTree" object_pose="{object_pose}"
         approach_offset="{approach_offset}" />
-        <GraspedCondition
+      <GraspedCondition
         name="check if grasped"
         topic_name="robotiq_2f_85_gripper/state"
       />
-        <SubTree ID="PlaceSubTree"
-        target_pose="{target_pose}"
-        approach_offset="{approach_offset}" />/> </Sequence>
+      <SubTreePlus ID="PlaceSubTree"
+        object_pose="{object_pose}"
+        place_pose="{place_pose}"
+        approach_offset="{approach_offset}" />
+    </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="PickSubTree">
@@ -58,7 +66,7 @@
       <ManipulationAction
         name="retract arm"
         server_name="manip_as"
-        id="move arm pregrasp approach"
+        id="retract arm"
         offset="{approach_offset}"
       />
     </Sequence>
@@ -88,9 +96,10 @@
       <ManipulationAction
         name="retract arm"
         server_name="manip_as"
-        id="move arm retract"
+        id="retract arm"
         offset="{approach_offset}"
       />
+      <SetBlackboard output_key="object_pose" value="{place_pose}" />
     </Sequence>
   </BehaviorTree>
 </root>

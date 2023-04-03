@@ -35,7 +35,12 @@ RosActionNode<homestri_msgs::ManipulationAction>(handle, name, conf) {}
 
   bool sendGoal(GoalType& goal) override
   {
+    // initialize defaults
+    goal.id = "";
+    goal.target = "";
+    goal.position = 0;
     goal.offset = 0;
+    goal.pose = geometry_msgs::Pose();
 
     if (!getInput<std::string>("id", goal.id)) {
       ROS_ERROR("missing required input [id]");
@@ -98,9 +103,7 @@ public:
 
     bool detected;
     if (!getInput<bool>("detected", detected)) {
-      ROS_ERROR("missing required input [detected]");
-      status = NodeStatus::FAILURE;
-      return status;
+      throw RuntimeError("missing port [detected]");
     }
 
     if (detected) {
@@ -112,5 +115,35 @@ public:
     return status;    
   }
 };
+
+
+class UpdatePose : public SyncActionNode
+{
+public:
+  UpdatePose(const std::string& name, const NodeConfiguration & conf)
+    : SyncActionNode(name, conf)
+  { }
+
+  static PortsList providedPorts()
+  {
+    return { 
+      InputPort<geometry_msgs::Pose>("input_pose"),
+      OutputPort<geometry_msgs::Pose>("output_pose")
+    };
+  }
+
+  // This Action writes a value into the port "text"
+  NodeStatus tick() override
+  {
+    geometry_msgs::Pose input_pose;
+    if (!getInput("input_pose", input_pose))
+    {
+      throw RuntimeError("missing port [input_pose]");
+    }
+    setOutput("output_pose", input_pose);
+    return NodeStatus::SUCCESS;  
+  }
+};
+
 
 #endif

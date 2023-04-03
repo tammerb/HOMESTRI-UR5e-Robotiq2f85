@@ -58,13 +58,13 @@ class Arm(moveit_commander.MoveGroupCommander):
 
         return True
 
-    def pregrasp_approach(self, distance):
+    def move_to_offset(self, x, y, z):
         pose = self.get_current_pose().pose
 
         q = pose.orientation
         offset = qv_mult(
             [q.x, q.y, q.z, q.w], 
-            [distance, 0, 0]
+            [x, y, z]
         )
 
         pose.position.x += offset[0]
