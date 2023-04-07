@@ -19,6 +19,8 @@ RUN git clone https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git src/homes
  && git clone https://github.com/ian-chuang/BehaviorTree.ROS.git src/behaviortree_ros \ 
  && git clone https://github.com/ian-chuang/BehaviorTree.CPP.git src/behaviortree_cpp_v3 \
  && git clone https://github.com/ian-chuang/robot-explanation-BTs.git src/explain_bt
+ && git clone https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers src/cartesian_controllers
+ && git clone -b noetic-devel https://github.com/pal-robotics/aruco_ros src/aruco_ros 
 
 # Install ROS package dependencies
 RUN source /opt/ros/noetic/setup.bash \
