@@ -32,22 +32,22 @@
 
     <link name="table">
       <collision>
-        <origin xyz="0 0 .25" rpy="0 0 0" />
+        <origin xyz="0 0 .3" rpy="0 0 0" />
         <geometry>
-          <box size="1 1 0.5" />
+          <box size="1 1 0.6" />
         </geometry>
       </collision>
       <visual>
-        <origin xyz="0 0 .25" rpy="0 0 0" />
+        <origin xyz="0 0 .3" rpy="0 0 0" />
         <geometry>
-          <box size="1 1 0.5" />
+          <box size="1 1 0.6" />
         </geometry>
         <material name="grey">
           <color rgba=".5 .5 .5 1.0" />
         </material>
       </visual>
       <inertial>
-        <origin xyz="0.0 0.0 0.02" rpy="0 0 0" />
+        <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
         <mass value=".006784" />
         <inertia ixx=".18e-05" iyy=".18e-05" izz=".18e-05" ixy="0.0" iyz="0.0" ixz="0.0" />
       </inertial>
@@ -62,12 +62,6 @@
       </collision>
     </link>
 
-    <!-- <joint name="pedestal_to_world" type="fixed">
-        <parent link="world"/>
-        <child link="pedestal"/>
-        <origin xyz="0 0 ${pedestal_height}" />
-    </joint> -->
-
     <joint name="ground_to_world" type="fixed">
       <parent link="world" />
       <child link="ground" />
@@ -77,7 +71,7 @@
     <joint name="table_to_world" type="fixed">
       <parent link="world" />
       <child link="table" />
-      <origin xyz="1 0 0" />
+      <origin xyz="0 -1 0" />
     </joint>
 
     <joint name="pedestal_to_world" type="fixed">
@@ -88,6 +82,13 @@
 
     <gazebo reference="pedestal">
       <material>Gazebo/Grey</material>
+      <selfCollide>true</selfCollide>
+      <kinematic> true </kinematic>
+    </gazebo>
+    <gazebo reference="table">
+      <material>Gazebo/Grey</material>
+      <selfCollide>true</selfCollide>
+      <kinematic> true </kinematic>
     </gazebo>
 
 
