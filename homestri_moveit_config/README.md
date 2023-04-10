@@ -1,1 +1,0 @@
-These are where files go when running the moveit_setup_assistant package.

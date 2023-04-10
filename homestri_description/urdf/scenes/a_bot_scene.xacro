@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="a_bot_scene">
+
+    <xacro:include filename="$(find homestri_description)/urdf/workspaces/a_bot_workspace.xacro" />
+    <xacro:include filename="$(find homestri_description)/urdf/macros/ur5e_macro.xacro" />
+    <xacro:include
+        filename="$(find robotiq_2f_85_gripper_description)/urdf/robotiq_arg2f_85_macro.xacro" />
+
+    <xacro:a_bot_workspace />
+
+    <xacro:ur5e
+        prefix=""
+        parent="world"
+        transmission_hw_interface="hardware_interface/PositionJointInterface"
+    >
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:ur5e>
+
+    <xacro:robotiq_arg2f_85
+        prefix=""
+        parent="ee_link"
+        transmission_hw_interface="hardware_interface/PositionJointInterface"
+    >
+        <origin xyz="0 0 0" rpy="${-pi/2} ${pi} ${-pi/2}" />
+    </xacro:robotiq_arg2f_85>
+
+    <link name="world" />
+
+    <gazebo>
+        <plugin name="ros_control" filename="libgazebo_ros_control.so">
+        </plugin>
+    </gazebo>
+</robot>
