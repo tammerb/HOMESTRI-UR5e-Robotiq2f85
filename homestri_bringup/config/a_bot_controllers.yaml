@@ -165,50 +165,50 @@ robot_status_controller:
   handle_name: industrial_robot_status_handle
   publish_rate: 10
 
-# cartesian_motion_controller:
-#   type: "velocity_controllers/CartesianMotionController"
-#   end_effector_link: "gripper_tip_link"
-#   robot_base_link: "base"
-#   target_frame_topic: "target_frame"
-#   joints: *robot_joints
-
-#   pd_gains:
-#     trans_x: { p: 10.0 }
-#     trans_y: { p: 10.0 }
-#     trans_z: { p: 10.0 }
-#     rot_x: { p: 1.0 }
-#     rot_y: { p: 1.0 }
-#     rot_z: { p: 1.0 }
-
 motion_control_handle:
   type: "cartesian_controllers/MotionControlHandle"
   end_effector_link: "gripper_tip_link"
-  robot_base_link: "base"
-  target_frame_topic: "/cartesian_compliance_controller/target_frame"
+  robot_base_link: "base_link"
+  target_frame_topic: "/motion_control_handle/target_frame"
   joints: *robot_joints
+
+cartesian_motion_controller:
+  type: "position_controllers/CartesianMotionController"
+  end_effector_link: "gripper_tip_link"
+  robot_base_link: "base_link"
+  target_frame_topic: "target_frame"
+  joints: *robot_joints
+
+  pd_gains:
+    trans_x: { p: 10.0 }
+    trans_y: { p: 10.0 }
+    trans_z: { p: 10.0 }
+    rot_x: { p: 1.0 }
+    rot_y: { p: 1.0 }
+    rot_z: { p: 1.0 }
 
 cartesian_force_controller:
   type: "position_controllers/CartesianForceController"
   end_effector_link: "gripper_tip_link"
-  robot_base_link: "base"
+  robot_base_link: "base_link"
   ft_sensor_ref_link: "wrist_3_link"
   joints: *robot_joints
 
   solver:
-      error_scale: 0.2
+    error_scale: 0.2
 
   pd_gains:
-      trans_x: {p: 0.05}
-      trans_y: {p: 0.05}
-      trans_z: {p: 0.05}
-      rot_x: {p: 1.0}
-      rot_y: {p: 1.0}
-      rot_z: {p: 1.0}
+    trans_x: { p: 0.05 }
+    trans_y: { p: 0.05 }
+    trans_z: { p: 0.05 }
+    rot_x: { p: 1.0 }
+    rot_y: { p: 1.0 }
+    rot_z: { p: 1.0 }
 
 cartesian_compliance_controller:
   type: "position_controllers/CartesianComplianceController"
   end_effector_link: "gripper_tip_link"
-  robot_base_link: "base"
+  robot_base_link: "base_link"
   ft_sensor_ref_link: "wrist_3_link"
   compliance_ref_link: "wrist_3_link"
   target_frame_topic: "target_frame"
