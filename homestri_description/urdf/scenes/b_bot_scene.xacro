@@ -9,7 +9,7 @@
 
     <xacro:ur5e
         prefix=""
-        parent="world"
+        parent="pedestal"
         transmission_hw_interface="hardware_interface/PositionJointInterface"
     >
         <origin xyz="0 0 0" rpy="0 0 0" />
