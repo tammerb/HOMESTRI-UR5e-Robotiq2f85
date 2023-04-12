@@ -5,7 +5,7 @@
 
 <robot name="ur5e" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="ur5e" params="prefix parent transmission_hw_interface *origin">
+  <xacro:macro name="ur5e" params="prefix parent transmission_hw_interface gripper_tip_offset *origin">
 
     <!-- ur5e -->
     <xacro:include filename="$(find ur_description)/urdf/inc/ur_macro.xacro" />
@@ -46,7 +46,7 @@
     <joint name="${prefix}gripper_tip_link_joint" type="fixed">
       <parent link="${prefix}ee_link" />
       <child link="${prefix}gripper_tip_link" />
-      <origin rpy="0 0 0" xyz="0.163 0 0" />
+      <origin rpy="0 0 0" xyz="${gripper_tip_offset} 0 0" />
     </joint>
 
     <!-- ############ GAZEBO PROPERTIES ############ -->

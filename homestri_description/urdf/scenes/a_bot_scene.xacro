@@ -11,6 +11,7 @@
     <xacro:ur5e
         prefix=""
         parent="world"
+        gripper_tip_offset="0.163"
         transmission_hw_interface="hardware_interface/PositionJointInterface"
     >
         <origin xyz="0 0 0" rpy="0 0 0" />

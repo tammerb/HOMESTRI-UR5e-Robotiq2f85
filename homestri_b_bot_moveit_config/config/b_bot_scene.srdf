@@ -27,7 +27,7 @@
     <group_state name="home" group="arm">
         <joint name="elbow_joint" value="1.5707"/>
         <joint name="shoulder_lift_joint" value="-1.5707"/>
-        <joint name="shoulder_pan_joint" value="0"/>
+        <joint name="shoulder_pan_joint" value="-1.5707"/>
         <joint name="wrist_1_joint" value="-1.5707"/>
         <joint name="wrist_2_joint" value="-1.5707"/>
         <joint name="wrist_3_joint" value="0"/>
@@ -65,7 +65,11 @@
     <disable_collisions link1="base_link_inertia" link2="pedestal" reason="Adjacent"/>
     <disable_collisions link1="base_link_inertia" link2="shoulder_link" reason="Adjacent"/>
     <disable_collisions link1="base_link_inertia" link2="table" reason="Never"/>
+    <disable_collisions link1="base_link_inertia" link2="wall_1" reason="Never"/>
+    <disable_collisions link1="base_link_inertia" link2="wall_2" reason="Never"/>
+    <disable_collisions link1="base_link_inertia" link2="wall_3" reason="Never"/>
     <disable_collisions link1="ee_link" link2="gripper_body" reason="Never"/>
+    <disable_collisions link1="ee_link" link2="ground" reason="Never"/>
     <disable_collisions link1="ee_link" link2="left_inner_finger" reason="Never"/>
     <disable_collisions link1="ee_link" link2="left_inner_knuckle" reason="Never"/>
     <disable_collisions link1="ee_link" link2="left_outer_knuckle" reason="Never"/>
@@ -76,6 +80,8 @@
     <disable_collisions link1="ee_link" link2="wrist_1_link" reason="Never"/>
     <disable_collisions link1="ee_link" link2="wrist_2_link" reason="Never"/>
     <disable_collisions link1="ee_link" link2="wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="forearm_link" link2="ground" reason="Never"/>
+    <disable_collisions link1="forearm_link" link2="table" reason="Never"/>
     <disable_collisions link1="forearm_link" link2="upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="forearm_link" link2="wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="forearm_link" link2="wrist_2_link" reason="Never"/>
@@ -93,6 +99,12 @@
     <disable_collisions link1="ground" link2="shoulder_link" reason="Never"/>
     <disable_collisions link1="ground" link2="table" reason="Adjacent"/>
     <disable_collisions link1="ground" link2="upper_arm_link" reason="Never"/>
+    <disable_collisions link1="ground" link2="wall_1" reason="Adjacent"/>
+    <disable_collisions link1="ground" link2="wall_2" reason="Adjacent"/>
+    <disable_collisions link1="ground" link2="wall_3" reason="Adjacent"/>
+    <disable_collisions link1="ground" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="ground" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="ground" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_inner_finger" link2="left_inner_knuckle" reason="Default"/>
     <disable_collisions link1="left_inner_finger" link2="left_outer_knuckle" reason="Adjacent"/>
     <disable_collisions link1="left_inner_finger" link2="quick_changer" reason="Never"/>
@@ -119,6 +131,9 @@
     <disable_collisions link1="left_outer_knuckle" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="pedestal" link2="shoulder_link" reason="Never"/>
     <disable_collisions link1="pedestal" link2="table" reason="Adjacent"/>
+    <disable_collisions link1="pedestal" link2="wall_1" reason="Adjacent"/>
+    <disable_collisions link1="pedestal" link2="wall_2" reason="Adjacent"/>
+    <disable_collisions link1="pedestal" link2="wall_3" reason="Adjacent"/>
     <disable_collisions link1="quick_changer" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="quick_changer" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="quick_changer" link2="right_outer_knuckle" reason="Never"/>
@@ -139,6 +154,17 @@
     <disable_collisions link1="right_outer_knuckle" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="shoulder_link" link2="table" reason="Never"/>
     <disable_collisions link1="shoulder_link" link2="upper_arm_link" reason="Adjacent"/>
+    <disable_collisions link1="shoulder_link" link2="wall_1" reason="Never"/>
+    <disable_collisions link1="shoulder_link" link2="wall_2" reason="Never"/>
+    <disable_collisions link1="shoulder_link" link2="wall_3" reason="Never"/>
+    <disable_collisions link1="table" link2="upper_arm_link" reason="Never"/>
+    <disable_collisions link1="table" link2="wall_1" reason="Adjacent"/>
+    <disable_collisions link1="table" link2="wall_2" reason="Adjacent"/>
+    <disable_collisions link1="table" link2="wall_3" reason="Adjacent"/>
+    <disable_collisions link1="upper_arm_link" link2="wall_3" reason="Never"/>
+    <disable_collisions link1="wall_1" link2="wall_2" reason="Adjacent"/>
+    <disable_collisions link1="wall_1" link2="wall_3" reason="Adjacent"/>
+    <disable_collisions link1="wall_2" link2="wall_3" reason="Adjacent"/>
     <disable_collisions link1="wrist_1_link" link2="wrist_2_link" reason="Adjacent"/>
     <disable_collisions link1="wrist_1_link" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="wrist_2_link" link2="wrist_3_link" reason="Adjacent"/>
