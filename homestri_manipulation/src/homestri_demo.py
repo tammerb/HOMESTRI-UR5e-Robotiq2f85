@@ -7,6 +7,7 @@ import tf
 import geometry_msgs.msg 
 import moveit_msgs.msg
 import controller_manager_msgs.srv
+import std_srvs.srv
 import math
 
 def create_pose(x, y, z, roll, pitch, yaw, frame = ""):
@@ -49,9 +50,33 @@ def switch_controllers(start_controllers, stop_controllers):
         print("Service call failed: %s"%e)
 
 def zero_ft_sensor():
-    pass
+    rospy.wait_for_service('/ur_hardware_interface/zero_ftsensor', timeout=3)
+    
+    try:
+        zero_ft_sensor_srv = rospy.ServiceProxy(
+            '/ur_hardware_interface/zero_ftsensor', 
+            std_srvs.srv.Trigger
+        )
+
+        req = std_srvs.srv.TriggerRequest()
+
+        res = zero_ft_sensor_srv(req)
+
+        print(res)
+
+    except rospy.ServiceException as e:
+        print("Service call failed: %s"%e)
 
 if __name__ == "__main__":
+
+    x = 0.85
+    y = 0.11
+    z = 0.916
+
+    x_offset = 0.005
+    z_offset = 0.064
+
+
 
     rospy.init_node('homestri_demo')
     frame_pub = rospy.Publisher('/target_frame', geometry_msgs.msg.PoseStamped, queue_size=1)
@@ -60,11 +85,10 @@ if __name__ == "__main__":
     gripper = Gripper('gripper')
 
     # set vel/acc scaling
-    arm.set_max_velocity_scaling_factor(1.0)
-    arm.set_max_acceleration_scaling_factor(1.0)
+    arm.set_max_velocity_scaling_factor(0.05)
+    arm.set_max_acceleration_scaling_factor(0.05)
 
-    # open gripper slightly
-    gripper.move_to_position(0.471239)
+    input("PRESS ENTER TO GO TO PREGRASP POSITION.")
 
     # pregrasp position
     constraints = moveit_msgs.msg.Constraints()
@@ -76,15 +100,30 @@ if __name__ == "__main__":
     joint_constraint.weight = 10
     constraints.joint_constraints = [joint_constraint]
     arm.set_path_constraints(constraints)
-    pose = create_pose(0.855, .105, .916, 1.5707, 0, 0)
-    arm.move_to_pose(pose, 0.15)
+    pose = create_pose(x, y, z, 1.5707, 0, 0)
+    if not arm.move_to_pose(pose, 0.15): raise Exception("failed move to pose") 
     arm.clear_path_constraints()
 
+    input("PRESS ENTER TO OPEN GRIPPER.")
+
+    # open gripper slightly
+    if not gripper.move_to_position(0.471239): raise Exception("failed open gripper")
+
+    input("PRESS ENTER TO APPROACH PLATE.")
+
     # grasp approach
-    arm.move_to_offset(0.15, 0, 0)
+    if not arm.move_to_offset(0.15, 0, 0): raise Exception("failed move to offset")
+
+    input("PRESS ENTER TO ZERO FORCE TORQUE SENSOR.")
+
+    zero_ft_sensor()
+
+    input("PRESS ENTER TO CLOSE GRIPPER.")
 
     # close gripper
-    gripper.move_to_target('close')
+    if not gripper.move_to_target('close'): raise Exception("failed close gripper")
+
+    input("PRESS ENTER TO PEEL PLATE.")
 
     # switch to compliance controller
     switch_controllers(
@@ -96,10 +135,11 @@ if __name__ == "__main__":
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         cur_pose = arm.get_current_pose()
-        if cur_pose.pose.position.z >= 0.97:
+        print(cur_pose.pose.position.z)
+        if cur_pose.pose.position.z >= z + z_offset - 0.008:
             break
 
-        pose = create_pose(0.865, .105, 1, 1.5707, .25, 0, 'world')
+        pose = create_pose(x + x_offset, y, z + z_offset, 1.5707, .3, 0, 'world')
         frame_pub.publish(pose)
         rate.sleep()
 
@@ -109,13 +149,19 @@ if __name__ == "__main__":
         ['cartesian_compliance_controller']        
     )
 
+    input("PRESS ENTER TO RAISE.")
+
     # raise plate
-    arm.move_to_offset(0, .1, 0)
+    pose = create_pose(x + x_offset, y, z+z_offset+.1, 1.5707, .3, 0)
+    if not arm.move_cartesian_path(pose): raise Exception("failed move cartesian path")
 
     input("PRESS ENTER TO LOWER.")
 
     # lower plate
-    arm.move_to_offset(0, -.1, 0)
+    pose = create_pose(x + x_offset, y, z + z_offset, 1.5707, .3, 0)
+    if not arm.move_cartesian_path(pose): raise Exception("failed move cartesian path")
+
+    input("PRESS ENTER TO PLACE PLATE.")
 
     # switch to compliance controller
     switch_controllers(
@@ -128,10 +174,11 @@ if __name__ == "__main__":
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         cur_pose = arm.get_current_pose()
-        if cur_pose.pose.position.z < .917:
+        print(cur_pose.pose.position.z)
+        if cur_pose.pose.position.z < z + 0.008:
             break
 
-        pose = create_pose(0.855, .105, .916, 1.5707, 0, 0, 'world')
+        pose = create_pose(x, y, z, 1.5707, 0, 0, 'world')
         frame_pub.publish(pose)
         rate.sleep()
 
@@ -141,14 +188,21 @@ if __name__ == "__main__":
         ['cartesian_compliance_controller']        
     )
 
+    input("PRESS ENTER TO OPEN GRIPPER.")
+
     # open gripper slightly
-    gripper.move_to_position(0.471239)
+    while ((not gripper.move_to_position(0.471239)) and (not rospy.is_shutdown())):
+        pass
+    
+    input("PRESS ENTER TO RETREAT.")
 
     # grasp retreat
-    arm.move_to_offset(-0.15, 0, 0)
+    if not arm.move_to_offset(-0.15, 0, 0): raise Exception("failed move to offset")
+
+    input("PRESS ENTER TO GO TO HOME.")
 
     # go to home
-    arm.move_to_target('home')
+    if not arm.move_to_target('home'): raise Exception("failed move to home")
 
     print('FINISHED!')
 

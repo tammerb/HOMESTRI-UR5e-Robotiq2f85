@@ -80,7 +80,7 @@ class Arm(moveit_commander.MoveGroupCommander):
 
         (plan, fraction) = self.compute_cartesian_path(
             waypoints,
-            eef_step=0.01,
+            eef_step=0.005,
             jump_threshold=0, # 0?
             avoid_collisions=True
         )
