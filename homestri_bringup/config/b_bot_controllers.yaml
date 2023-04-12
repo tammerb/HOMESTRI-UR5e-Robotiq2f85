@@ -208,7 +208,7 @@ cartesian_force_controller:
 cartesian_compliance_controller:
   type: "velocity_controllers/CartesianComplianceController"
   end_effector_link: "gripper_tip_link"
-  robot_base_link: "base_link"
+  robot_base_link: "world"
   ft_sensor_ref_link: "wrist_3_link"
   compliance_ref_link: "gripper_tip_link"
   target_frame_topic: "target_frame"

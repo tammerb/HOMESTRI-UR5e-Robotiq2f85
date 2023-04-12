@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
-        - /MotionPlanning1/Planned Path1
+        - /MotionPlanning1/Scene Robot1
       Splitter Ratio: 0.5
     Tree Height: 230
   - Class: rviz/Help
@@ -229,7 +229,7 @@ Visualization Manager:
         TextHeight: 0.07999999821186066
       Planning Request:
         Colliding Link Color: 255; 0; 0
-        Goal State Alpha: 1
+        Goal State Alpha: 0.5
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
@@ -237,7 +237,7 @@ Visualization Manager:
         Query Goal State: true
         Query Start State: false
         Show Workspace: false
-        Start State Alpha: 1
+        Start State Alpha: 0.5
         Start State Color: 0; 255; 0
       Planning Scene Topic: move_group/monitored_planning_scene
       Robot Description: robot_description
@@ -395,11 +395,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-        Robot Alpha: 0.5
+        Robot Alpha: 1
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.8999999999999999
+      Velocity_Scaling_Factor: 0.9
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -452,5 +452,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1291
-  X: 454
-  Y: 27
+  X: 2419
+  Y: 343
