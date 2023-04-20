@@ -4,7 +4,7 @@
     <xacro:include filename="$(find homestri_description)/urdf/workspaces/a_bot_workspace.xacro" />
     <xacro:include filename="$(find homestri_description)/urdf/macros/ur5e_macro.xacro" />
     <xacro:include
-        filename="$(find robotiq_2f_85_gripper_description)/urdf/robotiq_arg2f_85_macro.xacro" />
+        filename="$(find homestri_description)/urdf/macros/robotiq_realsense_macro.xacro" />
 
     <xacro:a_bot_workspace />
 
@@ -17,13 +17,13 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:ur5e>
 
-    <xacro:robotiq_arg2f_85
+    <xacro:robotiq_realsense
         prefix=""
         parent="ee_link"
         transmission_hw_interface="hardware_interface/PositionJointInterface"
     >
-        <origin xyz="0 0 0" rpy="${-pi/2} ${pi} ${-pi/2}" />
-    </xacro:robotiq_arg2f_85>
+        <origin xyz="0 0 0" rpy="${-pi/2} ${0} ${-pi/2}" />
+    </xacro:robotiq_realsense>
 
     <link name="world" />
 
