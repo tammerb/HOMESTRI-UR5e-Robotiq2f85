@@ -123,7 +123,7 @@ public:
     geometry_msgs::TransformStamped transformStamped;
     try
     {
-      transformStamped = tfBuffer.lookupTransform(target_frame, source_frame, ros::Time(0), ros::Duration(timeout));
+      transformStamped = tfBuffer.lookupTransform(source_frame, target_frame, ros::Time(0), ros::Duration(timeout));
     }
     catch (tf2::TransformException &ex)
     {
@@ -139,6 +139,7 @@ public:
     pose.orientation.y = transformStamped.transform.rotation.y;
     pose.orientation.z = transformStamped.transform.rotation.z;
     pose.orientation.w = transformStamped.transform.rotation.w;
+
     setOutput("output_pose", pose);
 
     return NodeStatus::SUCCESS;
