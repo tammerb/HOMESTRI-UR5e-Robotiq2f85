@@ -44,7 +44,7 @@
             prefix="${prefix}"
             parent="${prefix}realsense_mount"
             transmission_hw_interface="${transmission_hw_interface}"
-            add_cable_protector="false"
+            add_cable_protector="true"
         >
             <origin xyz="0 0 ${0.005 + 0.003}" rpy="0 0 ${pi}" />
         </xacro:robotiq_arg2f_85>
