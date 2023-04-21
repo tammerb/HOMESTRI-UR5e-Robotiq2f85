@@ -17,8 +17,8 @@ def qv_mult(q1, v1):
 class Arm(moveit_commander.MoveGroupCommander):
     def __init__(self, name):
         super().__init__(name)
-        self.set_max_velocity_scaling_factor(0.1)
-        self.set_max_acceleration_scaling_factor(0.1)
+        self.set_max_velocity_scaling_factor(0.05)
+        self.set_max_acceleration_scaling_factor(0.05)
 
     # Moves to a Pose
     def move_to_pose(self, pose, offset):
