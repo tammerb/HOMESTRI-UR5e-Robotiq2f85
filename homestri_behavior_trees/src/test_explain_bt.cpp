@@ -30,6 +30,7 @@ int main(int argc, char **argv) {
   RegisterRosAction<ManipulationAction>(factory, "ManipulationAction", nh);
   RegisterRosSubscriber<GraspedCondition>(factory, "GraspedCondition", nh);
   factory.registerNodeType<DetectObject>("DetectObject");
+  factory.registerNodeType<DetectFrame>("DetectFrame");
   factory.registerNodeType<UpdatePose>("UpdatePose");
 
   // create tree from xml files
