@@ -27,6 +27,24 @@ def create_pose(x, y, z, roll, pitch, yaw, frame = ""):
         poseStamped.header.stamp = rospy.Time.now()
         poseStamped.pose = pose
         return poseStamped
+    
+def create_wrench(fx, fy, fz, tx, ty, tz, frame = ""):
+    wrench = geometry_msgs.msg.Wrench()
+    wrench.force.x = fx
+    wrench.force.y = fy
+    wrench.force.z = fz
+    wrench.torque.x = tx
+    wrench.torque.y = ty
+    wrench.torque.z = tz
+
+    if frame == "":
+        return wrench
+    else:
+        wrenchStamped = geometry_msgs.msg.WrenchStamped()
+        wrenchStamped.header.frame_id = frame
+        wrenchStamped.header.stamp = rospy.Time.now()
+        wrenchStamped.wrench = wrench
+        return wrenchStamped
 
 def switch_controllers(start_controllers, stop_controllers):
     rospy.wait_for_service('/controller_manager/switch_controller', timeout=3)
@@ -71,7 +89,7 @@ if __name__ == "__main__":
 
     x = 0.85
     y = 0.11
-    z = 0.916
+    z = 0.917
 
     x_offset = 0.005
     z_offset = 0.064
@@ -80,6 +98,7 @@ if __name__ == "__main__":
 
     rospy.init_node('homestri_demo')
     frame_pub = rospy.Publisher('/target_frame', geometry_msgs.msg.PoseStamped, queue_size=1)
+    wrench_pub = rospy.Publisher('/target_wrench', geometry_msgs.msg.WrenchStamped, queue_size=1)
 
     arm = Arm('arm')
     gripper = Gripper('gripper')
@@ -131,6 +150,8 @@ if __name__ == "__main__":
         ['scaled_pos_joint_traj_controller']
     )
 
+    # rospy.sleep(2)
+
     # peel build plate
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
@@ -140,7 +161,9 @@ if __name__ == "__main__":
             break
 
         pose = create_pose(x + x_offset, y, z + z_offset, 1.5707, .3, 0, 'world')
+        wrench = create_wrench(0, 20, 0, 0, 0, 0, "world")
         frame_pub.publish(pose)
+        wrench_pub.publish(wrench)
         rate.sleep()
 
     # switch back to trajectory controller
@@ -148,6 +171,10 @@ if __name__ == "__main__":
         ['scaled_pos_joint_traj_controller'],
         ['cartesian_compliance_controller']        
     )
+
+    # rospy.sleep(2)
+    # pose = create_pose(x + x_offset, y, z + z_offset, 1.5707, .3, 0)
+    # if not arm.move_cartesian_path(pose): raise Exception("failed move to pose") 
 
     input("PRESS ENTER TO RAISE.")
 
@@ -175,11 +202,13 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         cur_pose = arm.get_current_pose()
         print(cur_pose.pose.position.z)
-        if cur_pose.pose.position.z < z + 0.008:
+        if cur_pose.pose.position.z < z + 0.005:
             break
-
+        
+        wrench = create_wrench(0, 0, 0, 0, 0, 0, "world")
         pose = create_pose(x, y, z, 1.5707, 0, 0, 'world')
         frame_pub.publish(pose)
+        wrench_pub.publish(wrench)
         rate.sleep()
 
     # switch back to trajectory controller
