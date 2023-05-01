@@ -2,12 +2,8 @@
 string id
 string target
 float64 position
-float64 x
-float64 y
-float64 z
-float64 roll
-float64 pitch
-float64 yaw
+float64 offset
+geometry_msgs/Pose pose
 ---
 # Define the result
 string id

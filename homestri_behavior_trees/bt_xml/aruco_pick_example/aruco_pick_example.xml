@@ -1,0 +1,31 @@
+<root main_tree_to_execute="MainTree">
+
+
+    <BehaviorTree ID="MainTree">
+        <Sequence>
+            <DetectFrame 
+                name="find pose of aruco tag"
+                target_frame="target_frame"
+                source_frame="world"
+                output_pose="{object_pose}"
+                timeout="3.0"
+                />
+
+            <ManipulationAction
+                name="move arm to object"
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{object_pose}"
+                offset="0"
+            />   
+
+            <ManipulationAction
+                name="close gripper and grasp"
+                server_name="manip_as"
+                id="gripper_close"
+            />     
+        </Sequence>
+
+    </BehaviorTree>
+
+</root>

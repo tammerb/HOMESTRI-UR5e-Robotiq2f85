@@ -17,11 +17,21 @@ def qv_mult(q1, v1):
 class Arm(moveit_commander.MoveGroupCommander):
     def __init__(self, name):
         super().__init__(name)
-        self.set_max_velocity_scaling_factor(0.1)
-        self.set_max_acceleration_scaling_factor(0.1)
+        self.set_max_velocity_scaling_factor(0.05)
+        self.set_max_acceleration_scaling_factor(0.05)
 
     # Moves to a Pose
-    def move_to_pose(self, pose):
+    def move_to_pose(self, pose, offset):
+
+        q = pose.orientation
+        offset = qv_mult(
+            [q.x, q.y, q.z, q.w], 
+            [-offset, 0, 0]
+        )
+        pose.position.x += offset[0]
+        pose.position.y += offset[1]
+        pose.position.z += offset[2]
+
         self.set_pose_target(pose)
 
         error_code_val, plan, planning_time, error_code = self.plan()
@@ -48,13 +58,13 @@ class Arm(moveit_commander.MoveGroupCommander):
 
         return True
 
-    def pregrasp_approach(self, distance):
+    def move_to_offset(self, x, y, z):
         pose = self.get_current_pose().pose
 
         q = pose.orientation
         offset = qv_mult(
             [q.x, q.y, q.z, q.w], 
-            [distance, 0, 0]
+            [x, y, z]
         )
 
         pose.position.x += offset[0]
@@ -70,7 +80,7 @@ class Arm(moveit_commander.MoveGroupCommander):
 
         (plan, fraction) = self.compute_cartesian_path(
             waypoints,
-            eef_step=0.01,
+            eef_step=0.005,
             jump_threshold=0, # 0?
             avoid_collisions=True
         )

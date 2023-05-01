@@ -12,6 +12,7 @@ from robotiq_2f_gripper_control.msg import Robotiq2FGripper_robot_output
 class TeleopTwistJoy():
     def __init__(self):
         self.twist_pub = rospy.Publisher('/servo_server/cmd_vel', geometry_msgs.msg.TwistStamped, queue_size=1)
+        self.wrench_pub = rospy.Publisher('/cartesian_force_controller/target_wrench', geometry_msgs.msg.WrenchStamped, queue_size=1)
         self.gripper_pub = rospy.Publisher('/robotiq_2f_85_gripper/control', Robotiq2FGripper_robot_output, queue_size=1)
         self.joy_sub = rospy.Subscriber("/joy", sensor_msgs.msg.Joy, self.callback)
         
@@ -48,7 +49,7 @@ class TeleopTwistJoy():
             command.rATR = 0x0 # No emergency release
             command.rSP = 128 # speed
             command.rPR = 0x0 # position
-            command.rFR = 150 # effort
+            command.rFR = 30 # effort
 
             
             if buttons[0] == 1:
@@ -58,7 +59,16 @@ class TeleopTwistJoy():
                 command.rPR = 0 # position
                 self.gripper_pub.publish(command)
 
+            wrench_stamped = geometry_msgs.msg.WrenchStamped()
+            wrench_stamped.wrench.force.x = twist_stamped.twist.linear.x *20
+            wrench_stamped.wrench.force.y = twist_stamped.twist.linear.y *20
+            wrench_stamped.wrench.force.z = twist_stamped.twist.linear.z *20
+            wrench_stamped.wrench.torque.x = twist_stamped.twist.angular.x 
+            wrench_stamped.wrench.torque.y = twist_stamped.twist.angular.y 
+            wrench_stamped.wrench.torque.z = twist_stamped.twist.angular.z
+
             self.twist_pub.publish(twist_stamped)
+            self.wrench_pub.publish(wrench_stamped)
 
     def callback(self, msg):
         self.joy_msg_mutex.acquire()

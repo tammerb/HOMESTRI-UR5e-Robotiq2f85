@@ -1,0 +1,105 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <Sequence>
+      <SetBlackboard output_key="approach_offset" value="0.20" />
+      <SetBlackboard output_key="object1_pose" value="0.5;0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="object2_pose" value="0.7;0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="target1_pose" value="0.5;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="target2_pose" value="0.7;-0.2;0.03;0;1.5707;0" />
+      <SetBlackboard output_key="target3_pose" value="0.5;0.2;0.03;0;1.5707;0" />
+
+      <Sequence name="pick and place 2 objects">
+        <SubTreePlus ID="PickAndPlaceSubTree" object_pose="{object1_pose}"
+          approach_offset="{approach_offset}"
+          place_pose="{target1_pose}" />
+        <SubTreePlus ID="PickAndPlaceSubTree" object_pose="{object2_pose}"
+          approach_offset="{approach_offset}"
+          place_pose="{target2_pose}" />
+
+        <SubTreePlus ID="PickAndPlaceSubTree" object_pose="{object1_pose}"
+          approach_offset="{approach_offset}"
+          place_pose="{target3_pose}" />
+      </Sequence>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="PickAndPlaceSubTree">
+    <Sequence>
+      <SubTreePlus ID="PickSubTree" object_pose="{object_pose}"
+        approach_offset="{approach_offset}" />
+      <GraspedCondition
+        name="check if grasped"
+        topic_name="robotiq_2f_85_gripper/state"
+      />
+      <SubTreePlus ID="PlaceSubTree"
+        object_pose="{object_pose}"
+        place_pose="{place_pose}"
+        approach_offset="{approach_offset}" />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="PickSubTree">
+    <Sequence name="pick object sequence">
+      <ManipulationAction
+        name="move arm to pregrasp position"
+        server_name="manip_as"
+        id="move arm to pose"
+        pose="{object_pose}"
+        offset="{approach_offset}"
+      />
+      <ManipulationAction
+        name="approach object"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        offset="{approach_offset}"
+      />
+      <ManipulationAction
+        name="close gripper"
+        server_name="manip_as"
+        id="move gripper to target"
+        target="close"
+      />
+      <GraspedCondition
+        name="check if grasped"
+        topic_name="robotiq_2f_85_gripper/state"
+      />
+      <ManipulationAction
+        name="retract arm"
+        server_name="manip_as"
+        id="retract arm"
+        offset="{approach_offset}"
+      />
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="PlaceSubTree">
+    <Sequence name="place object sequence">
+      <ManipulationAction
+        name="move arm to preplace position"
+        server_name="manip_as"
+        id="move arm to pose"
+        pose="{place_pose}"
+        offset="{approach_offset}"
+      />
+      <ManipulationAction
+        name="approach"
+        server_name="manip_as"
+        id="move arm pregrasp approach"
+        offset="{approach_offset}"
+      />
+      <ManipulationAction
+        name="open gripper"
+        server_name="manip_as"
+        id="move gripper to target"
+        target="open"
+      />
+      <ManipulationAction
+        name="retract arm"
+        server_name="manip_as"
+        id="retract arm"
+        offset="{approach_offset}"
+      />
+      <SetBlackboard output_key="object_pose" value="{place_pose}" />
+    </Sequence>
+  </BehaviorTree>
+</root>
