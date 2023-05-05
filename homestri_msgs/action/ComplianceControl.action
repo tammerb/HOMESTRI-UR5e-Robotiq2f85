@@ -1,0 +1,13 @@
+# Define the goal
+geometry_msgs/Pose target       # target pose
+geometry_msgs/Transform offset  # desired offset from target
+geometry_msgs/Wrench wrench     # desired force and torque
+
+uint8 MODE_TARGET=0 # move towards target (offset adjusted to target)
+uint8 MODE_OFFSET=1 # move with offset from current pose
+uint8 mode 
+
+---
+# Define the result
+---
+# Define a feedback message
