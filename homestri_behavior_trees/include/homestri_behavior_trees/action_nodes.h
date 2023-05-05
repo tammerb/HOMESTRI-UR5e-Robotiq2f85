@@ -10,8 +10,13 @@
 #include <homestri_msgs/ManipulationResult.h>
 #include <homestri_msgs/ManipulationFeedback.h>
 
+#include <std_srvs/Trigger.h>
+#include <std_srvs/TriggerRequest.h>
+#include <std_srvs/TriggerResponse.h>
+
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include <behaviortree_ros/bt_action_node.h>
+#include <behaviortree_ros/bt_service_node.h>
 
 #include <homestri_behavior_trees/node_input_conversions.h>
 
@@ -210,6 +215,43 @@ public:
     }
     setOutput("output_pose", input_pose);
     return NodeStatus::SUCCESS;
+  }
+};
+
+class ZeroFTSensor: public RosServiceNode<std_srvs::Trigger>
+{
+
+public:
+  ZeroFTSensor( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
+  RosServiceNode<std_srvs::Trigger>(handle, node_name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return  {};
+  }
+
+  void sendRequest(RequestType& request) override
+  {
+    ROS_INFO("ZeroFTSensor: sending request");
+  }
+
+  NodeStatus onResponse(const ResponseType& rep) override
+  {
+    ROS_INFO("ZeroFTSensor: response received");
+    if( rep.success == true)
+    {
+      return NodeStatus::SUCCESS;
+    }
+    else{
+      ROS_ERROR("ZeroFTSensor failed");
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
+  {
+    ROS_ERROR("ZeroFTSensor request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
   }
 };
 
