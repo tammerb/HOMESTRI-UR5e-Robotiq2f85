@@ -3,7 +3,7 @@
 import rospy
 from move_groups import Arm, Gripper
 from tf.transformations import quaternion_from_euler
-import tf
+import tf2_ros
 import geometry_msgs.msg 
 import moveit_msgs.msg
 import controller_manager_msgs.srv
@@ -85,15 +85,26 @@ def zero_ft_sensor():
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
 
+def lookup_transform(target_frame, reference_frame, timeout=3.0):
+    tfBuffer = tf2_ros.Buffer()
+    listener = tf2_ros.TransformListener(tfBuffer)
+
+    timeout = rospy.Duration(timeout)
+
+    try:
+        trans = tfBuffer.lookup_transform(
+            reference_frame, target_frame, rospy.Time(), timeout=timeout)
+        return trans.transform
+    except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+        return None
+
 if __name__ == "__main__":
-
-    x = 0.85
-    y = 0.11
-    z = 0.917
-
     x_offset = 0.005
     z_offset = 0.064
 
+    # x = 0.85
+    # y = 0.11
+    # z = 0.917
 
 
     rospy.init_node('homestri_demo')
@@ -106,6 +117,20 @@ if __name__ == "__main__":
     # set vel/acc scaling
     arm.set_max_velocity_scaling_factor(0.05)
     arm.set_max_acceleration_scaling_factor(0.05)
+
+    input("PRESS ENTER TO GO TO SEARCH POSITION.")
+
+    if not arm.move_to_target('search'): raise Exception("failed move to target") 
+
+    input("PRESS ENTER TO LOCALIZE BUILD PLATE.")
+
+    transform = lookup_transform('plate_tab', 'world')
+    x = transform.translation.x
+    y = transform.translation.y
+    z = transform.translation.z
+
+    print(x, y, z)
+    print(transform)
 
     input("PRESS ENTER TO GO TO PREGRASP POSITION.")
 
