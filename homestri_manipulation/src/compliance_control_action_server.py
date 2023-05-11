@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 
 import rospy
-import tf2_ros
+import tf
+import tf.transformations
 import numpy as np
 import quaternion
 
@@ -10,6 +11,17 @@ import actionlib
 from geometry_msgs.msg import PoseStamped, WrenchStamped, Pose, Wrench
 from homestri_msgs.msg import ComplianceControlAction
 
+def create_pose(tx, ty, tz, rx, ry, rz, rw):
+    pose = Pose()
+    pose.position.x = tx
+    pose.position.y = ty
+    pose.position.z = tz
+    pose.orientation.x = rx
+    pose.orientation.y = ry
+    pose.orientation.z = rz
+    pose.orientation.w = rw
+
+    return pose
 
 def stamp_pose(pose, frame="", time=rospy.Time.now()):
     poseStamped = PoseStamped()
@@ -47,8 +59,8 @@ class ComplianceControlActionServer(object):
         self.trans_goal_tolerance = 0.01
         self.rot_goal_tolerance = np.pi/12
 
-        self.tfBuffer = tf2_ros.Buffer()
-        self.listener = tf2_ros.TransformListener(self.tfBuffer)
+        self.tf_listener = tf.TransformListener()
+        self.tf_transformer = tf.TransformerROS()
 
         self.pose_pub = rospy.Publisher(
             '/target_frame', PoseStamped, queue_size=1)
@@ -61,6 +73,20 @@ class ComplianceControlActionServer(object):
         self._as.start()
 
     def execute_cb(self, goal):
+
+
+
+        eef_pose = self.__lookup_transform(goal.frame_id, self.end_effector_link)
+        target_pose = self.__transform_pose_with_pose(goal.pose, eef_pose)
+        target_pose = self.__transform_pose(target_pose, goal.frame_id, self.base_link)
+
+
+        print(target_pose)
+
+
+
+
+
         # helper variables
         r = rospy.Rate(10)
         reached_target = False
@@ -126,13 +152,75 @@ class ComplianceControlActionServer(object):
             rospy.loginfo('%s: Succeeded' % self._action_name)
             self._as.set_succeeded()
 
-    def __lookup_transform(self):
+    def __lookup_transform(self, target_frame, source_frame):        
         try:
-            trans = self.tfBuffer.lookup_transform(
-                self.end_effector_link, self.base_link, rospy.Time(), timeout=self.tf_timeout)
-            return trans.transform
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+            (trans,rot) = self.tf_listener.lookupTransform(target_frame, source_frame, rospy.Time(0))
+
+            pose = create_pose(
+                trans[0],
+                trans[1],
+                trans[2],
+                rot[0],
+                rot[1],
+                rot[2],
+                rot[3]
+            )
+
+            return pose
+
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             return None
+        
+    def __transform_pose(self, pose, current_frame, target_frame):
+        pose_stamped = stamp_pose(pose, frame=current_frame)
+
+        try:
+            new_pose_stamped = self.tf_transformer.transformPose(target_frame, pose_stamped)
+            new_pose = new_pose_stamped.pose
+
+            return new_pose
+
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            return None
+        
+    def __transform_pose_with_pose(self, p1, p2):
+        mat1 = self.__pose_to_matrix(p1)
+        mat2 = self.__pose_to_matrix(p2)
+
+        new_mat = np.matmul(mat1, mat2)
+
+        new_p = self.__matrix_to_pose(new_mat)
+
+        return new_p
+
+    def __pose_to_matrix(self, p):
+        # create trans and rot vectors
+        trans = [p.position.x, p.position.y, p.position.z]
+        rot = [p.orientation.x, p.orientation.y, p.orientation.z, p.orientation.w]
+        # numpy arrays to 4x4 transform matrix 
+        trans_mat = tf.transformations.translation_matrix(trans)
+        rot_mat = tf.transformations.quaternion_matrix(rot)
+        # create a 4x4 matrix
+        mat = np.dot(trans_mat, rot_mat)
+
+        return mat
+    
+    def __matrix_to_pose(self, mat):
+        rot = tf.transformations.quaternion_from_matrix(mat)
+        trans = tf.transformations.translation_from_matrix(mat)
+
+        pose = create_pose(
+                trans[0],
+                trans[1],
+                trans[2],
+                rot[0],
+                rot[1],
+                rot[2],
+                rot[3]
+            )
+
+        return pose
+
 
     def __rotational_error(self, q1, q2):
         q1 = np.quaternion(q1.x, q1.y, q1.z, q1.w)
