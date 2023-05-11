@@ -1,26 +1,80 @@
 <?xml version="1.0"?>
 
-<!-- This macro adds a convenient TF frame at the tip of the closed gripper. -->
-<!-- The position of the TF frame has not been measured at all and needs to be calibrated. -->
-
 <robot name="a_bot_workspace" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="a_bot_workspace">
-  <!-- <xacro:macro name="workspace" params="pedestal_height:=0.2 pedestal_radius:=0.2"> -->
+  <xacro:macro name="a_bot_workspace"
+    params="pedestal_height:=0.2 pedestal_radius:=0.2 table_height:=0.2 table_y:=0.5 table_x:=0.5">
 
-    <!-- <link name="pedestal">
+    <link name="static_assembly">
+      <inertial>
+        <origin xyz="-0.0019215269775362533 0.02238591812637603 0.00014773610274437554"
+          rpy="0 0 0" />
+        <mass value="0.0478036670662668" />
+        <inertia ixx="4.3e-05" iyy="2.2e-05" izz="6.4e-05" ixy="3e-06" iyz="1e-06" ixz="0.0" />
+      </inertial>
       <visual>
-        <origin rpy="0 0 0" xyz="0 0 ${-pedestal_height/2}"/>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <cylinder length="${pedestal_height}" radius="${pedestal_radius}"/>
+          <mesh
+            filename="package://homestri_description/meshes/components/visual/2assembly_nonmoving_components.stl"
+            scale="0.001 0.001 0.001" />
         </geometry>
-        <material name="grey">
-            <color rgba=".5 .5 .5 1"/>
+        <material name="">
+          <color rgba="${153/255} ${255/255} ${153/255} 1" />
         </material>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="0 0 ${-pedestal_height/2}"/>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
         <geometry>
-          <cylinder length="${pedestal_height}" radius="${pedestal_radius}"/>
+          <mesh
+            filename="package://homestri_description/meshes/components/collision/2assembly_nonmoving_components.stl"
+            scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="moving_assembly">
+      <inertial>
+        <origin xyz="-0.0019215269775362533 0.02238591812637603 0.00014773610274437554"
+          rpy="0 0 0" />
+        <mass value="0.0478036670662668" />
+        <inertia ixx="4.3e-05" iyy="2.2e-05" izz="6.4e-05" ixy="3e-06" iyz="1e-06" ixz="0.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+        <geometry>
+          <mesh
+            filename="package://homestri_description/meshes/components/visual/1assembly_moving_components.stl"
+            scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="">
+          <color rgba="${255/255} ${153/255} ${255/255} 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+        <geometry>
+          <mesh
+            filename="package://homestri_description/meshes/components/collision/1assembly_moving_components.stl"
+            scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+
+    <link name="pedestal">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 ${-pedestal_height/2}" />
+        <geometry>
+          <cylinder length="${pedestal_height}" radius="${pedestal_radius}" />
+        </geometry>
+        <material name="grey">
+          <color rgba=".5 .5 .5 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 ${-pedestal_height/2}" />
+        <geometry>
+          <cylinder length="${pedestal_height}" radius="${pedestal_radius}" />
         </geometry>
       </collision>
       <inertial>
@@ -28,31 +82,61 @@
         <mass value=".006784" />
         <inertia ixx=".18e-05" iyy=".18e-05" izz=".18e-05" ixy="0.0" iyz="0.0" ixz="0.0" />
       </inertial>
-    </link> -->
-
-    <link name="ground">
-        <collision>
-            <origin rpy="0 0 0" xyz="0 0 -0.01"/>
-            <geometry>
-                <box size="5 5 0.02" />
-            </geometry>
-        </collision>
     </link>
 
-    <!-- <joint name="pedestal_to_world" type="fixed">
-        <parent link="world"/>
-        <child link="pedestal"/>
-        <origin xyz="0 0 ${pedestal_height}" />
-    </joint> -->
+    <link name="table">
+      <collision>
+        <origin xyz="0 -0.31 ${-table_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="1 0.62 ${table_height}" />
+        </geometry>
+      </collision>
+      <visual>
+        <origin xyz="0 -0.31 ${-table_height/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="1 0.62 ${table_height}" />
+        </geometry>
+        <material name="grey">
+          <color rgba=".5 .5 .5 1.0" />
+        </material>
+      </visual>
+      <inertial>
+        <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+        <mass value=".006784" />
+        <inertia ixx=".18e-05" iyy=".18e-05" izz=".18e-05" ixy="0.0" iyz="0.0" ixz="0.0" />
+      </inertial>
+    </link>
 
-    <joint name="ground_to_world" type="fixed">
-        <parent link="world"/>
-        <child link="ground"/>
-        <origin xyz="0 0 0" />
+    <joint name="static_assembly_to_table" type="fixed">
+      <parent link="table" />
+      <child link="static_assembly" />
+      <origin xyz="0 -.0245 0" />
     </joint>
 
+    <joint name="moving_assembly_joint" type="prismatic">
+      <axis xyz="0 -1 0"/>
+      <parent link="static_assembly" />
+      <child link="moving_assembly" />
+      <limit effort="1000.0" lower="0" upper=".38" velocity="0.5"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+
+    <joint name="table_to_world" type="fixed">
+      <parent link="world" />
+      <child link="table" />
+      <origin xyz="${table_x} ${table_y} ${table_height}" />
+    </joint>
+
+
+    <joint name="pedestal_to_world" type="fixed">
+      <parent link="world" />
+      <child link="pedestal" />
+      <origin xyz="0 0 ${pedestal_height}" />
+    </joint>
+
+
     <gazebo reference="pedestal">
-        <material>Gazebo/Grey</material>
+      <material>Gazebo/Grey</material>
     </gazebo>
 
 

@@ -3,6 +3,10 @@
 
 #include <ros/ros.h>
 
+#include "geometric_shapes/shapes.h"
+#include "geometric_shapes/mesh_operations.h"
+#include "geometric_shapes/shape_operations.h"
+
 #include <tf2_ros/transform_listener.h>
 
 #include <homestri_msgs/ManipulationAction.h>
@@ -13,6 +17,14 @@
 #include <std_srvs/Trigger.h>
 #include <std_srvs/TriggerRequest.h>
 #include <std_srvs/TriggerResponse.h>
+
+#include <moveit_msgs/ApplyPlanningScene.h>
+#include <moveit_msgs/ApplyPlanningSceneRequest.h>
+#include <moveit_msgs/ApplyPlanningSceneResponse.h>
+
+#include <controller_manager_msgs/SwitchController.h>
+#include <controller_manager_msgs/SwitchControllerRequest.h>
+#include <controller_manager_msgs/SwitchControllerResponse.h>
 
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include <behaviortree_ros/bt_action_node.h>
@@ -97,6 +109,13 @@ public:
     return {
         InputPort<std::string>("target_frame"),
         InputPort<std::string>("source_frame"),
+        InputPort<std::string>("t_x"),
+        InputPort<std::string>("t_y"),
+        InputPort<std::string>("t_z"),
+        InputPort<std::string>("r_x"),
+        InputPort<std::string>("r_y"),
+        InputPort<std::string>("r_z"),
+        InputPort<std::string>("r_w"),
         OutputPort<geometry_msgs::Pose>("output_pose"),
         InputPort<double>("timeout")};
   }
@@ -144,6 +163,16 @@ public:
     pose.orientation.y = transformStamped.transform.rotation.y;
     pose.orientation.z = transformStamped.transform.rotation.z;
     pose.orientation.w = transformStamped.transform.rotation.w;
+
+    double t_x, t_y, t_z; 
+    double r_x, r_y, r_z, r_w;
+    if (getInput<double>("t_x", t_x)) pose.position.x = t_x;
+    if (getInput<double>("t_y", t_y)) pose.position.y = t_y;
+    if (getInput<double>("t_z", t_z)) pose.position.z = t_z;
+    if (getInput<double>("r_x", r_x)) pose.orientation.x = r_x;
+    if (getInput<double>("r_y", r_y)) pose.orientation.y = r_y;
+    if (getInput<double>("r_z", r_z)) pose.orientation.z = r_z;
+    if (getInput<double>("r_w", r_w)) pose.orientation.w = r_w;
 
     setOutput("output_pose", pose);
 
@@ -218,11 +247,11 @@ public:
   }
 };
 
-class ZeroFTSensor: public RosServiceNode<std_srvs::Trigger>
+class TriggerService: public RosServiceNode<std_srvs::Trigger>
 {
 
 public:
-  ZeroFTSensor( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
+  TriggerService( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
   RosServiceNode<std_srvs::Trigger>(handle, node_name, conf) {}
 
   static PortsList providedPorts()
@@ -232,25 +261,164 @@ public:
 
   void sendRequest(RequestType& request) override
   {
-    ROS_INFO("ZeroFTSensor: sending request");
+    ROS_INFO("TriggerService: sending request");
   }
 
   NodeStatus onResponse(const ResponseType& rep) override
   {
-    ROS_INFO("ZeroFTSensor: response received");
+    ROS_INFO("TriggerService: response received");
     if( rep.success == true)
     {
       return NodeStatus::SUCCESS;
     }
     else{
-      ROS_ERROR("ZeroFTSensor failed");
+      ROS_ERROR("TriggerService failed");
       return NodeStatus::FAILURE;
     }
   }
 
   virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
   {
-    ROS_ERROR("ZeroFTSensor request failed %d", static_cast<int>(failure));
+    ROS_ERROR("TriggerService request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+};
+
+class AddCollisionMeshService: public RosServiceNode<moveit_msgs::ApplyPlanningScene>
+{
+
+public:
+  AddCollisionMeshService( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
+  RosServiceNode<moveit_msgs::ApplyPlanningScene>(handle, node_name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return  {
+      InputPort<std::string>("mesh_path"),
+      InputPort<geometry_msgs::Pose>("pose"),
+      InputPort<std::string>("id"),
+      InputPort<std::string>("frame_id"),
+    };
+  }
+
+  void sendRequest(RequestType& request) override
+  {
+    ROS_INFO("AddCollisionMesh: sending request");
+
+    std::string mesh_path;
+    if (!getInput<std::string>("mesh_path", mesh_path))
+    {
+      ROS_ERROR("missing required input [mesh_path]");
+    }
+
+    std::string frame_id;
+    if (!getInput<std::string>("frame_id", frame_id))
+    {
+      ROS_ERROR("missing required input [frame_id]");
+    }
+
+    std::string id;
+    if (!getInput<std::string>("id", id))
+    {
+      ROS_ERROR("missing required input [id]");
+    }
+
+    geometry_msgs::Pose pose;
+    if (!getInput<geometry_msgs::Pose>("pose", pose))
+    {
+      ROS_ERROR("missing required input [pose]");
+    }
+
+    shapes::Mesh* m = shapes::createMeshFromResource(mesh_path, Eigen::Vector3d(0.001, 0.001, 0.001));
+
+    shape_msgs::Mesh mesh;
+    shapes::ShapeMsg mesh_msg;  
+    shapes::constructMsgFromShape(m, mesh_msg);
+    mesh = boost::get<shape_msgs::Mesh>(mesh_msg);
+
+    moveit_msgs::CollisionObject co;
+    co.header.frame_id = frame_id;
+    co.pose = pose;
+    co.id = id;
+    co.meshes.push_back(mesh);
+    co.mesh_poses.push_back(geometry_msgs::Pose());
+    co.operation = moveit_msgs::CollisionObject::ADD;
+
+    request.scene.is_diff = true;
+    request.scene.world.collision_objects.push_back(co);
+  }
+
+  NodeStatus onResponse(const ResponseType& rep) override
+  {
+    ROS_INFO("AddCollisionMesh: response received");
+    if( rep.success == true)
+    {
+      return NodeStatus::SUCCESS;
+    }
+    else{
+      ROS_ERROR("AddCollisionMesh failed");
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
+  {
+    ROS_ERROR("AddCollisionMesh request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+};
+
+class SwitchControllerService: public RosServiceNode<controller_manager_msgs::SwitchController>
+{
+public:
+  SwitchControllerService( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
+  RosServiceNode<controller_manager_msgs::SwitchController>(handle, node_name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return  {
+      InputPort<std::vector<std::string>>("start_controllers"),
+      InputPort<std::vector<std::string>>("stop_controllers"),
+      InputPort<int>("strictness")
+    };
+  }
+
+  void sendRequest(RequestType& request) override
+  {
+    ROS_INFO("AddCollisionMesh: sending request");
+
+    if (!getInput<std::vector<std::string>>("start_controllers", request.start_controllers))
+    {
+      ROS_ERROR("missing required input [start_controllers]");
+    }
+
+    if (!getInput<std::vector<std::string>>("stop_controllers", request.stop_controllers))
+    {
+      ROS_ERROR("missing required input [stop_controllers]");
+    }
+
+    if (!getInput<int>("strictness", request.strictness))
+    {
+      request.strictness = controller_manager_msgs::SwitchControllerRequest::STRICT;
+    }
+  }
+
+  NodeStatus onResponse(const ResponseType& rep) override
+  {
+    ROS_INFO("SwitchControllerService: response received");
+    if( rep.ok == true)
+    {
+      return NodeStatus::SUCCESS;
+    }
+    else{
+      ROS_ERROR("SwitchControllerService failed");
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
+  {
+    ROS_ERROR("SwitchControllerService request failed %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
   }
 };

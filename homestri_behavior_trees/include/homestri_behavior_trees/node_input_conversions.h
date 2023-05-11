@@ -106,6 +106,15 @@ namespace BT
       throw RuntimeError("invalid input");
     }
   }
+
+
+  template <> inline std::vector<std::string> convertFromString(StringView str)
+  {
+    // We expect real numbers separated by semicolons
+    auto parts = splitString(str, ';');
+    std::vector<std::string> strvec(parts.begin(), parts.end());
+    return strvec;
+  }
 }
 
 #endif

@@ -6,11 +6,17 @@
     <xacro:include
         filename="$(find homestri_description)/urdf/macros/robotiq_realsense_macro.xacro" />
 
-    <xacro:a_bot_workspace />
+    <xacro:a_bot_workspace 
+        pedestal_height="0.6"
+        pedestal_radius="0.15"
+        table_height="0.4"
+        table_y="-0.8"
+        table_x="0.25"
+    />
 
     <xacro:ur5e
         prefix=""
-        parent="world"
+        parent="pedestal"
         gripper_tip_offset="0.163"
         transmission_hw_interface="hardware_interface/PositionJointInterface"
     >
