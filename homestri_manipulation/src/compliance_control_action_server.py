@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import rospy
 import tf
@@ -9,7 +9,9 @@ import quaternion
 import actionlib
 
 from geometry_msgs.msg import PoseStamped, WrenchStamped, Pose, Wrench
-from homestri_msgs.msg import ComplianceControlAction
+from homestri_msgs.msg import ComplianceControlAction, ComplianceControlGoal
+
+import sys
 
 def create_pose(tx, ty, tz, rx, ry, rz, rw):
     pose = Pose()
@@ -23,7 +25,9 @@ def create_pose(tx, ty, tz, rx, ry, rz, rw):
 
     return pose
 
-def stamp_pose(pose, frame="", time=rospy.Time.now()):
+def stamp_pose(pose, frame="", time=None):
+    if time == None: time = rospy.Time(0)
+
     poseStamped = PoseStamped()
     poseStamped.header.frame_id = frame
     poseStamped.header.stamp = time
@@ -43,7 +47,9 @@ def create_wrench(fx, fy, fz, tx, ty, tz):
     return wrench
 
 
-def stamp_wrench(wrench, frame="", time=rospy.Time.now()):
+def stamp_wrench(wrench, frame="", time=None):
+    if time == None: time = rospy.Time(0)
+
     wrenchStamped = WrenchStamped()
     wrenchStamped.header.frame_id = frame
     wrenchStamped.header.stamp = time
@@ -55,12 +61,10 @@ class ComplianceControlActionServer(object):
     def __init__(self, name):
         self.end_effector_link = 'gripper_tip_link'
         self.base_link = 'base_link'
-        self.tf_timeout = rospy.Duration(3.0)
         self.trans_goal_tolerance = 0.01
         self.rot_goal_tolerance = np.pi/12
 
         self.tf_listener = tf.TransformListener()
-        self.tf_transformer = tf.TransformerROS()
 
         self.pose_pub = rospy.Publisher(
             '/target_frame', PoseStamped, queue_size=1)
@@ -77,11 +81,19 @@ class ComplianceControlActionServer(object):
 
 
         eef_pose = self.__lookup_transform(goal.frame_id, self.end_effector_link)
+
+        print(eef_pose)
+
         target_pose = self.__transform_pose_with_pose(goal.pose, eef_pose)
+
+        print(target_pose)
+
         target_pose = self.__transform_pose(target_pose, goal.frame_id, self.base_link)
 
 
         print(target_pose)
+
+        sys.exit()
 
 
 
@@ -172,16 +184,16 @@ class ComplianceControlActionServer(object):
             return None
         
     def __transform_pose(self, pose, current_frame, target_frame):
-        pose_stamped = stamp_pose(pose, frame=current_frame)
 
-        try:
-            new_pose_stamped = self.tf_transformer.transformPose(target_frame, pose_stamped)
-            new_pose = new_pose_stamped.pose
 
-            return new_pose
+        transform = self.__lookup_transform(current_frame, target_frame)
 
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            return None
+        new_pose = self.__transform_pose_with_pose(transform, pose)
+
+
+        return new_pose
+
+
         
     def __transform_pose_with_pose(self, p1, p2):
         mat1 = self.__pose_to_matrix(p1)
@@ -247,6 +259,15 @@ class ComplianceControlActionServer(object):
         return dist
 
 if __name__ == "__main__":
-    rospy.init_node('manipulation_action_server')
-    compliance_control_server = ComplianceControlActionServer()
+    rospy.init_node('compliance_control_action_server')
+    compliance_control_server = ComplianceControlActionServer('compliance_control')
+
+
+    goal = ComplianceControlGoal()
+    goal.pose = create_pose(1,0,0,0,0,0,1)
+    goal.frame_id = "gripper_tip_link"
+
+    compliance_control_server.execute_cb(goal)
+
+
     rospy.spin()
