@@ -53,4 +53,18 @@
         <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
     </group>
 
+    <!-- launch realsense -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+
+        <arg name="filters" value="pointcloud"/>
+
+    </include>
+
+    <!-- launch apriltag detection -->
+    <include file="$(find apriltag_ros)/launch/continuous_detection.launch">
+
+        
+
+    </include>
+
 </launch>
