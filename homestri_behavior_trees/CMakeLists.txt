@@ -15,6 +15,8 @@ actionlib_msgs
 tf2
 tf2_ros
 robotiq_2f_gripper_control
+moveit_msgs
+geometric_shapes
 )
 
 set(GCC_COVERAGE_LINK_FLAGS    "-lstdc++fs")

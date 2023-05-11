@@ -21,5 +21,7 @@
   <depend>homestri_msgs</depend>
   <depend>explain_bt</depend>
   <depend>robotiq_2f_gripper_control</depend>
+  <depend>moveit_msgs</depend>
+  <depend>geometric_shapes</depend>
 
 </package>

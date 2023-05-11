@@ -29,6 +29,8 @@ int main(int argc, char **argv) {
   BehaviorTreeFactory factory;
   RegisterRosAction<ManipulationAction>(factory, "ManipulationAction", nh);
   RegisterRosSubscriber<GraspedCondition>(factory, "GraspedCondition", nh);
+  RegisterRosService<TriggerService>(factory, "TriggerService", nh);
+  RegisterRosService<AddCollisionMeshService>(factory, "AddCollisionMeshService", nh);
   factory.registerNodeType<DetectObject>("DetectObject");
   factory.registerNodeType<DetectFrame>("DetectFrame");
   factory.registerNodeType<UpdatePose>("UpdatePose");
