@@ -22,6 +22,10 @@
 #include <moveit_msgs/ApplyPlanningSceneRequest.h>
 #include <moveit_msgs/ApplyPlanningSceneResponse.h>
 
+#include <controller_manager_msgs/SwitchController.h>
+#include <controller_manager_msgs/SwitchControllerRequest.h>
+#include <controller_manager_msgs/SwitchControllerResponse.h>
+
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include <behaviortree_ros/bt_action_node.h>
 #include <behaviortree_ros/bt_service_node.h>
@@ -364,5 +368,59 @@ public:
   }
 };
 
+class SwitchControllerService: public RosServiceNode<controller_manager_msgs::SwitchController>
+{
+public:
+  SwitchControllerService( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
+  RosServiceNode<controller_manager_msgs::SwitchController>(handle, node_name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return  {
+      InputPort<std::vector<std::string>>("start_controllers"),
+      InputPort<std::vector<std::string>>("stop_controllers"),
+      InputPort<int>("strictness")
+    };
+  }
+
+  void sendRequest(RequestType& request) override
+  {
+    ROS_INFO("AddCollisionMesh: sending request");
+
+    if (!getInput<std::vector<std::string>>("start_controllers", request.start_controllers))
+    {
+      ROS_ERROR("missing required input [start_controllers]");
+    }
+
+    if (!getInput<std::vector<std::string>>("stop_controllers", request.stop_controllers))
+    {
+      ROS_ERROR("missing required input [stop_controllers]");
+    }
+
+    if (!getInput<int>("strictness", request.strictness))
+    {
+      request.strictness = controller_manager_msgs::SwitchControllerRequest::STRICT;
+    }
+  }
+
+  NodeStatus onResponse(const ResponseType& rep) override
+  {
+    ROS_INFO("SwitchControllerService: response received");
+    if( rep.ok == true)
+    {
+      return NodeStatus::SUCCESS;
+    }
+    else{
+      ROS_ERROR("SwitchControllerService failed");
+      return NodeStatus::FAILURE;
+    }
+  }
+
+  virtual NodeStatus onFailedRequest(RosServiceNode::FailureCause failure) override
+  {
+    ROS_ERROR("SwitchControllerService request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+};
 
 #endif

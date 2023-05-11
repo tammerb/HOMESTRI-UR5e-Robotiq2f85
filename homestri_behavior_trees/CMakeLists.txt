@@ -17,6 +17,7 @@ tf2_ros
 robotiq_2f_gripper_control
 moveit_msgs
 geometric_shapes
+controller_manager_msgs
 )
 
 set(GCC_COVERAGE_LINK_FLAGS    "-lstdc++fs")

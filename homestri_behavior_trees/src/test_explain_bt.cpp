@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
   RegisterRosSubscriber<GraspedCondition>(factory, "GraspedCondition", nh);
   RegisterRosService<TriggerService>(factory, "TriggerService", nh);
   RegisterRosService<AddCollisionMeshService>(factory, "AddCollisionMeshService", nh);
+  RegisterRosService<SwitchControllerService>(factory, "SwitchControllerService", nh);
   factory.registerNodeType<DetectObject>("DetectObject");
   factory.registerNodeType<DetectFrame>("DetectFrame");
   factory.registerNodeType<UpdatePose>("UpdatePose");
