@@ -154,8 +154,8 @@ class ComplianceControlActionServer(object):
             offset_pose = pose
 
             eef_pose = self.__lookup_pose( frame_id, self.end_effector_link)
-            eef_mat, eef_trans_mat, eef_rot_mat = pose_to_matrix(eef_pose)
-            offset_mat, offset_trans_mat, offset_rot_mat = pose_to_matrix(offset_pose)
+            _, eef_trans_mat, eef_rot_mat = pose_to_matrix(eef_pose)
+            offset_mat, _, _= pose_to_matrix(offset_pose)
 
             target_mat = np.dot(eef_trans_mat, np.dot(offset_mat, eef_rot_mat))
             target_pose = matrix_to_pose(target_mat)
@@ -177,7 +177,7 @@ class ComplianceControlActionServer(object):
 
         # start executing the action
         while not reached_target and not rospy.is_shutdown():
-
+            target_pose = target_pose_stamped.pose
             current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
             if current_pose == None:
                 rospy.loginfo(
@@ -208,6 +208,8 @@ class ComplianceControlActionServer(object):
                 current_pose.orientation, target_pose.orientation)
             trans_err = translational_error(
                 current_pose.position, target_pose.position)
+            
+            print(f"trans_err {trans_err}, rot_err {rot_err}, axis_err {axis_err}")
 
             if rot_err < self.rot_goal_tolerance and \
                axis_err < self.rot_goal_tolerance and \
@@ -225,7 +227,6 @@ class ComplianceControlActionServer(object):
             self.pose_pub.publish(target_pose_stamped)
             self.wrench_pub.publish(target_wrench_stamped)
 
-            # this step is not necessary, the sequence is computed at 1 Hz for demonstration purposes
             r.sleep()
 
         if success:
@@ -251,7 +252,7 @@ if __name__ == "__main__":
 
 
     goal = ComplianceControlGoal()
-    goal.pose = create_pose(0.2,0,0.1, 0.7071068, 0, 0, 0.7071068)
+    goal.pose = create_pose(0.1,0,0, 0, 0, 0.7071068, 0.7071068 )
     goal.frame_id = "world"
     goal.mode = ComplianceControlGoal.MODE_OFFSET
 
