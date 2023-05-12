@@ -30,13 +30,21 @@
         <joint name="shoulder_pan_joint" value="-1.5707"/>
         <joint name="wrist_1_joint" value="-1.5707"/>
         <joint name="wrist_2_joint" value="-1.5707"/>
-        <joint name="wrist_3_joint" value="0"/>
+        <joint name="wrist_3_joint" value="3.1415"/>
     </group_state>
     <group_state name="open" group="gripper">
         <joint name="finger_joint" value="0"/>
     </group_state>
     <group_state name="close" group="gripper">
         <joint name="finger_joint" value="1.18"/>
+    </group_state>
+    <group_state name="search" group="arm">
+        <joint name="elbow_joint" value="1.5785"/>
+        <joint name="shoulder_lift_joint" value="-1.3222"/>
+        <joint name="shoulder_pan_joint" value="-1.6737"/>
+        <joint name="wrist_1_joint" value="-2.4569"/>
+        <joint name="wrist_2_joint" value="-1.5097"/>
+        <joint name="wrist_3_joint" value="3.0581"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="onrobot_rg2ft_gripper" parent_link="gripper_tip_link" group="gripper" parent_group="arm"/>
@@ -49,12 +57,14 @@
     <passive_joint name="left_inner_finger_joint"/>
     <passive_joint name="right_inner_knuckle_joint"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="angle_bracket" link2="camera_link" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="ee_link" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="gripper_body" reason="Adjacent"/>
     <disable_collisions link1="angle_bracket" link2="left_inner_finger" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="left_inner_knuckle" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="left_outer_knuckle" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="quick_changer" reason="Adjacent"/>
+    <disable_collisions link1="angle_bracket" link2="realsense_mount" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="angle_bracket" link2="right_outer_knuckle" reason="Never"/>
@@ -68,12 +78,26 @@
     <disable_collisions link1="base_link_inertia" link2="wall_1" reason="Never"/>
     <disable_collisions link1="base_link_inertia" link2="wall_2" reason="Never"/>
     <disable_collisions link1="base_link_inertia" link2="wall_3" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="ee_link" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="gripper_body" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="left_inner_finger" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="left_inner_knuckle" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="left_outer_knuckle" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="quick_changer" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="realsense_mount" reason="Adjacent"/>
+    <disable_collisions link1="camera_link" link2="right_inner_finger" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="right_inner_knuckle" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="right_outer_knuckle" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="camera_link" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="ee_link" link2="gripper_body" reason="Never"/>
     <disable_collisions link1="ee_link" link2="ground" reason="Never"/>
     <disable_collisions link1="ee_link" link2="left_inner_finger" reason="Never"/>
     <disable_collisions link1="ee_link" link2="left_inner_knuckle" reason="Never"/>
     <disable_collisions link1="ee_link" link2="left_outer_knuckle" reason="Never"/>
-    <disable_collisions link1="ee_link" link2="quick_changer" reason="Adjacent"/>
+    <disable_collisions link1="ee_link" link2="quick_changer" reason="Never"/>
+    <disable_collisions link1="ee_link" link2="realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="ee_link" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="ee_link" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="ee_link" link2="right_outer_knuckle" reason="Never"/>
@@ -89,6 +113,7 @@
     <disable_collisions link1="gripper_body" link2="left_inner_knuckle" reason="Adjacent"/>
     <disable_collisions link1="gripper_body" link2="left_outer_knuckle" reason="Adjacent"/>
     <disable_collisions link1="gripper_body" link2="quick_changer" reason="Never"/>
+    <disable_collisions link1="gripper_body" link2="realsense_mount" reason="Never"/>
     <disable_collisions link1="gripper_body" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="gripper_body" link2="right_inner_knuckle" reason="Adjacent"/>
     <disable_collisions link1="gripper_body" link2="right_outer_knuckle" reason="Adjacent"/>
@@ -108,6 +133,7 @@
     <disable_collisions link1="left_inner_finger" link2="left_inner_knuckle" reason="Default"/>
     <disable_collisions link1="left_inner_finger" link2="left_outer_knuckle" reason="Adjacent"/>
     <disable_collisions link1="left_inner_finger" link2="quick_changer" reason="Never"/>
+    <disable_collisions link1="left_inner_finger" link2="realsense_mount" reason="Never"/>
     <disable_collisions link1="left_inner_finger" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="left_inner_finger" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="left_inner_finger" link2="right_outer_knuckle" reason="Never"/>
@@ -116,6 +142,7 @@
     <disable_collisions link1="left_inner_finger" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_inner_knuckle" link2="left_outer_knuckle" reason="Default"/>
     <disable_collisions link1="left_inner_knuckle" link2="quick_changer" reason="Never"/>
+    <disable_collisions link1="left_inner_knuckle" link2="realsense_mount" reason="Never"/>
     <disable_collisions link1="left_inner_knuckle" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="left_inner_knuckle" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="left_inner_knuckle" link2="right_outer_knuckle" reason="Never"/>
@@ -123,6 +150,7 @@
     <disable_collisions link1="left_inner_knuckle" link2="wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_inner_knuckle" link2="wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_outer_knuckle" link2="quick_changer" reason="Never"/>
+    <disable_collisions link1="left_outer_knuckle" link2="realsense_mount" reason="Never"/>
     <disable_collisions link1="left_outer_knuckle" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="left_outer_knuckle" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="left_outer_knuckle" link2="right_outer_knuckle" reason="Never"/>
@@ -134,12 +162,19 @@
     <disable_collisions link1="pedestal" link2="wall_1" reason="Adjacent"/>
     <disable_collisions link1="pedestal" link2="wall_2" reason="Adjacent"/>
     <disable_collisions link1="pedestal" link2="wall_3" reason="Adjacent"/>
+    <disable_collisions link1="quick_changer" link2="realsense_mount" reason="Adjacent"/>
     <disable_collisions link1="quick_changer" link2="right_inner_finger" reason="Never"/>
     <disable_collisions link1="quick_changer" link2="right_inner_knuckle" reason="Never"/>
     <disable_collisions link1="quick_changer" link2="right_outer_knuckle" reason="Never"/>
     <disable_collisions link1="quick_changer" link2="wrist_1_link" reason="Never"/>
     <disable_collisions link1="quick_changer" link2="wrist_2_link" reason="Never"/>
-    <disable_collisions link1="quick_changer" link2="wrist_3_link" reason="Default"/>
+    <disable_collisions link1="quick_changer" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="realsense_mount" link2="right_inner_finger" reason="Never"/>
+    <disable_collisions link1="realsense_mount" link2="right_inner_knuckle" reason="Never"/>
+    <disable_collisions link1="realsense_mount" link2="right_outer_knuckle" reason="Never"/>
+    <disable_collisions link1="realsense_mount" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="realsense_mount" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="realsense_mount" link2="wrist_3_link" reason="Default"/>
     <disable_collisions link1="right_inner_finger" link2="right_inner_knuckle" reason="Default"/>
     <disable_collisions link1="right_inner_finger" link2="right_outer_knuckle" reason="Adjacent"/>
     <disable_collisions link1="right_inner_finger" link2="wrist_1_link" reason="Never"/>

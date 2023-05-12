@@ -4,6 +4,12 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="b_bot_scene">
+    <material name="aluminum">
+        <color rgba="0.5 0.5 0.5 1" />
+    </material>
+    <material name="plastic">
+        <color rgba="0.1 0.1 0.1 1" />
+    </material>
     <!-- <xacro:macro name="workspace" params="pedestal_height:=0.2 pedestal_radius:=0.2"> -->
     <link name="pedestal">
         <collision>
@@ -49,17 +55,52 @@
             <inertia ixx=".18e-05" ixy="0.0" ixz="0.0" iyy=".18e-05" iyz="0.0" izz=".18e-05" />
         </inertial>
     </link>
-    <link name="closet">
+    <link name="wall_1">
         <collision>
-            <origin rpy="0 0 0" xyz="0 0 1" />
+            <origin rpy="0 1.5707963267948966 0" xyz="-0.45 0 0" />
             <geometry>
-                <box size="4 2 2" />
+                <box size="5 5 0.02" />
             </geometry>
+            <material name="grey">
+                <color rgba=".5 .5 .5 1.0" />
+            </material>
         </collision>
         <inertial>
-            <origin rpy="0 0 0" xyz="0.0 0.0 0.3" />
-            <mass value=".006784" />
-            <inertia ixx=".18e-05" ixy="0.0" ixz="0.0" iyy=".18e-05" iyz="0.0" izz=".18e-05" />
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="wall_2">
+        <collision>
+            <origin rpy="1.5707963267948966 0 0" xyz="0 -0.4 0" />
+            <geometry>
+                <box size="5 5 0.02" />
+            </geometry>
+            <material name="grey">
+                <color rgba=".5 .5 .5 1.0" />
+            </material>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+        </inertial>
+    </link>
+    <link name="wall_3">
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 1.7" />
+            <geometry>
+                <box size="5 5 0.02" />
+            </geometry>
+            <material name="grey">
+                <color rgba=".5 .5 .5 1.0" />
+            </material>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
         </inertial>
     </link>
     <link name="ground">
@@ -83,17 +124,27 @@
     <joint name="table_to_world" type="fixed">
         <parent link="world" />
         <child link="table" />
-        <origin xyz="-1.37 0 0" />
+        <origin xyz="1.37 0 0" />
     </joint>
-    <joint name="closet_to_world" type="fixed">
+    <joint name="wall_1_to_world" type="fixed">
         <parent link="world" />
-        <child link="closet" />
-        <origin xyz="1.45 1.45 0" />
+        <child link="wall_1" />
+        <origin xyz="0 0 0" />
+    </joint>
+    <joint name="wall_2_to_world" type="fixed">
+        <parent link="world" />
+        <child link="wall_2" />
+        <origin xyz="0 0 0" />
+    </joint>
+    <joint name="wall_3_to_world" type="fixed">
+        <parent link="world" />
+        <child link="wall_3" />
+        <origin xyz="0 0 0" />
     </joint>
     <joint name="pedestal_to_world" type="fixed">
         <parent link="world" />
         <child link="pedestal" />
-        <origin xyz="0 0 0.814" />
+        <origin rpy="0 0 1.5707963267948966" xyz="0 0 0.814" />
     </joint>
     <gazebo reference="pedestal">
         <material>Gazebo/Grey</material>
@@ -396,7 +447,7 @@
         <child link="shoulder_link" />
         <origin rpy="0 0 0" xyz="0 0 0.1625" />
         <axis xyz="0 0 1" />
-        <limit effort="150.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+        <limit effort="150.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
         <dynamics damping="0" friction="0" />
     </joint>
     <joint name="shoulder_lift_joint" type="revolute">
@@ -436,7 +487,7 @@
         <child link="wrist_3_link" />
         <origin rpy="1.570796326589793 3.141592653589793 3.141592653589793" xyz="0 0.0996 -2.042830148012698e-11" />
         <axis xyz="0 0 1" />
-        <limit effort="28.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
+        <limit effort="28.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
         <dynamics damping="0" friction="0" />
     </joint>
     <!-- ROS-Industrial 'base' frame: base_link to UR 'Base' Coordinates transform -->
@@ -495,7 +546,7 @@
     <joint name="gripper_tip_link_joint" type="fixed">
         <parent link="ee_link" />
         <child link="gripper_tip_link" />
-        <origin rpy="0 0 0" xyz="0.163 0 0" />
+        <origin rpy="0 0 0" xyz="0.223 0 0" />
     </joint>
     <!-- ############ GAZEBO PROPERTIES ############ -->
     <gazebo reference="wrist_3_joint">
@@ -621,6 +672,33 @@
         <minDepth>0.001</minDepth>
         <selfCollide>true</selfCollide>
     </gazebo>
+    <link name="realsense_mount">
+        <inertial>
+            <origin rpy="0 0 0" xyz="-0.0019215269775362533 0.02238591812637603 0.00014773610274437554" />
+            <mass value="0.0478036670662668" />
+            <inertia ixx="4.3e-05" ixy="3e-06" ixz="0.0" iyy="2.2e-05" iyz="1e-06" izz="6.4e-05" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://homestri_description/meshes/components/visual/realsense_mount.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="">
+                <color rgba="0.3 0.3 0.3 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <mesh filename="package://homestri_description/meshes/components/collision/realsense_mount.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="realsense_mount_joint" type="fixed">
+        <parent link="ee_link" />
+        <child link="realsense_mount" />
+        <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+    </joint>
     <transmission name="finger_joint_trans">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="finger_joint">
@@ -1019,9 +1097,9 @@
         </collision>
     </link>
     <joint name="quick_changer_joint" type="fixed">
-        <parent link="ee_link" />
+        <parent link="realsense_mount" />
         <child link="quick_changer" />
-        <origin rpy="1.5707963267948966 0 1.5707963267948966" xyz="0 0 0" />
+        <origin rpy="0 0 3.141592653589793" xyz="0 0 0.008" />
     </joint>
     <joint name="gripper_body_joint" type="fixed">
         <origin rpy="0.010122909661567111 0 0" xyz="-0.02705 0.0 0.04445" />
@@ -1080,6 +1158,101 @@
         <limit effort="50.0" lower="-0.01" upper="1.19" velocity="2.0" />
         <mimic joint="finger_joint" multiplier="1" offset="0" />
     </joint>
+    <!-- camera body, with origin at bottom screw mount -->
+    <joint name="camera_joint" type="fixed">
+        <origin rpy="0 -1.5707963267948966 -1.5707963267948966" xyz="0 0.046 0.015" />
+        <parent link="realsense_mount" />
+        <child link="camera_bottom_screw_frame" />
+    </joint>
+    <link name="camera_bottom_screw_frame" />
+    <joint name="camera_link_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0.02 0.0115" />
+        <parent link="camera_bottom_screw_frame" />
+        <child link="camera_link" />
+    </joint>
+    <link name="camera_link">
+        <visual>
+            <origin rpy="1.5707963267948966 0 1.5707963267948966" xyz="0.00987 -0.02 0" />
+            <geometry>
+                <mesh filename="package://realsense2_description/meshes/d415.stl" />
+            </geometry>
+            <material name="aluminum" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 -0.02 0" />
+            <geometry>
+                <box size="0.02005 0.099 0.023" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.072" />
+            <!-- The following are not reliable values, and should not be used for modeling -->
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257" />
+        </inertial>
+    </link>
+    <!-- camera depth joints and links -->
+    <joint name="camera_depth_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_depth_frame" />
+    </joint>
+    <link name="camera_depth_frame" />
+    <joint name="camera_depth_optical_joint" type="fixed">
+        <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+        <parent link="camera_depth_frame" />
+        <child link="camera_depth_optical_frame" />
+    </joint>
+    <link name="camera_depth_optical_frame" />
+    <!-- camera left IR joints and links -->
+    <joint name="camera_infra1_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0.0 0" />
+        <parent link="camera_link" />
+        <child link="camera_infra1_frame" />
+    </joint>
+    <link name="camera_infra1_frame" />
+    <joint name="camera_infra1_optical_joint" type="fixed">
+        <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+        <parent link="camera_infra1_frame" />
+        <child link="camera_infra1_optical_frame" />
+    </joint>
+    <link name="camera_infra1_optical_frame" />
+    <!-- camera right IR joints and links -->
+    <joint name="camera_infra2_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 -0.055 0" />
+        <parent link="camera_link" />
+        <child link="camera_infra2_frame" />
+    </joint>
+    <link name="camera_infra2_frame" />
+    <joint name="camera_infra2_optical_joint" type="fixed">
+        <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+        <parent link="camera_infra2_frame" />
+        <child link="camera_infra2_optical_frame" />
+    </joint>
+    <link name="camera_infra2_optical_frame" />
+    <!-- camera color joints and links -->
+    <joint name="camera_color_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0.015 0" />
+        <parent link="camera_link" />
+        <child link="camera_color_frame" />
+    </joint>
+    <link name="camera_color_frame" />
+    <joint name="camera_color_optical_joint" type="fixed">
+        <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+        <parent link="camera_color_frame" />
+        <child link="camera_color_optical_frame" />
+    </joint>
+    <link name="camera_color_optical_frame" />
+    <gazebo reference="realsense_mount">
+        <material>Gazebo/Black</material>
+        <kp>1000000.0</kp>
+        <kd>1.0</kd>
+        <mu1>0.8</mu1>
+        <mu2>0.8</mu2>
+        <maxVel>0.0</maxVel>
+        <minDepth>0.001</minDepth>
+        <selfCollide>true</selfCollide>
+    </gazebo>
     <link name="world" />
     <gazebo>
         <plugin filename="libgazebo_ros_control.so" name="ros_control" />

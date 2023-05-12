@@ -70,6 +70,7 @@ actionlib
 add_action_files(
   FILES
   Manipulation.action
+  ComplianceControl.action
   ExecuteBehaviorTree.action
 )
 
