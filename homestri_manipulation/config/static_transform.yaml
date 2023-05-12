@@ -1,0 +1,7 @@
+[
+  {frame_id: "tool_a", child_frame_id: "tool_b", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
+  {frame_id: "tool_b", child_frame_id: "tool_c", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
+  {frame_id: "tool_c", child_frame_id: "tool_d", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
+  {frame_id: "tool_d", child_frame_id: "tool_e", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
+  {frame_id: "tool_e", child_frame_id: "tool_f", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
+]
