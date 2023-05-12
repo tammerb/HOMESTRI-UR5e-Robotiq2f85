@@ -14,6 +14,11 @@
 #include <homestri_msgs/ManipulationResult.h>
 #include <homestri_msgs/ManipulationFeedback.h>
 
+#include <homestri_msgs/ComplianceControlAction.h>
+#include <homestri_msgs/ComplianceControlGoal.h>
+#include <homestri_msgs/ComplianceControlResult.h>
+#include <homestri_msgs/ComplianceControlFeedback.h>
+
 #include <std_srvs/Trigger.h>
 #include <std_srvs/TriggerRequest.h>
 #include <std_srvs/TriggerResponse.h>
@@ -420,6 +425,72 @@ public:
   {
     ROS_ERROR("SwitchControllerService request failed %d", static_cast<int>(failure));
     return NodeStatus::FAILURE;
+  }
+};
+
+class ComplianceControlAction : public RosActionNode<homestri_msgs::ComplianceControlAction>
+{
+
+public:
+  ComplianceControlAction(ros::NodeHandle &handle, const std::string &name, const NodeConfiguration &conf) : RosActionNode<homestri_msgs::ComplianceControlAction>(handle, name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return {
+        InputPort<geometry_msgs::Pose>("pose"),
+        InputPort<geometry_msgs::Wrench>("wrench"),
+        InputPort<std::string>("frame_id"),
+        InputPort<uint8_t>("mode")
+      };
+  }
+
+  bool sendGoal(GoalType &goal) override
+  {
+    if (!getInput<geometry_msgs::Pose>("pose", goal.pose))
+    {
+      ROS_ERROR("missing required input [pose]");
+      return false;
+    }
+    if (!getInput<geometry_msgs::Wrench>("wrench", goal.wrench))
+    {
+      ROS_ERROR("missing required input [wrench]");
+      return false;
+    }
+    if (!getInput<std::string>("frame_id", goal.frame_id))
+    {
+      ROS_ERROR("missing required input [frame_id]");
+      return false;
+    }
+    if (!getInput<uint8_t>("mode", goal.mode))
+    {
+      ROS_ERROR("missing required input [mode]");
+      return false;
+    }
+
+    ROS_INFO("ComplianceControlAction: sending request");
+
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType &res) override
+  {
+    ROS_INFO("ComplianceControlAction: succeeded");
+    return NodeStatus::SUCCESS;
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override
+  {
+    ROS_ERROR("ComplianceControlAction request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override
+  {
+    if (status() == NodeStatus::RUNNING)
+    {
+      ROS_WARN("ComplianceControlAction halted");
+      BaseClass::halt();
+    }
   }
 };
 
