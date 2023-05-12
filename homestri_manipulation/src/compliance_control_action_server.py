@@ -1,14 +1,14 @@
 #! /usr/bin/env python3
 
 import rospy
-import tf
+import tf2_ros
 import tf.transformations
 import numpy as np
 import quaternion
 
 import actionlib
 
-from geometry_msgs.msg import PoseStamped, WrenchStamped, Pose, Wrench
+from geometry_msgs.msg import PoseStamped, WrenchStamped, TransformStamped, Pose, Wrench, Transform
 from homestri_msgs.msg import ComplianceControlAction, ComplianceControlGoal
 
 import sys
@@ -26,7 +26,7 @@ def create_pose(tx, ty, tz, rx, ry, rz, rw):
     return pose
 
 def stamp_pose(pose, frame="", time=None):
-    if time == None: time = rospy.Time(0)
+    if time == None: time = rospy.Time.now()
 
     poseStamped = PoseStamped()
     poseStamped.header.frame_id = frame
@@ -48,13 +48,23 @@ def create_wrench(fx, fy, fz, tx, ty, tz):
 
 
 def stamp_wrench(wrench, frame="", time=None):
-    if time == None: time = rospy.Time(0)
+    if time == None: time = rospy.Time.now()
 
     wrenchStamped = WrenchStamped()
     wrenchStamped.header.frame_id = frame
     wrenchStamped.header.stamp = time
     wrenchStamped.wrench = wrench
     return wrenchStamped
+
+def stamp_transform(transform, child_frame_id="", frame="", time=None):
+    if time == None: time = rospy.Time.now()
+
+    transformStamped = TransformStamped()
+    transformStamped.child_frame_id = child_frame_id
+    transformStamped.header.frame_id = frame
+    transformStamped.header.stamp = time
+    transformStamped.transform = transform
+    return transformStamped
 
 
 class ComplianceControlActionServer(object):
@@ -64,7 +74,10 @@ class ComplianceControlActionServer(object):
         self.trans_goal_tolerance = 0.01
         self.rot_goal_tolerance = np.pi/12
 
-        self.tf_listener = tf.TransformListener()
+        self.tf_timeout = rospy.Duration(3.0)
+        self.tfBuffer = tf2_ros.Buffer()
+        self.listener = tf2_ros.TransformListener(self.tfBuffer)
+        self.broadcaster = tf2_ros.TransformBroadcaster()
 
         self.pose_pub = rospy.Publisher(
             '/target_frame', PoseStamped, queue_size=1)
@@ -77,52 +90,49 @@ class ComplianceControlActionServer(object):
         self._as.start()
 
     def execute_cb(self, goal):
+        pose = goal.pose
+        frame_id = goal.frame_id
+        wrench = goal.wrench
+
+        
+
+        # offset = self.__transform_pose(pose, frame_id, self.end_effector_link)
 
 
 
-        eef_pose = self.__lookup_transform(goal.frame_id, self.end_effector_link)
+
+
+        eef_pose = self.__lookup_transform(frame_id, self.end_effector_link)
 
         print(eef_pose)
 
-        target_pose = self.__transform_pose_with_pose(goal.pose, eef_pose)
+        target_pose = self.__transform_pose_with_pose(pose, eef_pose)
 
         print(target_pose)
 
-        target_pose = self.__transform_pose(target_pose, goal.frame_id, self.base_link)
 
+        target_pose = self.__transform_pose(target_pose, frame_id, self.base_link)
 
-        print(target_pose)
+        target_pose_stamped = stamp_pose(target_pose, frame=self.base_link)
+        target_wrench_stamped = stamp_wrench(wrench, frame=self.base_link)
 
-        sys.exit()
-
-
-
-
+        print(target_pose_stamped)
 
         # helper variables
         r = rospy.Rate(10)
         reached_target = False
         success = True
 
-        target_pose = None
-        target_pose_stamped = None
-        target_wrench = None
-        target_wrench_stamped = None
-
         # start executing the action
-        while not reached_target:
+        while not reached_target and not rospy.is_shutdown():
 
-            current_frame = self.__lookup_transform()
-            if current_frame == None:
+            current_pose = self.__lookup_transform(self.base_link, self.end_effector_link)
+            if current_pose == None:
                 rospy.loginfo(
                     '%s: failed to read end effector frame.' % self._action_name)
                 self._as.set_aborted()
                 success = False
                 break
-
-            current_pose = Pose()
-            current_pose.position = current_frame.translation
-            current_pose.orientation = current_frame.rotation
 
             # check that preempt has not been requested by the client
             if self._as.is_preempt_requested():
@@ -153,6 +163,12 @@ class ComplianceControlActionServer(object):
                 success = True
                 reached_target = True
                 break
+            
+            t = Transform()
+            t.translation = target_pose_stamped.pose.position
+            t.rotation = target_pose_stamped.pose.orientation
+            t = stamp_transform(t, child_frame_id="target_frame", frame=self.base_link)
+            self.broadcaster.sendTransform(t)
 
             self.pose_pub.publish(target_pose_stamped)
             self.wrench_pub.publish(target_wrench_stamped)
@@ -166,27 +182,21 @@ class ComplianceControlActionServer(object):
 
     def __lookup_transform(self, target_frame, source_frame):        
         try:
-            (trans,rot) = self.tf_listener.lookupTransform(target_frame, source_frame, rospy.Time(0))
-
-            pose = create_pose(
-                trans[0],
-                trans[1],
-                trans[2],
-                rot[0],
-                rot[1],
-                rot[2],
-                rot[3]
-            )
-
-            return pose
-
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            trans = self.tfBuffer.lookup_transform(
+                target_frame, source_frame, rospy.Time(), timeout=self.tf_timeout)
+            
+            pose = Pose()
+            pose.position = trans.transform.translation
+            pose.orientation = trans.transform.rotation
+            return pose 
+        
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             return None
         
     def __transform_pose(self, pose, current_frame, target_frame):
 
 
-        transform = self.__lookup_transform(current_frame, target_frame)
+        transform = self.__lookup_transform(target_frame, current_frame)
 
         new_pose = self.__transform_pose_with_pose(transform, pose)
 
@@ -212,6 +222,7 @@ class ComplianceControlActionServer(object):
         # numpy arrays to 4x4 transform matrix 
         trans_mat = tf.transformations.translation_matrix(trans)
         rot_mat = tf.transformations.quaternion_matrix(rot)
+
         # create a 4x4 matrix
         mat = np.dot(trans_mat, rot_mat)
 
@@ -264,8 +275,8 @@ if __name__ == "__main__":
 
 
     goal = ComplianceControlGoal()
-    goal.pose = create_pose(1,0,0,0,0,0,1)
-    goal.frame_id = "gripper_tip_link"
+    goal.pose = create_pose(0,0,0,0.7071068, 0, 0, 0.7071068 )
+    goal.frame_id = "world"
 
     compliance_control_server.execute_cb(goal)
 
