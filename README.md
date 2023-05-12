@@ -20,16 +20,16 @@ Docker file and docker-compose for ROS noetic  supporting packages for the UR5e 
 roslaunch homestri_bringup a_bot_calibration.launch
 ```
 
-### Start the Real Robot
-```
-roslaunch homestri_bringup a_bot_gazebo.launch
-```
-
-### Start the Simulated Robot in Gazebo
+### Start the Real Robot (also starts Realsense camera and AprilTag tracking)
 ```
 roslaunch homestri_bringup a_bot_bringup.launch
 ```
 
+### Start the Simulated Robot in Gazebo
+```
+roslaunch homestri_bringup a_bot_gazebo.launch
+```
+###
 ### Start the realsense camera
 - `roslaunch realsense2_camera rs_camera.launch`
 - To ensure the camera is working, view the `/camera/color/image_raw topic` in RViz
