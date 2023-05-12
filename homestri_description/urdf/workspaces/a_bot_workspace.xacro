@@ -4,7 +4,7 @@
   <xacro:macro name="a_bot_workspace"
     params="pedestal_height:=0.2 pedestal_radius:=0.2 table_height:=0.2 table_y:=0.5 table_x:=0.5">
 
-    <link name="static_assembly">
+    <!-- <link name="static_assembly">
       <inertial>
         <origin xyz="-0.0019215269775362533 0.02238591812637603 0.00014773610274437554"
           rpy="0 0 0" />
@@ -58,7 +58,7 @@
             scale="0.001 0.001 0.001" />
         </geometry>
       </collision>
-    </link>
+    </link> -->
 
 
     <link name="pedestal">
@@ -107,7 +107,7 @@
       </inertial>
     </link>
 
-    <joint name="static_assembly_to_table" type="fixed">
+    <!-- <joint name="static_assembly_to_table" type="fixed">
       <parent link="table" />
       <child link="static_assembly" />
       <origin xyz="0 -.0245 0" />
@@ -119,7 +119,7 @@
       <child link="moving_assembly" />
       <limit effort="1000.0" lower="0" upper=".38" velocity="0.5"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
-    </joint>
+    </joint> -->
 
     <joint name="table_to_world" type="fixed">
       <parent link="world" />
