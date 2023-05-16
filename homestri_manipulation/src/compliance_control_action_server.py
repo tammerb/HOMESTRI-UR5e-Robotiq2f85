@@ -255,9 +255,10 @@ if __name__ == "__main__":
 
 
     goal = ComplianceControlGoal()
-    goal.pose = create_pose(0.1,0,0, 0, 0, 0.7071068, 0.7071068 )
-    goal.frame_id = "world"
-    goal.mode = ComplianceControlGoal.MODE_OFFSET
+    goal.pose = create_pose(0.3, 0, 0.3, 0,0,0,1)
+    goal.frame_id = "base_link"
+    goal.mode = ComplianceControlGoal.MODE_TARGET
+    goal.offset = create_pose(-.1,0,1,0, 0, 0.7071068, 0.7071068 )
 
     compliance_control_server.execute_cb(goal)
 
