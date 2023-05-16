@@ -144,6 +144,7 @@ class ComplianceControlActionServer(object):
 
     def execute_cb(self, goal):
         pose = goal.pose
+        offset = goal.offset
         frame_id = goal.frame_id
         wrench = goal.wrench
         mode = goal.mode
@@ -151,11 +152,9 @@ class ComplianceControlActionServer(object):
         target_wrench_stamped = stamp_wrench(wrench, frame=self.base_link)
 
         if mode == ComplianceControlGoal.MODE_OFFSET:
-            offset_pose = pose
-
             eef_pose = self.__lookup_pose( frame_id, self.end_effector_link)
             _, eef_trans_mat, eef_rot_mat = pose_to_matrix(eef_pose)
-            offset_mat, _, _= pose_to_matrix(offset_pose)
+            offset_mat, _, _= pose_to_matrix(offset)
 
             target_mat = np.dot(eef_trans_mat, np.dot(offset_mat, eef_rot_mat))
             target_pose = matrix_to_pose(target_mat)
@@ -164,9 +163,13 @@ class ComplianceControlActionServer(object):
             target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
 
         elif mode == ComplianceControlGoal.MODE_TARGET:
-            target_pose = pose
+            pose_mat, _, _= pose_to_matrix(pose)
+            offset_mat, _, _= pose_to_matrix(offset)
 
+            target_mat = np.dot(pose_mat, offset_mat)
+            target_pose = matrix_to_pose(target_mat)
             target_pose_stamped = stamp_pose(target_pose, frame=frame_id, time=rospy.Time(0))
+            
             target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
 
 

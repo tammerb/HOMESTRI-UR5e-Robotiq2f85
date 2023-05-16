@@ -1,5 +1,6 @@
 # Define the goal
-geometry_msgs/Pose pose  # desired pose or offset
+geometry_msgs/Pose pose  # desired pose
+geometry_msgs/Pose offset # desired offset
 geometry_msgs/Wrench wrench     # desired force and torque
 string frame_id                # frame of pose
 
