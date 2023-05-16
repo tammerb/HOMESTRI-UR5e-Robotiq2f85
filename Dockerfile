@@ -8,7 +8,8 @@ WORKDIR /catkin_ws
 RUN apt-get update
 
 # Install dependencies
-RUN apt-get install -y ros-noetic-realsense2-camera ros-noetic-realsense2-description ros-noetic-rqt-controller-manager
+RUN apt-get install -y ros-noetic-realsense2-camera ros-noetic-realsense2-description ros-noetic-rqt-controller-manager \
+ && pip3 install numpy-quaternion
 
 # Install ROS packages
 RUN git clone https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git src/homestri \ 
