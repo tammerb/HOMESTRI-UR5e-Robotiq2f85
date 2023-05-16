@@ -21,16 +21,19 @@ class Arm(moveit_commander.MoveGroupCommander):
         self.set_max_acceleration_scaling_factor(0.05)
 
     # Moves to a Pose
-    def move_to_pose(self, pose, offset):
+    def move_to_pose(self, pose, trans_offset):
 
         q = pose.orientation
         offset = qv_mult(
             [q.x, q.y, q.z, q.w], 
-            [-offset, 0, 0]
+            [trans_offset.x, trans_offset.y, trans_offset.z]
         )
+        
         pose.position.x += offset[0]
         pose.position.y += offset[1]
         pose.position.z += offset[2]
+
+        print(pose)
 
         self.set_pose_target(pose)
 

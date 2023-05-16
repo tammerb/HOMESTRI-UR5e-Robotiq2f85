@@ -112,8 +112,27 @@ namespace BT
   {
     // We expect real numbers separated by semicolons
     auto parts = splitString(str, ';');
-    std::vector<std::string> strvec(parts.begin(), parts.end());
+    std::vector<std::string> strvec(parts.size());
+    for (unsigned int i = 0; i < parts.size(); i++) {
+      strvec[i] = convertFromString<std::string>(parts[i]);
+    }
     return strvec;
+  }
+
+  template <> inline geometry_msgs::Vector3 convertFromString(StringView str)
+  {
+    // We expect real numbers separated by semicolons
+    auto parts = splitString(str, ';');
+    if (parts.size() == 3) {
+      geometry_msgs::Vector3 vector;
+      vector.x = convertFromString<double>(parts[0]);
+      vector.y = convertFromString<double>(parts[1]);
+      vector.z = convertFromString<double>(parts[2]);
+      return vector;
+    }
+    else {
+      throw RuntimeError("invalid input");
+    }
   }
 }
 

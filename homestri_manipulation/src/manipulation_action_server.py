@@ -44,11 +44,12 @@ class ManipulationActionServer():
         id = goal.id
         target = goal.target
         position = goal.position
+        translational_offset = goal.translational_offset
         offset = goal.offset
         pose = goal.pose
 
         if id == 'arm_pose':
-            self.start_thread_and_wait_for_result(self.arm.move_to_pose, (pose, offset, ))
+            self.start_thread_and_wait_for_result(self.arm.move_to_pose, (pose, translational_offset, ))
         elif id == 'arm_approach':
             self.start_thread_and_wait_for_result(self.arm.move_to_offset, (offset, 0, 0, ))
         elif id == 'arm_retreat':

@@ -3,22 +3,19 @@
 
     <BehaviorTree ID="MainTree">
         <Sequence>
-
-            <SetBlackboard name="SetBlackboard" output_key="pose" value="1;0;0;0;0;0" />
-
-            <AddCollisionMeshService 
+            <!-- <AddCollisionMeshService 
                 service_name="apply_planning_scene"
                 name="place collision object"
                 mesh_path="package://homestri_description/meshes/components/collision/2assembly_nonmoving_components.stl"
                 pose="{pose}"
                 id="static_assembly"
                 frame_id="base_link"
-            />
+            /> -->
 
             <DetectFrame 
                 name="find pose of aruco tag"
-                target_frame="target_frame"
-                source_frame="world"
+                target_frame="world"
+                source_frame="robinzen_handle_grip"
                 output_pose="{object_pose}"
                 timeout="3.0"
                 />
@@ -28,14 +25,14 @@
                 server_name="manip_as"
                 id="arm_pose"
                 pose="{object_pose}"
-                offset="0"
+                translational_offset="-0.1;0;0"
             />   
 
-            <ManipulationAction
+            <!-- <ManipulationAction
                 name="close gripper and grasp"
                 server_name="manip_as"
                 id="gripper_close"
-            />     
+            />      -->
         </Sequence>
 
     </BehaviorTree>

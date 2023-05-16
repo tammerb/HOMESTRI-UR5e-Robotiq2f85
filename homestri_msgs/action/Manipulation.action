@@ -3,6 +3,7 @@ string id
 string target
 float64 position
 float64 offset
+geometry_msgs/Vector3 translational_offset
 geometry_msgs/Pose pose
 ---
 # Define the result

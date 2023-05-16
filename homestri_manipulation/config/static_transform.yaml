@@ -4,4 +4,5 @@
   {frame_id: "tool_c", child_frame_id: "tool_d", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
   {frame_id: "tool_d", child_frame_id: "tool_e", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
   {frame_id: "tool_e", child_frame_id: "tool_f", x: 0, y: 0.03, z: 0, qx: 0, qy: 0, qz: 0, qw: 1},
+  {frame_id: "robinzen_handle", child_frame_id: "robinzen_handle_grip", x: 0, y: 0, z: 0, qx: 0.5, qy: 0.5, qz: -0.5, qw: 0.5},
 ]

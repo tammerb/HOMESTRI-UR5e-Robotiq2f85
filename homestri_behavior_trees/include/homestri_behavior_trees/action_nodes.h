@@ -52,6 +52,7 @@ public:
         InputPort<std::string>("target"),
         InputPort<double>("position"),
         InputPort<double>("offset"),
+        InputPort<geometry_msgs::Vector3>("translational_offset"),
         InputPort<geometry_msgs::Pose>("pose")};
   }
 
@@ -72,6 +73,7 @@ public:
     getInput<std::string>("target", goal.target);
     getInput<double>("position", goal.position);
     getInput<double>("offset", goal.offset);
+    getInput<geometry_msgs::Vector3>("translational_offset", goal.translational_offset);
     getInput<geometry_msgs::Pose>("pose", goal.pose);
 
     ROS_INFO("SENDING GOAL: %s", goal.id.c_str());
@@ -152,7 +154,7 @@ public:
     geometry_msgs::TransformStamped transformStamped;
     try
     {
-      transformStamped = tfBuffer.lookupTransform(source_frame, target_frame, ros::Time(0), ros::Duration(timeout));
+      transformStamped = tfBuffer.lookupTransform(target_frame, source_frame, ros::Time(0), ros::Duration(timeout));
     }
     catch (tf2::TransformException &ex)
     {
