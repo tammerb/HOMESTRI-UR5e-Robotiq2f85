@@ -24,5 +24,6 @@
   <depend>moveit_msgs</depend>
   <depend>geometric_shapes</depend>
   <depend>controller_manager_msgs</depend>
+  <depend>control_msgs</depend>
 
 </package>

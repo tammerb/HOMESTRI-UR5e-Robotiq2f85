@@ -19,6 +19,11 @@
 #include <homestri_msgs/ComplianceControlResult.h>
 #include <homestri_msgs/ComplianceControlFeedback.h>
 
+#include <control_msgs/GripperCommandAction.h>
+#include <control_msgs/GripperCommandGoal.h>
+#include <control_msgs/GripperCommandResult.h>
+#include <control_msgs/GripperCommandFeedback.h>
+
 #include <std_srvs/Trigger.h>
 #include <std_srvs/TriggerRequest.h>
 #include <std_srvs/TriggerResponse.h>
@@ -495,5 +500,59 @@ public:
     }
   }
 };
+
+class GripperAction : public RosActionNode<control_msgs::GripperCommandAction>
+{
+public:
+  GripperAction(ros::NodeHandle &handle, const std::string &name, const NodeConfiguration &conf) : RosActionNode<control_msgs::GripperCommandAction>(handle, name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return {
+        InputPort<double>("position"),
+        InputPort<double>("max_effort")};
+  }
+
+  bool sendGoal(GoalType &goal) override
+  {
+    if (!getInput<double>("position", goal.command.position))
+    {
+      ROS_ERROR("missing required input [position]");
+      return false;
+    }
+
+    if (!getInput<double>("max_effort", goal.command.max_effort))
+    {
+      ROS_ERROR("missing required input [max_effort]");
+      return false;
+    }
+
+    ROS_INFO("SENDING GOAL: GripperAction");
+
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType &res) override
+  {
+    ROS_INFO("SUCCEEDED: GripperAction");
+    return NodeStatus::SUCCESS;
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override
+  {
+    ROS_ERROR("ManipulationAction request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override
+  {
+    if (status() == NodeStatus::RUNNING)
+    {
+      ROS_WARN("ManipulationAction halted");
+      BaseClass::halt();
+    }
+  }
+};
+
 
 #endif
