@@ -71,6 +71,7 @@ add_action_files(
   FILES
   Manipulation.action
   ComplianceControl.action
+  CartesianControl.action
   ExecuteBehaviorTree.action
 )
 
