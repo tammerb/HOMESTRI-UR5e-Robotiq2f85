@@ -40,7 +40,7 @@ class CartesianControlActionServer(object):
 
         self.action_name = name
         self.server = actionlib.SimpleActionServer(
-            self._action_name, CartesianControlAction, execute_cb=self.execute_cb, auto_start=False)
+            self.action_name, CartesianControlAction, execute_cb=self.execute_cb, auto_start=False)
         self.server.start()
 
     def execute_cb(self, goal):
@@ -62,12 +62,23 @@ class CartesianControlActionServer(object):
             target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
 
         elif mode == CartesianControlGoal.MODE_TARGET:
-            # pose_mat, _, _= pose_to_matrix(pose)
-            # offset_mat, _, _= pose_to_matrix(offset)
+            pose_mat, _, _= pose_to_matrix(pose)
+            offset_mat, _, _= pose_to_matrix(offset)
 
-            # target_mat = np.dot(pose_mat, offset_mat)
-            # target_pose = matrix_to_pose(target_mat)
-            # target_pose_stamped = stamp_pose(target_pose, frame=frame_id, time=rospy.Time(0))
+            target_mat = np.dot(pose_mat, offset_mat)
+            
+
+            eef_pose = self.__lookup_pose( self.target_link, self.end_effector_link)
+            eef_mat, _, _= pose_to_matrix(eef_pose)
+            target_mat = np.dot(target_mat, eef_mat)
+
+            target_pose = matrix_to_pose(target_mat)
+            target_pose_stamped = stamp_pose(target_pose, frame=frame_id, time=rospy.Time(0))
+
+
+
+
+
 
             # target_pose = self.__lookup_pose(self.end_effector_link, self.target_link)
             # target_pose_stamped = stamp_pose(target_pose, frame=self.end_effector_link, time=rospy.Time(0))
@@ -76,6 +87,15 @@ class CartesianControlActionServer(object):
 
             self.server.set_aborted()
             return
+        
+        # while not rospy.is_shutdown():
+        #     t = Transform()
+        #     t.translation = target_pose_stamped.pose.position
+        #     t.rotation = target_pose_stamped.pose.orientation
+        #     t = stamp_transform(t, child_frame_id="target_frame", frame=self.base_link)
+        #     self.broadcaster.sendTransform(t)
+
+        # return
 
         # Wait for action server to be ready
         if not self.trajectory_client.wait_for_server(rospy.Duration(3.0)):
@@ -85,6 +105,7 @@ class CartesianControlActionServer(object):
         
         # The following list are arbitrary positions
         # Change to your own needs if desired
+        traj_goal = FollowCartesianTrajectoryGoal()
         pose_list = [
             target_pose_stamped.pose,
         ]
@@ -93,18 +114,16 @@ class CartesianControlActionServer(object):
             point = CartesianTrajectoryPoint()
             point.pose = pose
             point.time_from_start = rospy.Duration(duration_list[i])
-            goal.trajectory.points.append(point)
+            traj_goal.trajectory.points.append(point)
 
-        trajectory_client.send_goal(goal)
+        self.trajectory_client.send_goal(traj_goal)
 
-        while (not self.server.is_preempt_requested()) and (not trajectory_client.wait_for_result(rospy.Duration(0.02))):
-            pass
-
-        if self.server.is_preempt_requested():
-            rospy.loginfo('%s: Preempted' % self.action_name)  
-            self.trajectory_client.cancel_goal()
-            self.server.set_preempted()
-            return
+        while not self.trajectory_client.wait_for_result(rospy.Duration(0.02)):
+            if rospy.is_shutdown() or self.server.is_preempt_requested(): 
+                rospy.loginfo('%s: preempted' % self.action_name)  
+                self.trajectory_client.cancel_goal()
+                self.server.set_preempted()
+                return
         
         if self.trajectory_client.get_state() != GoalStatus.SUCCEEDED:
             rospy.loginfo('%s: Failed' % self.action_name)  
@@ -112,6 +131,7 @@ class CartesianControlActionServer(object):
             return
             
         self.server.set_succeeded()
+        rospy.loginfo('%s: Succeeded' % self.action_name)  
 
     def __lookup_pose(self, target_frame, source_frame):        
         try:
@@ -128,70 +148,17 @@ class CartesianControlActionServer(object):
 
 if __name__ == "__main__":
     rospy.init_node('cartesian_control_action_server')
-    # compliance_control_server = ComplianceControlActionServer('compliance_control')
+    cartesian_control_server = CartesianControlActionServer('cartesian_control')
 
 
-    # goal = ComplianceControlGoal()
-    # goal.pose = create_pose(0.3, 0, 0.3, 0,0,0,1)
-    # goal.frame_id = "base_link"
-    # goal.mode = ComplianceControlGoal.MODE_TARGET
-    # goal.offset = create_pose(-.1,0,1,0, 0, 0.7071068, 0.7071068 )
+    goal = CartesianControlGoal()
+    goal.pose = create_pose(0.3, 0, 0.3, 0,0,0,1)
+    goal.frame_id = "gripper_tip_link"
+    goal.mode = CartesianControlGoal.MODE_OFFSET
+    goal.offset = create_pose(0.1,0,0,-0.7071068, 0, 0, 0.7071068 )
+    goal.duration = 20.0
 
-    # compliance_control_server.execute_cb(goal)
-
-
-    tf_buffer = tf2_ros.Buffer()
-    listener = tf2_ros.TransformListener(tf_buffer)
-    broadcaster = tf2_ros.TransformBroadcaster()
-
-
-    try:
-        trans = tf_buffer.lookup_transform(
-            'base', 'tool0_controller', rospy.Time(0), timeout=rospy.Duration(3.0))
-    except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-        sys.exit()
-
-    pose = Pose()
-    pose.position = trans.transform.translation
-    pose.orientation = trans.transform.rotation
-
-    
-
-    pose.position.z += 0.05
-
-    print(pose)
-
-    # make sure the correct controller is loaded and activated
-    goal = FollowCartesianTrajectoryGoal()
-    trajectory_client = actionlib.SimpleActionClient(
-        "{}/follow_cartesian_trajectory".format("forward_cartesian_traj_controller"),
-        FollowCartesianTrajectoryAction,
-    )
-
-    # Wait for action server to be ready
-    timeout = rospy.Duration(5)
-    if not trajectory_client.wait_for_server(timeout):
-        rospy.logerr("Could not reach controller action server.")
-        sys.exit(-1)
-
-    # The following list are arbitrary positions
-    # Change to your own needs if desired
-    pose_list = [
-        pose,
-    ]
-    duration_list = [10.0]
-    for i, pose in enumerate(pose_list):
-        point = CartesianTrajectoryPoint()
-        point.pose = pose
-        point.time_from_start = rospy.Duration(duration_list[i])
-        goal.trajectory.points.append(point)
-
-    trajectory_client.send_goal(goal)
-    trajectory_client.wait_for_result()
-
-    result = trajectory_client.get_result()
-
-    rospy.loginfo("Trajectory execution finished in state {}".format(result.error_code))
+    cartesian_control_server.execute_cb(goal)
 
 
     rospy.spin()
