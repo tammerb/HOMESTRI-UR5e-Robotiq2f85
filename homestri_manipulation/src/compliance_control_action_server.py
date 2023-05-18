@@ -17,7 +17,7 @@ class ComplianceControlActionServer(object):
         self.end_effector_link = 'gripper_tip_link'
         self.base_link = 'base_link'
         self.trans_goal_tolerance = 0.01
-        self.rot_goal_tolerance = np.pi/12
+        self.rot_goal_tolerance = np.pi/24
 
         self.tf_timeout = rospy.Duration(3.0)
         self.tf_buffer = tf2_ros.Buffer()
@@ -41,8 +41,6 @@ class ComplianceControlActionServer(object):
         wrench = goal.wrench
         mode = goal.mode
 
-        target_wrench_stamped = stamp_wrench(wrench, frame=self.base_link)
-
         if mode == ComplianceControlGoal.MODE_OFFSET:
             eef_pose = self.__lookup_pose( frame_id, self.end_effector_link)
             _, eef_trans_mat, eef_rot_mat = pose_to_matrix(eef_pose)
@@ -63,7 +61,6 @@ class ComplianceControlActionServer(object):
             target_pose_stamped = stamp_pose(target_pose, frame=frame_id, time=rospy.Time(0))
             
             target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
-
 
         # helper variables
         r = rospy.Rate(10)
@@ -106,8 +103,7 @@ class ComplianceControlActionServer(object):
             
             print(f"trans_err {trans_err}, rot_err {rot_err}, axis_err {axis_err}")
 
-            if rot_err < self.rot_goal_tolerance and \
-               axis_err < self.rot_goal_tolerance and \
+            if (rot_err < self.rot_goal_tolerance and axis_err < self.rot_goal_tolerance) and \
                trans_err < self.trans_goal_tolerance:
                 success = True
                 reached_target = True
@@ -120,6 +116,10 @@ class ComplianceControlActionServer(object):
             self.broadcaster.sendTransform(t)
 
             self.pose_pub.publish(target_pose_stamped)
+
+            target_wrench_stamped = stamp_wrench(wrench, frame=frame_id, time=rospy.Time(0))
+            target_wrench_stamped = self.tf_buffer.transform(target_wrench_stamped, self.end_effector_link, timeout=rospy.Duration(3.0))
+            print(target_wrench_stamped)
             self.wrench_pub.publish(target_wrench_stamped)
 
             r.sleep()
@@ -147,10 +147,11 @@ if __name__ == "__main__":
 
 
     goal = ComplianceControlGoal()
-    goal.pose = create_pose(0.3, 0, 0.3, 0,0,0,1)
-    goal.frame_id = "base_link"
-    goal.mode = ComplianceControlGoal.MODE_TARGET
-    goal.offset = create_pose(-.1,0,1,0, 0, 0.7071068, 0.7071068 )
+    goal.pose = create_pose(0, 0, 0, 0,0,0,1)
+    goal.frame_id = "gripper_tip_link"
+    goal.mode = ComplianceControlGoal.MODE_OFFSET
+    goal.offset = create_pose(0.1,0,0,-0.7071068, 0, 0, 0.7071068 )
+    goal.wrench = create_wrench(10,0,0,-1,0,0)
 
     compliance_control_server.execute_cb(goal)
 
