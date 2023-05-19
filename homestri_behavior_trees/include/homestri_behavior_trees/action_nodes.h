@@ -313,6 +313,7 @@ public:
     return  {
       InputPort<std::string>("mesh_path"),
       InputPort<geometry_msgs::Pose>("pose"),
+      InputPort<geometry_msgs::Pose>("mesh_pose"),
       InputPort<std::string>("id"),
       InputPort<std::string>("frame_id"),
     };
@@ -346,6 +347,12 @@ public:
       ROS_ERROR("missing required input [pose]");
     }
 
+    geometry_msgs::Pose mesh_pose;
+    if (!getInput<geometry_msgs::Pose>("mesh_pose", mesh_pose))
+    {
+      ROS_ERROR("missing required input [mesh_pose]");
+    }
+
     shapes::Mesh* m = shapes::createMeshFromResource(mesh_path, Eigen::Vector3d(0.001, 0.001, 0.001));
 
     shape_msgs::Mesh mesh;
@@ -358,7 +365,7 @@ public:
     co.pose = pose;
     co.id = id;
     co.meshes.push_back(mesh);
-    co.mesh_poses.push_back(geometry_msgs::Pose());
+    co.mesh_poses.push_back(mesh_pose);
     co.operation = moveit_msgs::CollisionObject::ADD;
 
     request.scene.is_diff = true;
