@@ -16,8 +16,8 @@ class ComplianceControlActionServer(object):
     def __init__(self, name):
         self.end_effector_link = 'gripper_tip_link'
         self.base_link = 'base_link'
-        self.trans_goal_tolerance = 0.01
-        self.rot_goal_tolerance = np.pi/24
+        self.trans_goal_tolerance = 0.02
+        self.rot_goal_tolerance = np.pi/12
 
         self.tf_timeout = rospy.Duration(3.0)
         self.tf_buffer = tf2_ros.Buffer()
@@ -96,15 +96,14 @@ class ComplianceControlActionServer(object):
                 success = False
                 break
 
-            rot_err, axis_err = rotational_error(
+            rot_err = rotational_error(
                 current_pose.orientation, target_pose.orientation)
             trans_err = translational_error(
                 current_pose.position, target_pose.position)
             
             print(f"trans_err {trans_err}, rot_err {rot_err}, axis_err {axis_err}")
 
-            if (rot_err < self.rot_goal_tolerance and axis_err < self.rot_goal_tolerance) and \
-               trans_err < self.trans_goal_tolerance:
+            if rot_err < self.rot_goal_tolerance and trans_err < self.trans_goal_tolerance:
                 success = True
                 reached_target = True
                 break
