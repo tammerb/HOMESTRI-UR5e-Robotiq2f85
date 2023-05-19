@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
   BehaviorTreeFactory factory;
   RegisterRosAction<ManipulationAction>(factory, "ManipulationAction", nh);
   RegisterRosAction<ComplianceControlAction>(factory, "ComplianceControlAction", nh);
+  RegisterRosAction<CartesianControlAction>(factory, "CartesianControlAction", nh);
   RegisterRosAction<GripperAction>(factory, "GripperAction", nh);
   RegisterRosSubscriber<GraspedCondition>(factory, "GraspedCondition", nh);
   RegisterRosService<TriggerService>(factory, "TriggerService", nh);
