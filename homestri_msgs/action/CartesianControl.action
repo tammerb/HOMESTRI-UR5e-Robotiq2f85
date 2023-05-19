@@ -2,7 +2,7 @@
 geometry_msgs/Pose pose  # desired pose
 geometry_msgs/Pose offset # desired offset
 string frame_id                # frame of pose
-float32 duration
+float64 duration
 
 uint8 MODE_TARGET=0 # move towards target (offset adjusted to target)
 uint8 MODE_OFFSET=1 # move with offset from current pose

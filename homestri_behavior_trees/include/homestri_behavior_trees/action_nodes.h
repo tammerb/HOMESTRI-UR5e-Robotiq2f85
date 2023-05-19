@@ -19,6 +19,11 @@
 #include <homestri_msgs/ComplianceControlResult.h>
 #include <homestri_msgs/ComplianceControlFeedback.h>
 
+#include <homestri_msgs/CartesianControlAction.h>
+#include <homestri_msgs/CartesianControlGoal.h>
+#include <homestri_msgs/CartesianControlResult.h>
+#include <homestri_msgs/CartesianControlFeedback.h>
+
 #include <control_msgs/GripperCommandAction.h>
 #include <control_msgs/GripperCommandGoal.h>
 #include <control_msgs/GripperCommandResult.h>
@@ -308,6 +313,7 @@ public:
     return  {
       InputPort<std::string>("mesh_path"),
       InputPort<geometry_msgs::Pose>("pose"),
+      InputPort<geometry_msgs::Pose>("mesh_pose"),
       InputPort<std::string>("id"),
       InputPort<std::string>("frame_id"),
     };
@@ -341,6 +347,12 @@ public:
       ROS_ERROR("missing required input [pose]");
     }
 
+    geometry_msgs::Pose mesh_pose;
+    if (!getInput<geometry_msgs::Pose>("mesh_pose", mesh_pose))
+    {
+      ROS_ERROR("missing required input [mesh_pose]");
+    }
+
     shapes::Mesh* m = shapes::createMeshFromResource(mesh_path, Eigen::Vector3d(0.001, 0.001, 0.001));
 
     shape_msgs::Mesh mesh;
@@ -353,7 +365,7 @@ public:
     co.pose = pose;
     co.id = id;
     co.meshes.push_back(mesh);
-    co.mesh_poses.push_back(geometry_msgs::Pose());
+    co.mesh_poses.push_back(mesh_pose);
     co.operation = moveit_msgs::CollisionObject::ADD;
 
     request.scene.is_diff = true;
@@ -445,6 +457,7 @@ public:
   {
     return {
         InputPort<geometry_msgs::Pose>("pose"),
+        InputPort<geometry_msgs::Pose>("offset"),
         InputPort<geometry_msgs::Wrench>("wrench"),
         InputPort<std::string>("frame_id"),
         InputPort<uint8_t>("mode")
@@ -453,11 +466,10 @@ public:
 
   bool sendGoal(GoalType &goal) override
   {
-    if (!getInput<geometry_msgs::Pose>("pose", goal.pose))
-    {
-      ROS_ERROR("missing required input [pose]");
-      return false;
-    }
+    getInput<geometry_msgs::Pose>("pose", goal.pose);
+
+    getInput<geometry_msgs::Pose>("offset", goal.offset);
+
     if (!getInput<geometry_msgs::Wrench>("wrench", goal.wrench))
     {
       ROS_ERROR("missing required input [wrench]");
@@ -554,5 +566,70 @@ public:
   }
 };
 
+class CartesianControlAction : public RosActionNode<homestri_msgs::CartesianControlAction>
+{
+
+public:
+  CartesianControlAction(ros::NodeHandle &handle, const std::string &name, const NodeConfiguration &conf) : RosActionNode<homestri_msgs::CartesianControlAction>(handle, name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return {
+        InputPort<geometry_msgs::Pose>("pose"),
+        InputPort<geometry_msgs::Pose>("offset"),
+        InputPort<std::string>("frame_id"),
+        InputPort<double>("duration"),
+        InputPort<uint8_t>("mode")
+      };
+  }
+
+  bool sendGoal(GoalType &goal) override
+  {
+    getInput<geometry_msgs::Pose>("pose", goal.pose);
+
+    getInput<geometry_msgs::Pose>("offset", goal.offset);
+  
+    if (!getInput<std::string>("frame_id", goal.frame_id))
+    {
+      ROS_ERROR("missing required input [frame_id]");
+      return false;
+    }
+    if (!getInput<double>("duration", goal.duration))
+    {
+      ROS_ERROR("missing required input [duration]");
+      return false;
+    }
+    if (!getInput<uint8_t>("mode", goal.mode))
+    {
+      ROS_ERROR("missing required input [mode]");
+      return false;
+    }
+
+    ROS_INFO("CartesianControlAction: sending request");
+
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType &res) override
+  {
+    ROS_INFO("CartesianControlAction: succeeded");
+    return NodeStatus::SUCCESS;
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override
+  {
+    ROS_ERROR("CartesianControlAction request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override
+  {
+    if (status() == NodeStatus::RUNNING)
+    {
+      ROS_WARN("CartesianControlAction halted");
+      BaseClass::halt();
+    }
+  }
+};
 
 #endif
