@@ -44,6 +44,8 @@ class CartesianControlActionServer(object):
         self.server.start()
 
     def execute_cb(self, goal):
+        print(goal)
+
         pose = goal.pose
         offset = goal.offset
         frame_id = goal.frame_id
@@ -131,14 +133,14 @@ if __name__ == "__main__":
     cartesian_control_server = CartesianControlActionServer('cartesian_control')
 
 
-    goal = CartesianControlGoal()
-    goal.pose = create_pose(0.6, .124, 0.64, 0.5,-0.5,-0.5,-0.5)
-    goal.frame_id = "world"
-    goal.mode = CartesianControlGoal.MODE_TARGET
-    goal.offset = create_pose(0,0,.3,0,0,0,1)
-    goal.duration = 20.0
+    # goal = CartesianControlGoal()
+    # goal.pose = create_pose(0.6, .124, 0.64, 0.5,-0.5,-0.5,-0.5)
+    # goal.frame_id = "world"
+    # goal.mode = CartesianControlGoal.MODE_TARGET
+    # goal.offset = create_pose(0,0,.3,0,0,0,1)
+    # goal.duration = 20.0
 
-    cartesian_control_server.execute_cb(goal)
+    # cartesian_control_server.execute_cb(goal)
 
 
     rospy.spin()
