@@ -84,7 +84,7 @@
       </inertial>
     </link>
 
-    <link name="table">
+    <!-- <link name="table">
       <collision>
         <origin xyz="0 -0.31 ${-table_height/2}" rpy="0 0 0" />
         <geometry>
@@ -105,7 +105,7 @@
         <mass value=".006784" />
         <inertia ixx=".18e-05" iyy=".18e-05" izz=".18e-05" ixy="0.0" iyz="0.0" ixz="0.0" />
       </inertial>
-    </link>
+    </link> -->
 
     <!-- <joint name="static_assembly_to_table" type="fixed">
       <parent link="table" />
@@ -121,11 +121,11 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </joint> -->
 
-    <joint name="table_to_world" type="fixed">
+    <!-- <joint name="table_to_world" type="fixed">
       <parent link="world" />
       <child link="table" />
       <origin xyz="${table_x} ${table_y} ${table_height}" />
-    </joint>
+    </joint> -->
 
 
     <joint name="pedestal_to_world" type="fixed">
