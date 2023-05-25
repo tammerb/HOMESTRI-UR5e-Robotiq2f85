@@ -101,7 +101,7 @@ class ComplianceControlActionServer(object):
             trans_err = translational_error(
                 current_pose.position, target_pose.position)
             
-            print(f"trans_err {trans_err}, rot_err {rot_err}, axis_err {axis_err}")
+            print(f"trans_err {trans_err}, rot_err {rot_err}")
 
             if rot_err < self.rot_goal_tolerance and trans_err < self.trans_goal_tolerance:
                 success = True
@@ -145,14 +145,14 @@ if __name__ == "__main__":
     compliance_control_server = ComplianceControlActionServer('compliance_control')
 
 
-    goal = ComplianceControlGoal()
-    goal.pose = create_pose(0, 0, 0, 0,0,0,1)
-    goal.frame_id = "gripper_tip_link"
-    goal.mode = ComplianceControlGoal.MODE_OFFSET
-    goal.offset = create_pose(0.1,0,0,-0.7071068, 0, 0, 0.7071068 )
-    goal.wrench = create_wrench(10,0,0,-1,0,0)
+    # goal = ComplianceControlGoal()
+    # goal.pose = create_pose(0, 0, 0, 0,0,0,1)
+    # goal.frame_id = "gripper_tip_link"
+    # goal.mode = ComplianceControlGoal.MODE_OFFSET
+    # goal.offset = create_pose(0.1,0,0,-0.7071068, 0, 0, 0.7071068 )
+    # goal.wrench = create_wrench(10,0,0,-1,0,0)
 
-    compliance_control_server.execute_cb(goal)
+    # compliance_control_server.execute_cb(goal)
 
 
     rospy.spin()
