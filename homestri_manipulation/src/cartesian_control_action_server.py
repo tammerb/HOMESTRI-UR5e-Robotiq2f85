@@ -44,6 +44,8 @@ class CartesianControlActionServer(object):
         self.server.start()
 
     def execute_cb(self, goal):
+        print(goal)
+
         pose = goal.pose
         offset = goal.offset
         frame_id = goal.frame_id
@@ -75,27 +77,7 @@ class CartesianControlActionServer(object):
             target_pose = matrix_to_pose(target_mat)
             target_pose_stamped = stamp_pose(target_pose, frame=frame_id, time=rospy.Time(0))
 
-
-
-
-
-
-            # target_pose = self.__lookup_pose(self.end_effector_link, self.target_link)
-            # target_pose_stamped = stamp_pose(target_pose, frame=self.end_effector_link, time=rospy.Time(0))
-            
-            # target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
-
-            self.server.set_aborted()
-            return
-        
-        # while not rospy.is_shutdown():
-        #     t = Transform()
-        #     t.translation = target_pose_stamped.pose.position
-        #     t.rotation = target_pose_stamped.pose.orientation
-        #     t = stamp_transform(t, child_frame_id="target_frame", frame=self.base_link)
-        #     self.broadcaster.sendTransform(t)
-
-        # return
+            target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
 
         # Wait for action server to be ready
         if not self.trajectory_client.wait_for_server(rospy.Duration(3.0)):
@@ -151,14 +133,14 @@ if __name__ == "__main__":
     cartesian_control_server = CartesianControlActionServer('cartesian_control')
 
 
-    goal = CartesianControlGoal()
-    goal.pose = create_pose(0.3, 0, 0.3, 0,0,0,1)
-    goal.frame_id = "gripper_tip_link"
-    goal.mode = CartesianControlGoal.MODE_OFFSET
-    goal.offset = create_pose(0.1,0,0,-0.7071068, 0, 0, 0.7071068 )
-    goal.duration = 20.0
+    # goal = CartesianControlGoal()
+    # goal.pose = create_pose(0.6, .124, 0.64, 0.5,-0.5,-0.5,-0.5)
+    # goal.frame_id = "world"
+    # goal.mode = CartesianControlGoal.MODE_TARGET
+    # goal.offset = create_pose(0,0,.3,0,0,0,1)
+    # goal.duration = 20.0
 
-    cartesian_control_server.execute_cb(goal)
+    # cartesian_control_server.execute_cb(goal)
 
 
     rospy.spin()

@@ -56,6 +56,8 @@
     <!-- launch realsense -->
     <include file="$(find realsense2_camera)/launch/rs_camera.launch">
         <arg name="filters" value="pointcloud"/>
+        <arg name="color_width" value="1920"/>
+        <arg name="color_height" value="1080"/>
     </include>
 
     <!-- launch apriltag detection -->

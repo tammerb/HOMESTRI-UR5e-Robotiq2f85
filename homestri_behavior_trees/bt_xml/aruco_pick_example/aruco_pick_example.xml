@@ -13,20 +13,124 @@
             /> -->
 
             <DetectFrame 
-                name="find pose of aruco tag"
+                source_frame="latch_0_close"
                 target_frame="world"
-                source_frame="robinzen_handle_grip"
                 output_pose="{object_pose}"
                 timeout="3.0"
-                />
+                r_x="1.0"
+                r_y="0.0"
+                r_z="0.0"
+                r_w="0.0"
+            />
 
             <ManipulationAction
-                name="move arm to object"
                 server_name="manip_as"
                 id="arm_pose"
                 pose="{object_pose}"
                 translational_offset="-0.1;0;0"
+            /> 
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0"
+                max_effort="20"
+            /> 
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                start_controllers="forward_cartesian_traj_controller"
+                stop_controllers="scaled_pos_joint_traj_controller"
+                strictness="2"
+            />
+
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0.1;0;0;0;0;0"
+                duration="10.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
             />   
+
+            <TriggerService
+                service_name="/ur_hardware_interface/zero_ftsensor"
+            />
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                start_controllers="cartesian_compliance_controller"
+                stop_controllers="forward_cartesian_traj_controller"
+                strictness="2"
+            />
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.8"
+                max_effort="20"
+            /> 
+
+            <ComplianceControlAction
+                server_name="compliance_control"
+                offset="0;0;0;-1.5707;0;0"
+                wrench="0;0;0;-3;0;0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />   
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0"
+                max_effort="20"
+            /> 
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                start_controllers="forward_cartesian_traj_controller"
+                stop_controllers="cartesian_compliance_controller"
+                strictness="2"
+            />
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.1;0;0;0;0;0"
+                duration="10.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />   
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0;0;0;1.5707;0;0"
+                duration="5.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />   
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                start_controllers="scaled_pos_joint_traj_controller"
+                stop_controllers="forward_cartesian_traj_controller"
+                strictness="2"
+            />
+
+            <!-- <DetectFrame 
+                source_frame="latch_0_open"
+                target_frame="world"
+                output_pose="{object_pose}"
+                timeout="3.0"
+                r_x="1.0"
+                r_y="0.0"
+                r_z="0.0"
+                r_w="0.0"
+            />
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{object_pose}"
+                translational_offset="-0.1;0;0"
+            />  -->
+
 
             <!-- <ManipulationAction
                 name="close gripper and grasp"

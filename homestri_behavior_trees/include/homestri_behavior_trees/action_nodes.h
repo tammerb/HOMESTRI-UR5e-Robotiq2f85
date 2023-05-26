@@ -460,7 +460,7 @@ public:
         InputPort<geometry_msgs::Pose>("offset"),
         InputPort<geometry_msgs::Wrench>("wrench"),
         InputPort<std::string>("frame_id"),
-        InputPort<uint8_t>("mode")
+        InputPort<std::string>("mode")
       };
   }
 
@@ -480,11 +480,25 @@ public:
       ROS_ERROR("missing required input [frame_id]");
       return false;
     }
-    if (!getInput<uint8_t>("mode", goal.mode))
+
+    std::string mode;
+    if (!getInput<std::string>("mode", mode))
     {
       ROS_ERROR("missing required input [mode]");
       return false;
     }
+
+    if (mode == "offset") {
+      goal.mode = homestri_msgs::CartesianControlGoal::MODE_OFFSET;
+    }
+    else if (mode == "target") {
+      goal.mode = homestri_msgs::CartesianControlGoal::MODE_TARGET;
+    }
+    else {
+      ROS_ERROR("mode should be offset or target");
+      return false;
+    }
+
 
     ROS_INFO("ComplianceControlAction: sending request");
 
@@ -579,7 +593,7 @@ public:
         InputPort<geometry_msgs::Pose>("offset"),
         InputPort<std::string>("frame_id"),
         InputPort<double>("duration"),
-        InputPort<uint8_t>("mode")
+        InputPort<std::string>("mode")
       };
   }
 
@@ -599,9 +613,22 @@ public:
       ROS_ERROR("missing required input [duration]");
       return false;
     }
-    if (!getInput<uint8_t>("mode", goal.mode))
+
+    std::string mode;
+    if (!getInput<std::string>("mode", mode))
     {
       ROS_ERROR("missing required input [mode]");
+      return false;
+    }
+
+    if (mode == "offset") {
+      goal.mode = homestri_msgs::CartesianControlGoal::MODE_OFFSET;
+    }
+    else if (mode == "target") {
+      goal.mode = homestri_msgs::CartesianControlGoal::MODE_TARGET;
+    }
+    else {
+      ROS_ERROR("mode should be offset or target");
       return false;
     }
 
