@@ -146,11 +146,11 @@ if __name__ == "__main__":
 
 
     # goal = ComplianceControlGoal()
-    # goal.pose = create_pose(0, 0, 0, 0,0,0,1)
-    # goal.frame_id = "gripper_tip_link"
+    # # goal.pose = create_pose(0, 0, 0, 0,0,0,1)
+    # goal.frame_id = "world"
     # goal.mode = ComplianceControlGoal.MODE_OFFSET
-    # goal.offset = create_pose(0.1,0,0,-0.7071068, 0, 0, 0.7071068 )
-    # goal.wrench = create_wrench(10,0,0,-1,0,0)
+    # goal.offset = create_pose(-0.25,0,0,0,0,0,1 )
+    # goal.wrench = create_wrench(-30,0,0,0,0,0)
 
     # compliance_control_server.execute_cb(goal)
 
