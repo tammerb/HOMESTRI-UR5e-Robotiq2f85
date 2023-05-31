@@ -196,6 +196,7 @@ cartesian_force_controller:
 
   solver:
     error_scale: 0.2
+    iterations: 1
 
   pd_gains:
     trans_x: { p: 0.05 }

@@ -1,0 +1,7 @@
+# Define the goal
+geometry_msgs/Wrench wrench     # desired force and torque
+string frame_id                # frame of wrench
+---
+# Define the result
+---
+# Define a feedback message

@@ -3,6 +3,8 @@
 
 #include <ros/ros.h>
 
+#include <algorithm>
+
 #include "geometric_shapes/shapes.h"
 #include "geometric_shapes/mesh_operations.h"
 #include "geometric_shapes/shape_operations.h"
@@ -18,6 +20,11 @@
 #include <homestri_msgs/ComplianceControlGoal.h>
 #include <homestri_msgs/ComplianceControlResult.h>
 #include <homestri_msgs/ComplianceControlFeedback.h>
+
+#include <homestri_msgs/ForceControlAction.h>
+#include <homestri_msgs/ForceControlGoal.h>
+#include <homestri_msgs/ForceControlResult.h>
+#include <homestri_msgs/ForceControlFeedback.h>
 
 #include <homestri_msgs/CartesianControlAction.h>
 #include <homestri_msgs/CartesianControlGoal.h>
@@ -394,6 +401,24 @@ public:
 
 class SwitchControllerService: public RosServiceNode<controller_manager_msgs::SwitchController>
 {
+private:
+  
+  const static inline std::vector<std::string> ConflictingControllers = { 
+    "scaled_pos_joint_traj_controller",
+    "scaled_vel_joint_traj_controller",
+    "pos_joint_traj_controller",
+    "vel_joint_traj_controller",
+    "forward_joint_traj_controller",
+    "pose_based_cartesian_traj_controller",
+    "joint_based_cartesian_traj_controller",
+    "forward_cartesian_traj_controller",
+    "joint_group_vel_controller", 
+    "twist_controller",
+    "cartesian_motion_controller",
+    "cartesian_force_controller",
+    "cartesian_compliance_controller"
+  };
+
 public:
   SwitchControllerService( ros::NodeHandle& handle, const std::string& node_name, const NodeConfiguration & conf):
   RosServiceNode<controller_manager_msgs::SwitchController>(handle, node_name, conf) {}
@@ -401,9 +426,7 @@ public:
   static PortsList providedPorts()
   {
     return  {
-      InputPort<std::vector<std::string>>("start_controllers"),
-      InputPort<std::vector<std::string>>("stop_controllers"),
-      InputPort<int>("strictness")
+      InputPort<std::string>("controller")
     };
   }
 
@@ -411,20 +434,21 @@ public:
   {
     ROS_INFO("AddCollisionMesh: sending request");
 
-    if (!getInput<std::vector<std::string>>("start_controllers", request.start_controllers))
+    std::string controller;
+    if (!getInput<std::string>("controller", controller))
     {
-      ROS_ERROR("missing required input [start_controllers]");
+      ROS_ERROR("missing required input [controller]");
     }
 
-    if (!getInput<std::vector<std::string>>("stop_controllers", request.stop_controllers))
-    {
-      ROS_ERROR("missing required input [stop_controllers]");
-    }
+    std::vector<std::string> other_controllers = SwitchControllerService::ConflictingControllers;
+    other_controllers.erase(std::remove(other_controllers.begin(), other_controllers.end(), controller), other_controllers.end());
 
-    if (!getInput<int>("strictness", request.strictness))
-    {
-      request.strictness = controller_manager_msgs::SwitchControllerRequest::STRICT;
-    }
+    request.start_controllers.resize(0);
+    request.start_controllers.push_back(controller);
+
+    request.stop_controllers = other_controllers;
+
+    request.strictness = controller_manager_msgs::SwitchControllerRequest::BEST_EFFORT;
   }
 
   NodeStatus onResponse(const ResponseType& rep) override
@@ -654,6 +678,60 @@ public:
     if (status() == NodeStatus::RUNNING)
     {
       ROS_WARN("CartesianControlAction halted");
+      BaseClass::halt();
+    }
+  }
+};
+
+class ForceControlAction : public RosActionNode<homestri_msgs::ForceControlAction>
+{
+
+public:
+  ForceControlAction(ros::NodeHandle &handle, const std::string &name, const NodeConfiguration &conf) : RosActionNode<homestri_msgs::ForceControlAction>(handle, name, conf) {}
+
+  static PortsList providedPorts()
+  {
+    return {
+        InputPort<geometry_msgs::Wrench>("wrench"),
+        InputPort<std::string>("frame_id")
+      };
+  }
+
+  bool sendGoal(GoalType &goal) override
+  {
+    if (!getInput<geometry_msgs::Wrench>("wrench", goal.wrench))
+    {
+      ROS_ERROR("missing required input [wrench]");
+      return false;
+    }
+    if (!getInput<std::string>("frame_id", goal.frame_id))
+    {
+      ROS_ERROR("missing required input [frame_id]");
+      return false;
+    }
+
+    ROS_INFO("ForceControlAction: sending request");
+
+    return true;
+  }
+
+  NodeStatus onResult(const ResultType &res) override
+  {
+    ROS_INFO("ForceControlAction: succeeded");
+    return NodeStatus::SUCCESS;
+  }
+
+  virtual NodeStatus onFailedRequest(FailureCause failure) override
+  {
+    ROS_ERROR("ForceControlAction request failed %d", static_cast<int>(failure));
+    return NodeStatus::FAILURE;
+  }
+
+  void halt() override
+  {
+    if (status() == NodeStatus::RUNNING)
+    {
+      ROS_WARN("ForceControlAction halted");
       BaseClass::halt();
     }
   }

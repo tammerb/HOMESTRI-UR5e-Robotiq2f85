@@ -38,8 +38,6 @@
                 frame_id="world"
             />
 
-            
-
             <ManipulationAction
                 server_name="manip_as"
                 id="arm_pose"
@@ -70,9 +68,7 @@
 
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
-                start_controllers="forward_cartesian_traj_controller"
-                stop_controllers="scaled_pos_joint_traj_controller"
-                strictness="2"
+                controller="forward_cartesian_traj_controller"
             />
 
 
@@ -88,11 +84,14 @@
                 service_name="/ur_hardware_interface/zero_ftsensor"
             />
 
+            <!-- <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="cartesian_compliance_controller"
+            /> -->
+
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
-                start_controllers="cartesian_compliance_controller"
-                stop_controllers="forward_cartesian_traj_controller"
-                strictness="2"
+                controller="cartesian_force_controller"
             />
 
             <GripperAction
@@ -101,20 +100,25 @@
                 max_effort="20"
             /> 
 
-            <ComplianceControlAction
+            <!-- <ComplianceControlAction
                 server_name="compliance_control"
                 offset="-0.3;0;0;0;0;0"
                 wrench="-75;0;0;0;0;0"
                 frame_id="world"
                 mode="offset"
-            />   
+            />    -->
+
+            <ForceControlAction
+                server_name="force_control"
+                wrench="-40;0;0;0;0;0"
+                frame_id="world"
+            /> 
+
 
 
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
-                start_controllers="forward_cartesian_traj_controller"
-                stop_controllers="cartesian_compliance_controller"
-                strictness="2"
+                controller="forward_cartesian_traj_controller"
             />
 
             <GripperAction
@@ -149,9 +153,7 @@
 
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
-                start_controllers="cartesian_compliance_controller"
-                stop_controllers="forward_cartesian_traj_controller"
-                strictness="2"
+                controller="cartesian_compliance_controller"
             />
 
             <GripperAction
@@ -171,9 +173,7 @@
 
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
-                start_controllers="forward_cartesian_traj_controller"
-                stop_controllers="cartesian_compliance_controller"
-                strictness="2"
+                controller="forward_cartesian_traj_controller"
             />
 
             <GripperAction
@@ -195,10 +195,57 @@
 
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
-                start_controllers="scaled_pos_joint_traj_controller"
-                stop_controllers="forward_cartesian_traj_controller"
-                strictness="2"
-            /> 
+                controller="scaled_pos_joint_traj_controller"
+            />  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
 
             <!-- <GripperAction

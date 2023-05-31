@@ -73,6 +73,7 @@ add_action_files(
   ComplianceControl.action
   CartesianControl.action
   ExecuteBehaviorTree.action
+  ForceControl.action
 )
 
 # Generate added messages and services with any dependencies listed here

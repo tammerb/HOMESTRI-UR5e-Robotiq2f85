@@ -85,9 +85,8 @@ class ComplianceControlActionServer(object):
                 current_pose_stamped = stamp_pose(
                     current_pose, frame=self.base_link)
 
-                zero_wrench = Wrench(0, 0, 0, 0, 0, 0)
-                zero_wrench_stamped = stamp_wrench(
-                    zero_wrench, frame=self.base_link)
+                zero_wrench = create_wrench(0, 0, 0, 0, 0, 0)
+                zero_wrench_stamped = stamp_wrench(zero_wrench, frame=self.base_link)
 
                 self.pose_pub.publish(current_pose_stamped)
                 self.wrench_pub.publish(zero_wrench_stamped)
@@ -125,6 +124,17 @@ class ComplianceControlActionServer(object):
 
         if success:
             rospy.loginfo('%s: Succeeded' % self._action_name)
+
+            current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
+            current_pose_stamped = stamp_pose(current_pose, frame=self.base_link)
+
+            zero_wrench = create_wrench(0, 0, 0, 0, 0, 0)
+            zero_wrench_stamped = stamp_wrench(
+                zero_wrench, frame=self.base_link)
+
+            self.pose_pub.publish(current_pose_stamped)
+            self.wrench_pub.publish(zero_wrench_stamped)
+
             self._as.set_succeeded()
 
     def __lookup_pose(self, target_frame, source_frame):        
