@@ -18,6 +18,8 @@ class ComplianceControlActionServer(object):
         self.base_link = 'base_link'
         self.trans_goal_tolerance = 0.02
         self.rot_goal_tolerance = np.pi/12
+        self.stall_linear_speed_threshold = 0.0015
+        self.stall_timeout = 1.0
 
         self.tf_timeout = rospy.Duration(3.0)
         self.tf_buffer = tf2_ros.Buffer()
@@ -62,93 +64,90 @@ class ComplianceControlActionServer(object):
             
             target_pose_stamped = self.tf_buffer.transform(target_pose_stamped, self.base_link, timeout=rospy.Duration(3.0))
 
+        target_pose = target_pose_stamped.pose
+        target_wrench_stamped = stamp_wrench(wrench, frame=frame_id, time=rospy.Time(0))
+
         # helper variables
         r = rospy.Rate(10)
+        stalled = False
         reached_target = False
         success = True
+        last_movement_time = rospy.Time.now()
+        previous_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
 
         # start executing the action
-        while not reached_target and not rospy.is_shutdown():
-            target_pose = target_pose_stamped.pose
-            current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
-            if current_pose == None:
-                rospy.loginfo(
-                    '%s: failed to read end effector frame.' % self._action_name)
-                self._as.set_aborted()
-                success = False
-                break
-
+        while (not reached_target or not stalled) and not rospy.is_shutdown():
             # check that preempt has not been requested by the client
             if self._as.is_preempt_requested():
                 rospy.loginfo('%s: Preempted' % self._action_name)
-
-                current_pose_stamped = stamp_pose(
-                    current_pose, frame=self.base_link)
-
-                zero_wrench = create_wrench(0, 0, 0, 0, 0, 0)
-                zero_wrench_stamped = stamp_wrench(zero_wrench, frame=self.base_link)
-
-                self.pose_pub.publish(current_pose_stamped)
-                self.wrench_pub.publish(zero_wrench_stamped)
-
+                self.__stop_controller()
                 self._as.set_preempted()
                 success = False
                 break
-
-            rot_err = rotational_error(
-                current_pose.orientation, target_pose.orientation)
-            trans_err = translational_error(
-                current_pose.position, target_pose.position)
             
-            print(f"trans_err {trans_err}, rot_err {rot_err}")
-
+            current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
+            
+            rot_err = rotational_error(current_pose.orientation, target_pose.orientation)
+            trans_err = translational_error(current_pose.position, target_pose.position)
             if rot_err < self.rot_goal_tolerance and trans_err < self.trans_goal_tolerance:
                 success = True
+                stalled = False
                 reached_target = True
                 break
             
-            t = Transform()
-            t.translation = target_pose_stamped.pose.position
-            t.rotation = target_pose_stamped.pose.orientation
-            t = stamp_transform(t, child_frame_id="target_frame", frame=self.base_link)
-            self.broadcaster.sendTransform(t)
+            delta_t = (current_pose.stamp - previous_pose.stamp).to_sec()
+            if delta_t > 0:
+                rot_speed = rotational_error(current_pose.orientation, previous_pose.orientation) / delta_t
+                lin_speed = translational_error(current_pose.position, previous_pose.position) / delta_t
 
+                print(f"lin_speed {lin_speed}, rot_speed {rot_speed}")
+
+                time = rospy.Time.now()
+                if lin_speed > self.stall_linear_speed_threshold:
+                    last_movement_time = time
+                elif (time - last_movement_time).to_sec() > self.stall_timeout:
+                    success = True
+                    stalled = True
+                    reached_target = False
+                    break              
+            
+            # publish target pose
             self.pose_pub.publish(target_pose_stamped)
+            
+            # publish target wrench
+            eef_target_wrench_stamped = self.tf_buffer.transform(target_wrench_stamped, self.end_effector_link, timeout=rospy.Duration(3.0))
+            self.wrench_pub.publish(eef_target_wrench_stamped)
 
-            target_wrench_stamped = stamp_wrench(wrench, frame=frame_id, time=rospy.Time(0))
-            target_wrench_stamped = self.tf_buffer.transform(target_wrench_stamped, self.end_effector_link, timeout=rospy.Duration(3.0))
-            print(target_wrench_stamped)
-            self.wrench_pub.publish(target_wrench_stamped)
+            # broadcast target frame
+            self.broadcaster.sendTransform(eef_target_wrench_stamped)
+
+            print(eef_target_wrench_stamped)
+            print(f"trans_err {trans_err}, rot_err {rot_err}")
 
             r.sleep()
 
         if success:
             rospy.loginfo('%s: Succeeded' % self._action_name)
-
-            current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
-            current_pose_stamped = stamp_pose(current_pose, frame=self.base_link)
-
-            zero_wrench = create_wrench(0, 0, 0, 0, 0, 0)
-            zero_wrench_stamped = stamp_wrench(
-                zero_wrench, frame=self.base_link)
-
-            self.pose_pub.publish(current_pose_stamped)
-            self.wrench_pub.publish(zero_wrench_stamped)
-
+            self.__stop_controller()
             self._as.set_succeeded()
 
+    def __stop_controller(self):
+        current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
+        current_pose_stamped = stamp_pose(current_pose, frame=self.base_link)
+
+        zero_wrench = create_wrench(0, 0, 0, 0, 0, 0)
+        zero_wrench_stamped = stamp_wrench(zero_wrench, frame=self.base_link)
+
+        self.pose_pub.publish(current_pose_stamped)
+        self.wrench_pub.publish(zero_wrench_stamped)
+
     def __lookup_pose(self, target_frame, source_frame):        
-        try:
-            trans = self.tf_buffer.lookup_transform(
-                target_frame, source_frame, rospy.Time(0), timeout=self.tf_timeout)
-            
-            pose = Pose()
-            pose.position = trans.transform.translation
-            pose.orientation = trans.transform.rotation
-            return pose 
-        
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-            return None     
+        trans = self.tf_buffer.lookup_transform(target_frame, source_frame, rospy.Time(0), timeout=self.tf_timeout)
+
+        pose = Pose()
+        pose.position = trans.transform.translation
+        pose.orientation = trans.transform.rotation
+        return pose  
 
 if __name__ == "__main__":
     rospy.init_node('compliance_control_action_server')

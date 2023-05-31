@@ -96,13 +96,7 @@ def rotational_error(q1, q2):
     else:
         angle_of_rotation = 2 * np.arccos(q_err.w)
 
-    # q_err_norm = q_err / np.linalg.norm(quaternion.as_float_array(q_err))
-    # axis = np.array([q_err_norm.x, q_err_norm.y, q_err_norm.z])
-
-    # axis_of_rotation = angle_of_rotation * axis
-    # axis_of_rotation_magnitude = np.linalg.norm(axis_of_rotation)
-
-    return angle_of_rotation #, axis_of_rotation_magnitude
+    return angle_of_rotation 
 
 def translational_error(t1, t2):
     t1 = np.array((t1.x, t1.y, t1.z))
