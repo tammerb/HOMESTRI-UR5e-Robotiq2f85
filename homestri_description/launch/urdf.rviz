@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
+        - /RobotModel1/Links1
+        - /RobotModel1/Links1/gripper_tip_link1
       Splitter Ratio: 0.5
     Tree Height: 585
   - Class: rviz/Selection
@@ -62,6 +64,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        angle_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base:
           Alpha: 1
           Show Axes: false
@@ -79,12 +86,39 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        camera_link:
+        camera_color_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        coupler:
+        camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -110,7 +144,7 @@ Visualization Manager:
           Value: true
         gripper_tip_link:
           Alpha: 1
-          Show Axes: false
+          Show Axes: true
           Show Trail: false
         ground:
           Alpha: 1
@@ -122,22 +156,22 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        left_inner_finger_pad:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         left_inner_knuckle:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_outer_finger:
+        left_outer_knuckle:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_outer_knuckle:
+        pedestal:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        quick_changer:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -152,17 +186,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_inner_finger_pad:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_inner_knuckle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_outer_finger:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -177,11 +201,31 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        table:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         tool0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
         upper_arm_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wall_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wall_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wall_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -239,7 +283,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.446097731590271
+      Distance: 3.457432746887207
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -247,17 +291,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.02293054573237896
-        Y: 0.016108565032482147
-        Z: 0.08060198277235031
+        X: 0.1715291142463684
+        Y: -0.2211662232875824
+        Z: 0.5247077941894531
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.03979666158556938
+      Pitch: 0.34479662775993347
       Target Frame: <Fixed Frame>
-      Yaw: 0.20358282327651978
+      Yaw: 2.238584041595459
     Saved: ~
 Window Geometry:
   Displays:
@@ -275,5 +319,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1216
-  X: 2925
-  Y: 157
+  X: 1344
+  Y: 120

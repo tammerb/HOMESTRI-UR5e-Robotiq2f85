@@ -17,9 +17,9 @@ class ComplianceControlActionServer(object):
         self.end_effector_link = 'gripper_tip_link'
         self.base_link = 'base_link'
         self.trans_goal_tolerance = 0.02
-        self.rot_goal_tolerance = np.pi/12
-        self.stall_linear_speed_threshold = 0.0015
-        self.stall_timeout = 1.0
+        self.rot_goal_tolerance = np.pi/18
+        self.stall_linear_speed_threshold = 0.001
+        self.stall_timeout = 1
 
         self.tf_timeout = rospy.Duration(3.0)
         self.tf_buffer = tf2_ros.Buffer()
@@ -73,7 +73,7 @@ class ComplianceControlActionServer(object):
         reached_target = False
         success = True
         last_movement_time = rospy.Time.now()
-        previous_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
+        previous_pose_stamped = self.__lookup_pose_stamped(self.base_link, self.end_effector_link)
 
         # start executing the action
         while (not reached_target or not stalled) and not rospy.is_shutdown():
@@ -85,7 +85,8 @@ class ComplianceControlActionServer(object):
                 success = False
                 break
             
-            current_pose = self.__lookup_pose(self.base_link, self.end_effector_link)
+            current_pose_stamped = self.__lookup_pose_stamped(self.base_link, self.end_effector_link)
+            current_pose = current_pose_stamped.pose
             
             rot_err = rotational_error(current_pose.orientation, target_pose.orientation)
             trans_err = translational_error(current_pose.position, target_pose.position)
@@ -95,10 +96,12 @@ class ComplianceControlActionServer(object):
                 reached_target = True
                 break
             
-            delta_t = (current_pose.stamp - previous_pose.stamp).to_sec()
+            delta_t = (current_pose_stamped.header.stamp - previous_pose_stamped.header.stamp).to_sec()
             if delta_t > 0:
-                rot_speed = rotational_error(current_pose.orientation, previous_pose.orientation) / delta_t
-                lin_speed = translational_error(current_pose.position, previous_pose.position) / delta_t
+                rot_speed = rotational_error(current_pose.orientation, previous_pose_stamped.pose.orientation) / delta_t
+                lin_speed = translational_error(current_pose.position, previous_pose_stamped.pose.position) / delta_t
+
+                previous_pose_stamped = current_pose_stamped
 
                 print(f"lin_speed {lin_speed}, rot_speed {rot_speed}")
 
@@ -119,9 +122,8 @@ class ComplianceControlActionServer(object):
             self.wrench_pub.publish(eef_target_wrench_stamped)
 
             # broadcast target frame
-            self.broadcaster.sendTransform(eef_target_wrench_stamped)
+            self.__broadcast_pose(target_pose_stamped)
 
-            print(eef_target_wrench_stamped)
             print(f"trans_err {trans_err}, rot_err {rot_err}")
 
             r.sleep()
@@ -147,7 +149,26 @@ class ComplianceControlActionServer(object):
         pose = Pose()
         pose.position = trans.transform.translation
         pose.orientation = trans.transform.rotation
-        return pose  
+        return pose
+    
+    def __lookup_pose_stamped(self, target_frame, source_frame):        
+        trans = self.tf_buffer.lookup_transform(target_frame, source_frame, rospy.Time(0), timeout=self.tf_timeout)
+
+        pose = PoseStamped()
+        pose.pose.position = trans.transform.translation
+        pose.pose.orientation = trans.transform.rotation
+        pose.header = trans.header
+        return pose
+    
+    def __broadcast_pose(self, pose_stamped):
+        transform = TransformStamped()
+        transform.header.frame_id = pose_stamped.header.frame_id
+        transform.header.stamp = rospy.Time.now()
+        transform.transform.translation = pose_stamped.pose.position
+        transform.transform.rotation = pose_stamped.pose.orientation
+        transform.child_frame_id = "target_frame"
+
+        self.broadcaster.sendTransform(transform)
 
 if __name__ == "__main__":
     rospy.init_node('compliance_control_action_server')
@@ -158,8 +179,8 @@ if __name__ == "__main__":
     # # goal.pose = create_pose(0, 0, 0, 0,0,0,1)
     # goal.frame_id = "world"
     # goal.mode = ComplianceControlGoal.MODE_OFFSET
-    # goal.offset = create_pose(-0.25,0,0,0,0,0,1 )
-    # goal.wrench = create_wrench(-30,0,0,0,0,0)
+    # goal.offset = create_pose(0.1,0,0,0,0,0,1 )
+    # goal.wrench = create_wrench(0,0,0,0,0,0)
 
     # compliance_control_server.execute_cb(goal)
 
