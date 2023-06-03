@@ -17,10 +17,7 @@ ros::Publisher pub;
 void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &input)
 {
   m.lock();
-  
   pc_msg = *input;
-  ROS_INFO("%d", pc_msg.height);
-
   m.unlock();
 }
 
@@ -32,12 +29,13 @@ int main(int argc, char **argv)
 
   ros::AsyncSpinner spinner(0);
   spinner.start();
+  
 
   tf::TransformListener listener;
 
   // Create a ROS subscriber for the input point cloud
-  ros::Subscriber sub = nh.subscribe("/camera/depth/color/points", 1, cloud_cb);
-
+  ros::Subscriber sub = nh.subscribe("cloud_pcd", 1, cloud_cb);
+  
   pcl::PointCloud<pcl::PointXYZ> merged_pc;
   for (int i = 0; i < 3; i++ ) {
     ROS_INFO("PRESS ENTER TO TAKE PICTURE");
@@ -47,9 +45,6 @@ int main(int argc, char **argv)
     m.lock();
     sensor_msgs::PointCloud2 cur_pc_msg = pc_msg;
     m.unlock();
-
-
-    ROS_INFO("%s", cur_pc_msg.header.frame_id.c_str());
 
     sensor_msgs::PointCloud2 world_pc_msg;
     pcl_ros::transformPointCloud("world", cur_pc_msg, world_pc_msg, listener);
@@ -63,7 +58,4 @@ int main(int argc, char **argv)
   }
 
   pcl::io::savePCDFileBinary("point_cloud.pcd", merged_pc);
-
-  // Spin
-  ros::spin();
 }
