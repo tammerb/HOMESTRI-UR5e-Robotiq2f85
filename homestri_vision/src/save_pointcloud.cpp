@@ -34,7 +34,7 @@ int main(int argc, char **argv)
   tf::TransformListener listener;
 
   // Create a ROS subscriber for the input point cloud
-  ros::Subscriber sub = nh.subscribe("cloud_pcd", 1, cloud_cb);
+  ros::Subscriber sub = nh.subscribe("/camera/depth/color/points", 1, cloud_cb);
   
   pcl::PointCloud<pcl::PointXYZ> merged_pc;
   for (int i = 0; i < 3; i++ ) {
