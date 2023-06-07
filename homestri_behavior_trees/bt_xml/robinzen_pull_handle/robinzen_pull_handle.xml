@@ -50,18 +50,18 @@
                 translational_offset="0;0;0"
             /> 
 
-            <!-- <DetectFrame 
-                source_frame="handle_target"
+            <DetectFrame 
+                source_frame="handle"
                 target_frame="world"
                 output_pose="{handle_pose}"
                 timeout="3.0"
-            /> -->
+            />
 
 
             <ManipulationAction
                 server_name="manip_as"
                 id="arm_pose"
-                pose="0.912;0.06;1.23;0;0;0.4"
+                pose="{handle_pose}"
                 translational_offset="-0.15;0;0"
             /> 
 
@@ -102,8 +102,8 @@
 
             <ComplianceControlAction
                 server_name="compliance_control"
-                offset="-0.45;0;0;0;0;0"
-                wrench="-50;0;0;0;0;0"
+                offset="-0.38;0;0;0;0;0"
+                wrench="-50;0;5;0;0;0"
                 frame_id="world"
                 mode="offset"
             />   
