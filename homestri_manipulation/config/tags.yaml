@@ -34,8 +34,14 @@ standalone_tags:
     # {id: 11, size: 0.03},
     {id: 12, size: 0.03},
     {id: 13, size: 0.03},
+    {id: 14, size: 0.03},
+    {id: 15, size: 0.03},
+    {id: 16, size: 0.03},
+    {id: 17, size: 0.03},
     {id: 18, size: 0.03},
     {id: 19, size: 0.03},
+    {id: 20, size: 0.03},
+    {id: 21, size: 0.03},
 ]
 # ## Tag bundle definitions
 # ### Remarks
@@ -69,6 +75,19 @@ tag_bundles:
           {id: 13, size: 0.03, x:  0.0225, y:  0.0225, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
           {id: 18, size: 0.03, x:  -0.0225, y:  -0.0225, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
           {id: 19, size: 0.03, x:  0.0225, y:  -0.0225, z: 0, qw: 1, qx: 0, qy: 0, qz: 0},
+        ]
+      },
+
+    {
+      name: 'tools_bundle_center',
+      layout:
+        [
+          {id: 14, size: 0.03, x:  0, y:  0.1826, z:  0.0374, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 15, size: 0.03, x:  0, y:  0.1379, z:  0.0377, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 16, size: 0.03, x:  0, y:  -0.1670, z: 0.0455, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 17, size: 0.03, x:  0, y:  -0.2123, z: 0.0457, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 20, size: 0.03, x:  0, y:  0.0225, z:  -0.0836, qw: 1, qx: 0, qy: 0, qz: 0},
+          {id: 21, size: 0.03, x:  0, y:  -0.0225, z: -0.0827, qw: 1, qx: 0, qy: 0, qz: 0},
         ]
       },
     
