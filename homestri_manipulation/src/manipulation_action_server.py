@@ -7,6 +7,8 @@ from threading import Thread
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import Pose, Quaternion, Point
 from homestri_msgs.msg import ManipulationAction, ManipulationResult
+import moveit_msgs.msg
+import math
     
 class ThreadWithReturnValue(Thread):
     def __init__(self, group=None, target=None, name=None,
@@ -28,6 +30,17 @@ class ManipulationActionServer():
 
         self.arm = Arm('arm')
         self.gripper = Gripper('gripper')
+
+
+        constraints = moveit_msgs.msg.Constraints()
+        joint_constraint = moveit_msgs.msg.JointConstraint()
+        joint_constraint.joint_name = 'wrist_1_joint'
+        joint_constraint.position = -math.pi/2
+        joint_constraint.tolerance_above = math.pi/2
+        joint_constraint.tolerance_below = math.pi/2
+        joint_constraint.weight = 10
+        constraints.joint_constraints = [joint_constraint]
+        self.arm.set_path_constraints(constraints)
 
         self.actserv = actionlib.SimpleActionServer(
             'manip_as', 
