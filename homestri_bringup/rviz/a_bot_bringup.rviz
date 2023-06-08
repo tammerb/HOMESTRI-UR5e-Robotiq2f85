@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
         - /TF1
         - /TF1/Frames1
@@ -224,11 +225,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          table:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
@@ -281,7 +277,7 @@ Visualization Manager:
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
         Planning Group: arm
-        Query Goal State: true
+        Query Goal State: false
         Query Start State: false
         Show Workspace: false
         Start State Alpha: 1
@@ -455,11 +451,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          table:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
@@ -538,7 +529,7 @@ Visualization Manager:
           Value: false
         gripper_tip_link:
           Value: true
-        latch_0:
+        handle:
           Value: true
         left_inner_finger:
           Value: false
@@ -566,14 +557,32 @@ Visualization Manager:
           Value: false
         shoulder_link:
           Value: false
-        table:
+        tag_14:
           Value: false
-        tag_31:
+        tag_15:
           Value: false
+        tag_16:
+          Value: false
+        tag_17:
+          Value: false
+        tag_20:
+          Value: false
+        tag_21:
+          Value: false
+        tag_bundle_center:
+          Value: true
         tool0:
           Value: false
         tool0_controller:
           Value: false
+        tool_a:
+          Value: true
+        tool_c:
+          Value: true
+        tool_e:
+          Value: true
+        tools_bundle_center:
+          Value: true
         upper_arm_link:
           Value: false
         world:
@@ -612,8 +621,24 @@ Visualization Manager:
                                   camera_link:
                                     camera_color_frame:
                                       camera_color_optical_frame:
-                                        tag_31:
-                                          latch_0:
+                                        tag_14:
+                                          {}
+                                        tag_15:
+                                          {}
+                                        tag_16:
+                                          {}
+                                        tag_17:
+                                          {}
+                                        tag_20:
+                                          {}
+                                        tag_21:
+                                          {}
+                                        tools_bundle_center:
+                                          tool_a:
+                                            {}
+                                          tool_c:
+                                            {}
+                                          tool_e:
                                             {}
                                     camera_depth_frame:
                                       camera_depth_optical_frame:
@@ -645,13 +670,75 @@ Visualization Manager:
                             flange:
                               tool0:
                                 {}
-          table:
-            {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
       Enabled: false
       Image Topic: /aruco_single/result
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /camera/depth/color/points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/Image
+      Enabled: false
+      Image Topic: /tag_detections_image
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: false
+    - Class: rviz/Image
+      Enabled: false
+      Image Topic: /tag_detections_image
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: false
+    - Class: rviz/Image
+      Enabled: false
+      Image Topic: /tag_detections_image
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -677,7 +764,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.1455516815185547
+      Distance: 1.5583945512771606
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -685,17 +772,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: 0.7772027254104614
-        Y: 0.4279279410839081
-        Z: 0.35961923003196716
+        X: 0.49963274598121643
+        Y: 1.0717639923095703
+        Z: 0.3569606840610504
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5500002503395081
+      Pitch: 0.9000000357627869
       Target Frame: world
-      Yaw: 4.659970283508301
+      Yaw: 3.779968738555908
     Saved: ~
 Window Geometry:
   Displays:
@@ -711,7 +798,7 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002e20000050afc020000000cfb000000100044006900730070006c006100790073010000003b0000030e000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000034f000001f60000016900fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d006100670065000000041a000000950000000000000000fb0000000a0049006d006100670065010000045d000000e80000000000000000000006ce0000050a00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002e20000050afc020000000ffb000000100044006900730070006c006100790073010000003b0000030e000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000034f000001f60000016900fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d006100670065000000041a000000950000001600fffffffb0000000a0049006d006100670065010000045d000000e80000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000000006ce0000050a00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 2486
