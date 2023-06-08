@@ -1,4 +1,4 @@
 <launch>
-    <param name="bt_directory" value="$(find homestri_behavior_trees)/bt_xml/robinzen_pull_handle"/>
+    <param name="bt_directory" value="$(find homestri_behavior_trees)/bt_xml/robinzen_collect_tools"/>
     <node pkg="homestri_behavior_trees" type="test_explain_bt" name="test_bt" output="screen"/>
 </launch>

@@ -109,6 +109,7 @@ class ComplianceControlActionServer(object):
                 if lin_speed > self.stall_linear_speed_threshold:
                     last_movement_time = time
                 elif (time - last_movement_time).to_sec() > self.stall_timeout:
+                    rospy.loginfo('%s: STALLED' % self._action_name)
                     success = True
                     stalled = True
                     reached_target = False
