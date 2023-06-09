@@ -69,22 +69,16 @@
             <GripperAction
                 server_name="gripper_controller/gripper_cmd"
                 position="1.18"
-                max_effort="25"
+                max_effort="40"
             />
 
             <ComplianceControlAction
                 server_name="compliance_control"
                 offset="0;0;0.084;0;0;0"
-                wrench="0;0;35;0;0;0"
+                wrench="0;0;50;0;0;0"
                 frame_id="world"
                 mode="offset"
             />   
-
-            <GripperAction
-                server_name="gripper_controller/gripper_cmd"
-                position="1.18"
-                max_effort="40"
-            />
 
 
             <SwitchControllerService
@@ -95,8 +89,16 @@
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0;0;0.1;0;0;0"
+                offset="0;0;0.15;0;0;0"
                 duration="8.0"
+                frame_id="world"
+                mode="offset"
+            />
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.25;0;0;0;0;0"
+                duration="10.0"
                 frame_id="world"
                 mode="offset"
             />
@@ -111,7 +113,7 @@
             <ManipulationAction
                 server_name="manip_as"
                 id="arm_pose"
-                pose="0.1314;0.6;0.97028;-0.5;-0.5;0.5;0.5"
+                pose="0.1314;0.6;0.87028;-0.5;-0.5;0.5;0.5"
                 translational_offset="0;0;0"
             />
 
@@ -131,7 +133,7 @@
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0;0;-0.22;0;0;0"
+                offset="0;0;-0.12;0;0;0"
                 duration="12.0"
                 frame_id="world"
                 mode="offset"
@@ -172,7 +174,7 @@
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0;0;0.22;0;0;0"
+                offset="0;0;0.12;0;0;0"
                 duration="12.0"
                 frame_id="world"
                 mode="offset"
@@ -195,7 +197,7 @@
                 server_name="manip_as"
                 id="arm_pose"
                 pose="{plate_tab}"
-                translational_offset="-0.005;-0.2;0"
+                translational_offset="-0.255;-0.2;0"
             />
 
             <SwitchControllerService
@@ -205,7 +207,15 @@
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0;0;-0.19;0;0;0"
+                offset="0.25;0;0;0;0;0"
+                duration="10.0"
+                frame_id="world"
+                mode="offset"
+            />
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0;0;-0.195;0;0;0"
                 duration="20.0"
                 frame_id="world"
                 mode="offset"

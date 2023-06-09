@@ -215,12 +215,12 @@ cartesian_compliance_controller:
   joints: *robot_joints
 
   stiffness: # w.r.t. compliance_ref_link
-    trans_x: 300
-    trans_y: 300
-    trans_z: 300
-    rot_x: 20
-    rot_y: 20
-    rot_z: 20
+    trans_x: 100
+    trans_y: 100
+    trans_z: 100
+    rot_x: 5
+    rot_y: 5
+    rot_z: 5
 
   solver:
     error_scale: 0.01

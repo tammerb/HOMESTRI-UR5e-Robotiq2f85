@@ -1,123 +1,272 @@
 <root main_tree_to_execute="MainTree">
-
-
     <BehaviorTree ID="MainTree">
-        <Sequence>
-            <!-- Detect assembly mesh -->
-            <!-- <DetectFrame 
-                source_frame="assembly_base_link"
-                target_frame="world"
-                output_pose="{mesh_pose}"
-                timeout="3.0"
-            /> -->
+        <Sequence name="collect hand tools">
 
-            <AddCollisionMeshService
+            <!--AddCollisionMeshService
                 service_name="apply_planning_scene"
                 mesh_path="package://homestri_description/meshes/components/collision/robinzen_table.stl"
                 pose="0.91;0;0.915;0;0;0"
                 mesh_pose="0;0;0;0;0;0"
                 id="robinzen_table"
                 frame_id="world"
-            />
-
-            <SwitchControllerService
-                service_name="controller_manager/switch_controller"
-                controller="scaled_pos_joint_traj_controller"
-            />
-
-            <ManipulationAction
-                server_name="manip_as"
-                id="arm_pose"
-                pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+            /-->
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
                 translational_offset="0;0;0"
+                object="tool_a"
+                object_pose="{tool_a_pose}"
             />
 
-            <DetectFrame
-                source_frame="tool_a"
-                target_frame="world"
-                output_pose="{tool_a_pose}"
-                timeout="3.0"
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_a"
+                object_pose="{tool_a_pose}"
+            />
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_c"
+                object_pose="{tool_c_pose}"
+            />
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_e"
+                object_pose="{tool_e_pose}"
+            />
+            <!--SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_c"
+            /-->
+            <!--SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_e"
+            /-->
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="pallet_tool_slot_l"
+                object_pose="{pallet_tool_slot_l_pose}"
             />
 
-            <DetectFrame
-                source_frame="pallet_tool_slot_l"
-                target_frame="world"
-                output_pose="{pallet_tool_slot_l}"
-                timeout="3.0"
+
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="pallet_tool_slot_r"
+                object_pose="{pallet_tool_slot_r_pose}"
             />
 
 
-            <ManipulationAction
-                server_name="manip_as"
-                id="arm_pose"
-                pose="{tool_a_pose}"
-                translational_offset="-0.15;0;0"
+            <SubTreePlus
+                ID="DetectFramesSubtree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="pallet_handle"
+                object_pose="{pallet_handle_pose}"
             />
 
-            <GripperAction
-                server_name="gripper_controller/gripper_cmd"
-                position="0.3"
-                max_effort="20"
+            <!--SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="pallet_tool_slot_r"
+            /-->
+            <SubTreePlus
+                ID="PickCartesianSubtree"
+                name="pick object"
+                object="phillips screwdriver"
+                object_pose="{tool_a_pose}"
+                gripper_start_position="0.3"
+                gripper_end_position="0.8"
+                manip_offset_1="0;0;0.2;0;0;0"
+                manip_duration_1="10.0"
+                manip_offset_2="-0.15;0;0;0;0;0"
+                manip_duration_2="7.5"
             />
-
+            <SubTreePlus
+                ID="MotionJointTrajSubtree"
+                name="move to new pose"
+                pose="{pallet_tool_slot_l_pose}"
+                translational_offset="-0.10;0;0"
+            />
             <SwitchControllerService
                 service_name="controller_manager/switch_controller"
                 controller="forward_cartesian_traj_controller"
             />
-
-
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0.15;0;0;0;0;0"
-                duration="8.0"
+                offset="0.05;0;0;0;0;0"
+                duration="5.0"
                 frame_id="gripper_tip_link"
                 mode="offset"
             />
-
-            <GripperAction
-                server_name="gripper_controller/gripper_cmd"
-                position="0.8"
-                max_effort="20"
-            />
-
-
-            <CartesianControlAction
-                server_name="cartesian_control"
-                offset="0;0;0.2;0;0;0"
-                duration="10.0"
-                frame_id="gripper_tip_link"
-                mode="offset"
-            />
-
-
-            <CartesianControlAction
-                server_name="cartesian_control"
-                offset="-0.15;0;0;0;0;0"
-                duration="7.5"
-                frame_id="gripper_tip_link"
-                mode="offset"
-            />
-
-            <SwitchControllerService
-                service_name="controller_manager/switch_controller"
-                controller="scaled_pos_joint_traj_controller"
-            />
-            
-            <ManipulationAction
-                server_name="manip_as"
-                id="arm_pose"
-                pose="{pallet_tool_slot_l}"
-                translational_offset="-0.15;0;0"
-            />
-
-
             <GripperAction
                 server_name="gripper_controller/gripper_cmd"
                 position="0.3"
                 max_effort="20"
             />
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.05;0;0;0;0;0"
+                duration="5.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <SubTreePlus
+                ID="PickCartesianSubtree"
+                name="pick object"
+                object="phillips screwdriver"
+                object_pose="{tool_c_pose}"
+                gripper_start_position="0.3"
+                gripper_end_position="0.8"
+                manip_offset_1="0;0;0.2;0;0;0"
+                manip_duration_1="10.0"
+                manip_offset_2="-0.15;0;0;0;0;0"
+                manip_duration_2="7.5"
+            />
+            <SubTreePlus
+                ID="MotionJointTrajSubtree"
+                name="move to new pose"
+                pose="{pallet_tool_slot_r_pose}"
+                translational_offset="-0.10;0;0"
+            />
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="forward_cartesian_traj_controller"
+            />
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0.05;0;0;0;0;0"
+                duration="5.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.3"
+                max_effort="20"
+            />
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.05;0;0;0;0;0"
+                duration="5.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <SubTreePlus
+                ID="PickCartesianSubtree"
+                name="pick object"
+                object="phillips screwdriver"
+                object_pose="{tool_e_pose}"
+                gripper_start_position="0.3"
+                gripper_end_position="0.8"
+                manip_offset_1="0;0;0.2;0;0;0"
+                manip_duration_1="10.0"
+                manip_offset_2="-0.15;0;0;0;0;0"
+                manip_duration_2="7.5"
+            />
+            <SubTreePlus
+                ID="MotionJointTrajSubtree"
+                name="move to new pose"
+                pose="{pallet_tool_slot_r_pose}"
+                translational_offset="-0.10;0;0"
+            />
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="forward_cartesian_traj_controller"
+            />
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0.05;0;0;0;0;0"
+                duration="5.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.3"
+                max_effort="20"
+            />
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.05;0;0;0;0;0"
+                duration="5.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+            
+
+
+
+
+
+
+            
+
+
+            
+
+
+
+
         </Sequence>
-
     </BehaviorTree>
-
 </root>

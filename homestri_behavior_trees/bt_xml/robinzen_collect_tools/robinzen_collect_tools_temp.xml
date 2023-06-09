@@ -1,0 +1,126 @@
+<!-- <root main_tree_to_execute="MainTree"> -->
+
+<root>
+
+
+
+    <BehaviorTree ID="MainTreeTemp">
+        <Sequence>
+            <!-- Detect assembly mesh -->
+            <!-- <DetectFrame 
+                source_frame="assembly_base_link"
+                target_frame="world"
+                output_pose="{mesh_pose}"
+                timeout="3.0"
+            /> -->
+
+            <AddCollisionMeshService
+                service_name="apply_planning_scene"
+                mesh_path="package://homestri_description/meshes/components/collision/robinzen_table.stl"
+                pose="0.91;0;0.915;0;0;0"
+                mesh_pose="0;0;0;0;0;0"
+                id="robinzen_table"
+                frame_id="world"
+            />
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+            />
+
+            <DetectFrame
+                source_frame="tool_a"
+                target_frame="world"
+                output_pose="{tool_a_pose}"
+                timeout="3.0"
+            />
+
+            <DetectFrame
+                source_frame="pallet_tool_slot_l"
+                target_frame="world"
+                output_pose="{pallet_tool_slot_l}"
+                timeout="3.0"
+            />
+
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{tool_a_pose}"
+                translational_offset="-0.15;0;0"
+            />
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.3"
+                max_effort="20"
+            />
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="forward_cartesian_traj_controller"
+            />
+
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0.15;0;0;0;0;0"
+                duration="8.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.8"
+                max_effort="20"
+            />
+
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0;0;0.2;0;0;0"
+                duration="10.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.15;0;0;0;0;0"
+                duration="7.5"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+            
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{pallet_tool_slot_l}"
+                translational_offset="-0.15;0;0"
+            />
+
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.3"
+                max_effort="20"
+            />
+        </Sequence>
+
+    </BehaviorTree>
+
+</root>

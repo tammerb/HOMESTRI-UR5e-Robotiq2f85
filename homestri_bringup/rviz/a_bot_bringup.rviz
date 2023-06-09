@@ -6,10 +6,10 @@ Panels:
       Expanded:
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
-        - /TF1
         - /TF1/Frames1
+        - /Image1
       Splitter Ratio: 0.5
-    Tree Height: 723
+    Tree Height: 399
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -541,8 +541,30 @@ Visualization Manager:
           Value: false
         left_outer_knuckle:
           Value: false
+        ll_latch_closed:
+          Value: true
+        ll_latch_open:
+          Value: true
+        lu_latch_closed:
+          Value: true
+        lu_latch_open:
+          Value: true
+        pallet_center:
+          Value: true
+        pallet_handle:
+          Value: true
+        pallet_tool_slot_l:
+          Value: true
+        pallet_tool_slot_r:
+          Value: true
         pedestal:
           Value: false
+        plate_bundle_center:
+          Value: true
+        plate_metal_component:
+          Value: true
+        plate_tab:
+          Value: true
         realsense_mount:
           Value: false
         right_inner_finger:
@@ -555,20 +577,32 @@ Visualization Manager:
           Value: false
         right_outer_knuckle:
           Value: false
+        rl_latch_closed:
+          Value: true
+        rl_latch_open:
+          Value: true
+        ru_latch_closed:
+          Value: true
+        ru_latch_open:
+          Value: true
         shoulder_link:
           Value: false
         tag_14:
-          Value: false
+          Value: true
         tag_15:
-          Value: false
+          Value: true
         tag_16:
-          Value: false
+          Value: true
         tag_17:
-          Value: false
+          Value: true
         tag_20:
-          Value: false
+          Value: true
         tag_21:
-          Value: false
+          Value: true
+        tag_22:
+          Value: true
+        tag_23:
+          Value: true
         tag_bundle_center:
           Value: true
         tool0:
@@ -621,6 +655,12 @@ Visualization Manager:
                                   camera_link:
                                     camera_color_frame:
                                       camera_color_optical_frame:
+                                        pallet_center:
+                                          pallet_handle:
+                                            pallet_tool_slot_l:
+                                              {}
+                                            pallet_tool_slot_r:
+                                              {}
                                         tag_14:
                                           {}
                                         tag_15:
@@ -632,6 +672,10 @@ Visualization Manager:
                                         tag_20:
                                           {}
                                         tag_21:
+                                          {}
+                                        tag_22:
+                                          {}
+                                        tag_23:
                                           {}
                                         tools_bundle_center:
                                           tool_a:
@@ -672,18 +716,6 @@ Visualization Manager:
                                 {}
       Update Interval: 0
       Value: true
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /aruco_single/result
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -724,30 +756,6 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: false
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /tag_detections_image
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
-    - Class: rviz/Image
-      Enabled: false
-      Image Topic: /tag_detections_image
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
-      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -764,7 +772,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.5583945512771606
+      Distance: 2.7524290084838867
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -772,22 +780,22 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: 0.49963274598121643
-        Y: 1.0717639923095703
-        Z: 0.3569606840610504
+        X: 0.09605950862169266
+        Y: 0.6983245015144348
+        Z: 0.5087409019470215
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9000000357627869
+      Pitch: 0.5400002598762512
       Target Frame: world
-      Yaw: 3.779968738555908
+      Yaw: 5.029971599578857
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1376
+  Height: 1022
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -798,9 +806,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002e20000050afc020000000ffb000000100044006900730070006c006100790073010000003b0000030e000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000034f000001f60000016900fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d00610067006500000003db000000d40000001600fffffffb0000000a0049006d006100670065000000041a000000950000001600fffffffb0000000a0049006d006100670065010000045d000000e80000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000000006ce0000050a00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002e2000003a8fc0200000011fb000000100044006900730070006c006100790073010000003b000001ca000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000020b000001d80000016900fffffffb0000000a0049006d00610067006502000000cd0000003d000008c70000053efb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d006100670065000000041a000000950000000000000000fb0000000a0049006d006100670065010000045d000000e80000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d006100670065010000046c000000d90000000000000000fb0000000a0049006d00610067006502000000d7000000530000091c00000539fb0000000a0049006d00610067006502000000e200000035000008c90000051500000460000003a800000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 2486
-  X: 74
-  Y: 27
+  Width: 1864
+  X: 404
+  Y: 153
