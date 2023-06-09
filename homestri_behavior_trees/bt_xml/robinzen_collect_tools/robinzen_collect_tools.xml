@@ -93,7 +93,7 @@
             <CartesianControlAction
                 server_name="cartesian_control"
                 offset="-0.15;0;0;0;0;0"
-                duration="8.0"
+                duration="7.5"
                 frame_id="gripper_tip_link"
                 mode="offset"
             />

@@ -1,0 +1,26 @@
+<root>
+    <!-- 
+    inputs: 
+      - pose
+      - translational_offset
+  -->
+    <BehaviorTree ID="MotionJointTrajSubtree">
+
+        <Sequence name="move to new pose">
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{pose}"
+                translational_offset="{translational_offset}"
+            />
+        </Sequence>
+
+
+    </BehaviorTree>
+
+</root>
