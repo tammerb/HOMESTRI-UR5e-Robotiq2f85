@@ -1,0 +1,27 @@
+<root>
+    <!-- 
+    inputs: 
+      - view_pose
+      - translational_offset
+      - object 
+  -->
+    <BehaviorTree ID="DetectFramesSubtree">
+
+        <Sequence name="detect pose of the {object}">
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{view_pose}"
+                translational_offset="{translational_offset}"
+            />
+            <DetectFrame
+                source_frame="{object}"
+                target_frame="world"
+                output_pose="{tool_a_pose}"
+                timeout="3.0"
+            />
+        </Sequence>
+    </BehaviorTree>
+
+</root>

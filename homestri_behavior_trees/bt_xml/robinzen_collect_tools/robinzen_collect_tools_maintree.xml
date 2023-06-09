@@ -1,0 +1,73 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <Sequence name="collect hand tools">
+
+            <!--AddCollisionMeshService
+                service_name="apply_planning_scene"
+                mesh_path="package://homestri_description/meshes/components/collision/robinzen_table.stl"
+                pose="0.91;0;0.915;0;0;0"
+                mesh_pose="0;0;0;0;0;0"
+                id="robinzen_table"
+                frame_id="world"
+            /-->
+            <SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_a"
+            />
+            <!--SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_c"
+            /-->
+            <!--SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="tool_e"
+            /-->
+            <SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="pallet_tool_slot_l"
+            />
+            <!--SubTreePlus
+                ID="DetectFramesSubTree"
+                name="detect pose of objects in the scene"
+                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                translational_offset="0;0;0"
+                object="pallet_tool_slot_r"
+            /-->
+            <SubTreePlus
+                ID="PickCartesianSubTree"
+                name="pick object"
+                object="phillips screwdriver"
+                object_pose="{tool_a_pose}"
+                gripper_start_position="0.3"
+                gripper_end_position="0.8"
+                manip_offset_1="0;0;0.2;0;0;0"
+                manip_duration_1="10.0"
+                manip_offset_2="-0.15;0;0;0;0;0"
+                manip_duration_2="7.5"
+            />
+            <SubTreePlus
+                ID="MotionJointTrajSubTree"
+                name="move to new pose"
+                pose="{pallet_tool_slot_l}"
+                translational_offset="-0.10;0;0"
+            />
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0.3"
+                max_effort="20"
+            />
+        </Sequence>
+    </BehaviorTree>
+</root>
