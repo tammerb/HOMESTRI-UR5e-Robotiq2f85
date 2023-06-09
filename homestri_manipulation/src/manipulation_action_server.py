@@ -33,13 +33,19 @@ class ManipulationActionServer():
 
 
         constraints = moveit_msgs.msg.Constraints()
-        joint_constraint = moveit_msgs.msg.JointConstraint()
-        joint_constraint.joint_name = 'wrist_1_joint'
-        joint_constraint.position = -math.pi/2
-        joint_constraint.tolerance_above = math.pi/2
-        joint_constraint.tolerance_below = math.pi/2
-        joint_constraint.weight = 10
-        constraints.joint_constraints = [joint_constraint]
+        joint_constraint1 = moveit_msgs.msg.JointConstraint()
+        joint_constraint1.joint_name = 'wrist_1_joint'
+        joint_constraint1.position = -math.pi/2
+        joint_constraint1.tolerance_above = math.pi/2 + math.pi/4
+        joint_constraint1.tolerance_below = math.pi/2
+        joint_constraint1.weight = 10
+        joint_constraint2 = moveit_msgs.msg.JointConstraint()
+        joint_constraint2.joint_name = 'wrist_3_joint'
+        joint_constraint2.position = 0
+        joint_constraint2.tolerance_above = math.pi/2 + math.pi/4
+        joint_constraint2.tolerance_below = math.pi/2 + math.pi/4
+        joint_constraint2.weight = 10
+        constraints.joint_constraints = [joint_constraint1, joint_constraint2]
         self.arm.set_path_constraints(constraints)
 
         self.actserv = actionlib.SimpleActionServer(

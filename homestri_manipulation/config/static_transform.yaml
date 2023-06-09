@@ -6,6 +6,7 @@
   {frame_id: "pallet_center", child_frame_id: "pallet_handle", x: 0.0, y: 0.0, z: 0.0, qx: -0.5, qy: 0.5, qz: 0.5, qw: 0.5},
   {frame_id: "pallet_handle", child_frame_id: "pallet_tool_slot_l", x: 0.0, y: 0.04, z: 0.0, qx: 0, qy: 0, qz: 0, qw: 1.0},
   {frame_id: "pallet_handle", child_frame_id: "pallet_tool_slot_r", x: 0.0, y: -0.04, z: 0.0, qx: 0, qy: 0, qz: 0, qw: 1.0},
+  {frame_id: "plate_bundle_center", child_frame_id: "plate_tab", x: 0.005, y: -0.136, z: 0.0, qx: -0.5, qy: -0.5, qz: 0.5, qw: 0.5},
 
   # {frame_id: "tag_31", child_frame_id: "latch_0_close", x: -0.02, y: -0.08, z: 0.025, qx: 0.5, qy: 0.5, qz: -0.5, qw: 0.5},
   # {frame_id: "tag_31", child_frame_id: "latch_0_open", x: -0.02, y: -0.08, z: 0.025, qx: 0.7071068, qy: 0.0, qz: -0.7071068, qw: 0.0},
