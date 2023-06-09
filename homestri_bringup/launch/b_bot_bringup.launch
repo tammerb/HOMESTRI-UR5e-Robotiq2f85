@@ -60,10 +60,23 @@
 
     <!-- launch realsense -->
     <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="filters" value="pointcloud"/>
+        <arg name="color_width" value="1920"/>
+        <arg name="color_height" value="1080"/>
     </include>
 
     <!-- launch apriltag detection -->
     <include file="$(find apriltag_ros)/launch/continuous_detection.launch">
+        <arg name="settings_path" value="$(find homestri_manipulation)/config/settings.yaml"/>
+        <arg name="tags_path" value="$(find homestri_manipulation)/config/tags.yaml"/>
     </include>
+
+    <param name="static_transform" value="$(find homestri_manipulation)/config/static_transform.yaml" />
+    <node name="homestri_static_transform_publisher" pkg="homestri_manipulation" type="static_transform_publisher.py" respawn="false" output="screen" />
+
+    <!-- custom action servers for BT -->
+    <node name="manipulation_action_server" pkg="homestri_manipulation" type="manipulation_action_server.py" respawn="false" output="screen" />
+    <node name="compliance_control_server" pkg="homestri_manipulation" type="compliance_control_action_server.py" respawn="false" output="screen" />
+    <node name="cartesian_control_server" pkg="homestri_manipulation" type="cartesian_control_action_server.py" respawn="false" output="screen" />
 
 </launch>

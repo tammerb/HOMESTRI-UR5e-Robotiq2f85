@@ -47,7 +47,7 @@
             parent="${prefix}realsense_mount"
             hw_interface="hardware_interface/PositionJointInterface"
         >
-            <origin xyz="0 0 ${0.005 + 0.003}" rpy="0 0 ${pi}" />   <!-- THIS IS WRONG, NOT 3mm -->
+            <origin xyz="0 0 ${0.005 + 0.0026}" rpy="0 0 ${pi}" />   <!-- THIS IS WRONG, NOT 3mm -->
         </xacro:onrobot_rg2ft>
 
         <xacro:arg name="use_nominal_extrinsics" default="true" />
