@@ -4,7 +4,7 @@
     <arg name="tool_device_name" default="/tmp/ttyUR" />
     <arg name="kinematics_config" default="$(find homestri_bringup)/config/b_bot_calibration.yaml" />
     <arg name="controllers" default="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller"/>
-    <arg name="stopped_controllers" default="joint_group_vel_controller motion_control_handle cartesian_motion_controller cartesian_force_controller cartesian_compliance_controller"/>
+    <arg name="stopped_controllers" default="joint_group_vel_controller motion_control_handle cartesian_motion_controller cartesian_force_controller cartesian_compliance_controller forward_cartesian_traj_controller"/>
     <arg name="controller_config_file" default="$(find homestri_bringup)/config/b_bot_controllers.yaml" />
     <arg name="gripper_ip" default="192.168.1.1"/>
     <arg name="gripper_port" default="502"/>

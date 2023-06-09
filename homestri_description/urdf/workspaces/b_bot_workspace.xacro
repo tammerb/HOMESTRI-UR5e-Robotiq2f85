@@ -89,6 +89,18 @@
       </collision>
     </link>
 
+    <link name="wall_4">
+      <collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 .98 0" />
+        <geometry>
+          <box size="5 5 0.02" />
+        </geometry>
+        <material name="grey">
+          <color rgba=".5 .5 .5 1.0" />
+        </material>
+      </collision>
+    </link>
+
     <link name="ground">
       <collision>
         <origin rpy="0 0 0" xyz="0 0 -0.01" />
@@ -123,6 +135,12 @@
     <joint name="wall_3_to_world" type="fixed">
       <parent link="world" />
       <child link="wall_3" />
+      <origin xyz="0 0 0" />
+    </joint>
+
+    <joint name="wall_4_to_world" type="fixed">
+      <parent link="world" />
+      <child link="wall_4" />
       <origin xyz="0 0 0" />
     </joint>
 
