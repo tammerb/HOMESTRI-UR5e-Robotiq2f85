@@ -16,10 +16,10 @@ class ComplianceControlActionServer(object):
     def __init__(self, name):
         self.end_effector_link = 'gripper_tip_link'
         self.base_link = 'base_link'
-        self.trans_goal_tolerance = 0.02
+        self.trans_goal_tolerance = 0.03
         self.rot_goal_tolerance = np.pi/18
         self.stall_linear_speed_threshold = 0.001
-        self.stall_rot_speed_threshold = 0.001
+        self.stall_rot_speed_threshold = 0.005
         self.stall_timeout = 1
 
         self.tf_timeout = rospy.Duration(3.0)
