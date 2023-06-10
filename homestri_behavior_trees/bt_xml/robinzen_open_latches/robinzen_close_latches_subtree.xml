@@ -3,7 +3,7 @@
     inputs: 
       - latch_pose
   -->
-    <BehaviorTree ID="OpenLatchSubtree">
+    <BehaviorTree ID="CloseLatchSubtree">
         <Sequence>
 
             <SwitchControllerService
@@ -50,13 +50,13 @@
             <GripperAction
                 server_name="gripper_controller/gripper_cmd"
                 position="0.8"
-                max_effort="20"
+                max_effort="50"
             /> 
 
             <ComplianceControlAction
                 server_name="compliance_control"
-                offset="0;0;0;1.5707;0;0"
-                wrench="0;0;0;4;0;0"
+                offset="0;0;0;-1.5707;0;0"
+                wrench="0;0;0;-4;0;0"
                 frame_id="gripper_tip_link"
                 mode="offset"
             />   
@@ -64,7 +64,7 @@
             <GripperAction
                 server_name="gripper_controller/gripper_cmd"
                 position="0"
-                max_effort="20"
+                max_effort="50"
             /> 
 
 
