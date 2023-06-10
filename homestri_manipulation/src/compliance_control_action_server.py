@@ -19,6 +19,7 @@ class ComplianceControlActionServer(object):
         self.trans_goal_tolerance = 0.02
         self.rot_goal_tolerance = np.pi/18
         self.stall_linear_speed_threshold = 0.001
+        self.stall_rot_speed_threshold = 0.001
         self.stall_timeout = 1
 
         self.tf_timeout = rospy.Duration(3.0)
@@ -106,7 +107,7 @@ class ComplianceControlActionServer(object):
                 print(f"lin_speed {lin_speed}, rot_speed {rot_speed}")
 
                 time = rospy.Time.now()
-                if lin_speed > self.stall_linear_speed_threshold:
+                if lin_speed > self.stall_linear_speed_threshold or rot_speed > self.stall_rot_speed_threshold:
                     last_movement_time = time
                 elif (time - last_movement_time).to_sec() > self.stall_timeout:
                     rospy.loginfo('%s: STALLED' % self._action_name)

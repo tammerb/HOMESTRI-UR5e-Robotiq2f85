@@ -21,6 +21,7 @@
             />
 
             <ManipulationAction
+                name="move to approach pose"
                 server_name="manip_as"
                 id="arm_pose"
                 pose="{object_pose}"
@@ -28,6 +29,7 @@
             />
 
             <GripperAction
+                name="open gripper"
                 server_name="gripper_controller/gripper_cmd"
                 position="{gripper_start_position}"
                 max_effort="20"
@@ -39,20 +41,40 @@
             />
 
             <CartesianControlAction
+                name="approach object"
                 server_name="cartesian_control"
                 offset="0.15;0;0;0;0;0"
                 duration="8.0"
                 frame_id="gripper_tip_link"
                 mode="offset"
             />
+            <Fallback name="grasp">
+                <Sequence name="grasp">
+                    <GripperAction
+                        name="close gripper"
+                        server_name="gripper_controller/gripper_cmd"
+                        position="{gripper_end_position}"
+                        max_effort="20"
+                    />
+                    <GraspedCondition
+                        name="check if grasped"
+                        topic_name="robotiq_2f_85_gripper/state"
+                    />
+                </Sequence>
+                <Inverter>
+                    <CartesianControlAction
+                        name="move to safe position"
+                        server_name="cartesian_control"
+                        offset="-0.15;0;0;0;0;0"
+                        duration="30"
+                        frame_id="gripper_tip_link"
+                        mode="offset"
+                    />
+                </Inverter>
 
-            <GripperAction
-                server_name="gripper_controller/gripper_cmd"
-                position="{gripper_end_position}"
-                max_effort="20"
-            />
-
+            </Fallback>
             <CartesianControlAction
+                name="lift object out of rack"
                 server_name="cartesian_control"
                 offset="{manip_offset_1}"
                 duration="{manip_duration_1}"
@@ -60,6 +82,7 @@
                 mode="offset"
             />
             <CartesianControlAction
+                name="retract from pegboard"
                 server_name="cartesian_control"
                 offset="{manip_offset_2}"
                 duration="{manip_duration_2}"

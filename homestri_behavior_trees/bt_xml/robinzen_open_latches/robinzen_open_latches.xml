@@ -3,13 +3,6 @@
 
     <BehaviorTree ID="MainTree">
         <Sequence>
-            <!-- Detect assembly mesh -->
-            <!-- <DetectFrame 
-                source_frame="assembly_base_link"
-                target_frame="world"
-                output_pose="{mesh_pose}"
-                timeout="3.0"
-            /> -->
 
             <AddCollisionMeshService
                 service_name="apply_planning_scene"
@@ -74,7 +67,40 @@
                 output_pose="{ll_latch_closed_pose}"
                 timeout="3.0"
             />
-<!-- Right Upper Latch-->
+
+
+
+
+
+
+
+            <SubTreePlus
+                ID="OpenLatchSubtree"
+                latch_pose="{ru_latch_closed_pose}"
+            />
+
+
+
+
+
+
+
+
+
+
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="forward_cartesian_traj_controller"
+            />
+
+            
+
+
+            <!-- END -->
+
+
+
             <ManipulationAction
                 server_name="manip_as"
                 id="arm_pose"
