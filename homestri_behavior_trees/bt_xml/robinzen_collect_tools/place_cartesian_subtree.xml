@@ -4,22 +4,31 @@
       - object
       - pose
   -->
-    <BehaviorTree ID="PlaceCartesianSubtree">
+    <BehaviorTree ID="place tool">
 
-        <Sequence name="place the {object}">
+        <Sequence name="place tool">
 
-            <SubTreePlus
-                ID="MotionJointTrajSubtree"
-                name="move to new pose"
+            <SwitchControllerService
+                name="swtich to joint trajectory controller"
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+
+            <ManipulationAction
+            name="move to pre-release position"
+                server_name="manip_as"
+                id="arm_pose"
                 pose="{pose}"
                 translational_offset="-0.10;0;0"
             />
 
             <SwitchControllerService
+                name="switch to cartesian trajectory controller"
                 service_name="controller_manager/switch_controller"
                 controller="forward_cartesian_traj_controller"
             />
             <CartesianControlAction
+                name="approach place position"
                 server_name="cartesian_control"
                 offset="0.05;0;0;0;0;0"
                 duration="5.0"
@@ -27,11 +36,13 @@
                 mode="offset"
             />
             <GripperAction
+                name="place {object}"
                 server_name="gripper_controller/gripper_cmd"
                 position="0.3"
                 max_effort="20"
             />
             <CartesianControlAction
+                name="retract"
                 server_name="cartesian_control"
                 offset="-0.05;0;0;0;0;0"
                 duration="5.0"

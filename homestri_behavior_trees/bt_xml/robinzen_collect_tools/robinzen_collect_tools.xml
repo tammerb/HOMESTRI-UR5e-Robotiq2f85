@@ -1,129 +1,127 @@
 <root main_tree_to_execute="MainTree">
     <BehaviorTree ID="MainTree">
         <Sequence name="collect hand tools">
-
-            <!--AddCollisionMeshService
-                service_name="apply_planning_scene"
-                mesh_path="package://homestri_description/meshes/components/collision/robinzen_table.stl"
-                pose="0.91;0;0.915;0;0;0"
-                mesh_pose="0;0;0;0;0;0"
-                id="robinzen_table"
-                frame_id="world"
-            /-->
-
             <SwitchControllerService
+                name="switch to joint trajectory controlller"
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
-
-            <SubTreePlus
-                ID="DetectFramesSubtree"
-                name="detect pose of objects in the scene"
-                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
-                translational_offset="0;0;0"
-                object="tool_a"
-                object_pose="{tool_a_pose}"
-            />
-            <SubTreePlus
-                ID="DetectFramesSubtree"
-                name="detect pose of objects in the scene"
-                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
-                translational_offset="0;0;0"
-                object="tool_c"
-                object_pose="{tool_c_pose}"
-            />
-            <SubTreePlus
-                ID="DetectFramesSubtree"
-                name="detect pose of objects in the scene"
-                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
-                translational_offset="0;0;0"
-                object="tool_e"
-                object_pose="{tool_e_pose}"
-            />
-            <SubTreePlus
-                ID="DetectFramesSubtree"
-                name="detect pose of objects in the scene"
-                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
-                translational_offset="0;0;0"
-                object="pallet_tool_slot_l"
-                object_pose="{pallet_tool_slot_l_pose}"
-            />
-
-
-            <SubTreePlus
-                ID="DetectFramesSubtree"
-                name="detect pose of objects in the scene"
-                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
-                translational_offset="0;0;0"
-                object="pallet_tool_slot_r"
-                object_pose="{pallet_tool_slot_r_pose}"
-            />
+            <Sequence name="detect AprilTags for tools and pallet">
+                <SubTreePlus
+                    ID="detect pose"
+                    name="detect pose of objects in the scene"
+                    view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                    translational_offset="0;0;0"
+                    object="tool_a"
+                    object_pose="{tool_a_pose}"
+                />
+                <SubTreePlus
+                    ID="detect pose"
+                    name="detect pose of objects in the scene"
+                    view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                    translational_offset="0;0;0"
+                    object="tool_c"
+                    object_pose="{tool_c_pose}"
+                />
+                <SubTreePlus
+                    ID="detect pose"
+                    name="detect pose of objects in the scene"
+                    view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                    translational_offset="0;0;0"
+                    object="tool_e"
+                    object_pose="{tool_e_pose}"
+                />
+                <SubTreePlus
+                    ID="detect pose"
+                    name="detect pose of objects in the scene"
+                    view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                    translational_offset="0;0;0"
+                    object="pallet_tool_slot_l"
+                    object_pose="{pallet_tool_slot_l_pose}"
+                />
 
 
-            <SubTreePlus
-                ID="DetectFramesSubtree"
-                name="detect pose of objects in the scene"
-                view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
-                translational_offset="0;0;0"
-                object="pallet_handle"
-                object_pose="{pallet_handle_pose}"
-            />
+                <SubTreePlus
+                    ID="detect pose"
+                    name="detect pose of objects in the scene"
+                    view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                    translational_offset="0;0;0"
+                    object="pallet_tool_slot_r"
+                    object_pose="{pallet_tool_slot_r_pose}"
+                />
 
 
-            <SubTreePlus
-                ID="PickCartesianSubtree"
-                name="pick object"
-                object="phillips screwdriver"
-                object_pose="{tool_a_pose}"
-                gripper_start_position="0.3"
-                gripper_end_position="0.8"
-                manip_offset_1="0;0;0.2;0;0;0"
-                manip_duration_1="10.0"
-                manip_offset_2="-0.15;0;0;0;0;0"
-                manip_duration_2="7.5"
-            />
+                <SubTreePlus
+                    ID="detect pose"
+                    name="detect pose of objects in the scene"
+                    view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
+                    translational_offset="0;0;0"
+                    object="pallet_handle"
+                    object_pose="{pallet_handle_pose}"
+                />
 
-            <SubTreePlus
-                ID="PlaceCartesianSubtree"
-                pose="{pallet_tool_slot_l_pose}"
-            />
+            </Sequence>
+            <Sequence name="pick and place phillips screwdriver">
+                <SubTreePlus
+                    ID="pick tool"
+                    name="pick the phillips screwdriver"
+                    object="phillips screwdriver"
+                    object_pose="{tool_a_pose}"
+                    gripper_start_position="0.3"
+                    gripper_end_position="0.8"
+                    manip_offset_1="0;0;0.2;0;0;0"
+                    manip_duration_1="10.0"
+                    manip_offset_2="-0.15;0;0;0;0;0"
+                    manip_duration_2="7.5"
+                />
 
+                <SubTreePlus
+                    ID="place tool"
+                    object="phillips screwdriver"
+                    pose="{pallet_tool_slot_l_pose}"
+                />
+            </Sequence>
 
-            <SubTreePlus
-                ID="PickCartesianSubtree"
-                name="pick object"
-                object="nut driver"
-                object_pose="{tool_c_pose}"
-                gripper_start_position="0.3"
-                gripper_end_position="0.8"
-                manip_offset_1="0;0;0.2;0;0;0"
-                manip_duration_1="10.0"
-                manip_offset_2="-0.15;0;0;0;0;0"
-                manip_duration_2="7.5"
-            />
-            <SubTreePlus
-                ID="PlaceCartesianSubtree"
-                pose="{pallet_tool_slot_r_pose}"
-            />
+            <Sequence name="pick and place nut driver">
+                <SubTreePlus
+                    ID="pick tool"
+                    name="pick nut driver"
+                    object="nut driver"
+                    object_pose="{tool_c_pose}"
+                    gripper_start_position="0.3"
+                    gripper_end_position="0.8"
+                    manip_offset_1="0;0;0.2;0;0;0"
+                    manip_duration_1="10.0"
+                    manip_offset_2="-0.15;0;0;0;0;0"
+                    manip_duration_2="7.5"
+                />
+                <SubTreePlus
+                    ID="place tool"
+                    object="nut driver"
+                    pose="{pallet_tool_slot_r_pose}"
+                />
+            </Sequence>
 
+            <Sequence name="pick and place flathead screwdriver">
+                <SubTreePlus
+                    ID="pick tool"
+                    name="pick flathead screwdriver"
+                    object="flathead screwdriver"
+                    object_pose="{tool_e_pose}"
+                    gripper_start_position="0.3"
+                    gripper_end_position="0.8"
+                    manip_offset_1="0;0;0.2;0;0;0"
+                    manip_duration_1="10.0"
+                    manip_offset_2="-0.15;0;0;0;0;0"
+                    manip_duration_2="7.5"
+                />
+                <SubTreePlus
+                    ID="place tool"
+                    object="flathead screwdriver"
+                    pose="{pallet_tool_slot_r_pose}"
+                />
 
-            <SubTreePlus
-                ID="PickCartesianSubtree"
-                name="pick object"
-                object="flathead screwdriver"
-                object_pose="{tool_e_pose}"
-                gripper_start_position="0.3"
-                gripper_end_position="0.8"
-                manip_offset_1="0;0;0.2;0;0;0"
-                manip_duration_1="10.0"
-                manip_offset_2="-0.15;0;0;0;0;0"
-                manip_duration_2="7.5"
-            />
-            <SubTreePlus
-                ID="PlaceCartesianSubtree"
-                pose="{pallet_tool_slot_r_pose}"
-            />
-
+            </Sequence>
 
         </Sequence>
     </BehaviorTree>

@@ -10,18 +10,19 @@
       - manip_offset_2
       - manip_duration_2
   -->
-    <BehaviorTree ID="PickCartesianSubtree">
+    <BehaviorTree ID="pick tool">
 
-        <Sequence name="pick the {object}">
+        <Sequence name="pick tool">
 
 
             <SwitchControllerService
+                name="switch to joint trajectory controller"
                 service_name="controller_manager/switch_controller"
                 controller="scaled_pos_joint_traj_controller"
             />
 
             <ManipulationAction
-                name="move to approach pose"
+                name="move to pregrasp pose"
                 server_name="manip_as"
                 id="arm_pose"
                 pose="{object_pose}"
@@ -36,20 +37,21 @@
             />
 
             <SwitchControllerService
+                name="switch to cartesian trajectory controller"
                 service_name="controller_manager/switch_controller"
                 controller="forward_cartesian_traj_controller"
             />
 
             <CartesianControlAction
-                name="approach object"
+                name="approach the {object}"
                 server_name="cartesian_control"
                 offset="0.15;0;0;0;0;0"
                 duration="8.0"
                 frame_id="gripper_tip_link"
                 mode="offset"
             />
-            <Fallback name="grasp">
-                <Sequence name="grasp">
+            <Fallback name="pick the object">
+                <Sequence name="grasp object">
                     <GripperAction
                         name="close gripper"
                         server_name="gripper_controller/gripper_cmd"
@@ -63,7 +65,7 @@
                 </Sequence>
                 <Inverter>
                     <CartesianControlAction
-                        name="move to safe position"
+                        name="retract to safe position"
                         server_name="cartesian_control"
                         offset="-0.15;0;0;0;0;0"
                         duration="30"
@@ -74,7 +76,7 @@
 
             </Fallback>
             <CartesianControlAction
-                name="lift object out of rack"
+                name="lift {object} out of rack"
                 server_name="cartesian_control"
                 offset="{manip_offset_1}"
                 duration="{manip_duration_1}"
@@ -82,7 +84,7 @@
                 mode="offset"
             />
             <CartesianControlAction
-                name="retract from pegboard"
+                name="retract"
                 server_name="cartesian_control"
                 offset="{manip_offset_2}"
                 duration="{manip_duration_2}"

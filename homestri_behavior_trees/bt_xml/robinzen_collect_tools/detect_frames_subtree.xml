@@ -7,9 +7,9 @@
     outputs:
       - object_pose
   -->
-    <BehaviorTree ID="DetectFramesSubtree" name="detect pose of object subtree">
+    <BehaviorTree ID="detect pose">
 
-        <Sequence name="detect pose of the {object}">
+        <Sequence name="detect pose">
 
             <!-- <SwitchControllerService
                 service_name="controller_manager/switch_controller"
@@ -18,12 +18,14 @@
 
             <ManipulationAction
                 server_name="manip_as"
+                name="move to view pose"
                 id="arm_pose"
                 pose="{view_pose}"
                 translational_offset="{translational_offset}"
             />
             <DetectFrame
                 source_frame="{object}"
+                name="detect frame"
                 target_frame="world"
                 output_pose="{object_pose}"
                 timeout="3.0"
