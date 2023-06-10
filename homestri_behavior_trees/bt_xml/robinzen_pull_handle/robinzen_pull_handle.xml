@@ -100,13 +100,13 @@
                 max_effort="40"
             /> 
 
-            <ComplianceControlAction
+            <!-- <ComplianceControlAction
                 server_name="compliance_control"
                 offset="0;0;0.01;0;0;0"
                 wrench="0;0;50;0;0;0"
                 frame_id="world"
                 mode="offset"
-            />   
+            />    -->
 
             <ComplianceControlAction
                 server_name="compliance_control"
@@ -116,13 +116,13 @@
                 mode="offset"
             />   
 
-            <ComplianceControlAction
+            <!-- <ComplianceControlAction
                 server_name="compliance_control"
                 offset="0;0;-0.01;0;0;0"
                 wrench="0;0;10;0;0;0"
                 frame_id="world"
                 mode="offset"
-            /> 
+            />  -->
 
             <GripperAction
                 server_name="gripper_controller/gripper_cmd"
@@ -153,7 +153,7 @@
 
             
             
-
+<!-- 
 
             <TriggerService
                 service_name="/ur_hardware_interface/zero_ftsensor"
@@ -211,7 +211,7 @@
                 id="arm_pose"
                 pose="0.5;0.078;1.23;0;0;0;1"
                 translational_offset="0;0;0"
-            /> 
+            />  -->
 
 
 
