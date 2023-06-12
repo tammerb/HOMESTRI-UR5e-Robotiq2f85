@@ -1,4 +1,4 @@
 <launch>
-    <param name="bt_directory" value="$(find homestri_behavior_trees)/bt_xml/robinzen_open_latches"/>
+    <param name="bt_directory" value="$(find homestri_behavior_trees)/bt_xml/build_plate_pick_component"/>
     <node pkg="homestri_behavior_trees" type="test_explain_bt" name="test_bt" output="screen"/>
 </launch>
