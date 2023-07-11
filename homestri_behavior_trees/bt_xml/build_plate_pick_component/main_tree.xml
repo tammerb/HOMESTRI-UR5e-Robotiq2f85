@@ -16,23 +16,8 @@
             <ManipulationAction
                 server_name="manip_as"
                 id="arm_pose"
-                pose="0.65788;-0.14736;1.0277;-0.0040468;0.25717;-0.047303;0.9652"
-                translational_offset="0;0;0"
-            />
-
-            <DetectFrame
-                source_frame="plate_metal_component"
-                target_frame="world"
-                output_pose="{plate_metal_component}"
-                timeout="3.0"
-            />
-
-
-            <ManipulationAction
-                server_name="manip_as"
-                id="arm_pose"
-                pose="{plate_metal_component}"
-                translational_offset="-0.0707;0;0.0707"
+                pose="0.085464;0.90737;0.75104;-0.1349223;0.1349223;0.6941152;0.6941152"
+                translational_offset="-0.2;0;0"
             />
 
             <GripperAction
@@ -49,9 +34,9 @@
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0;0;-0.1;0;0;0"
+                offset="0.2;0;0;0;0;0"
                 duration="15.0"
-                frame_id="world"
+                frame_id="gripper_tip_link"
                 mode="offset"
             />
 
@@ -63,19 +48,86 @@
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="0;0;0.1;0;0;0"
-                duration="15.0"
+                offset="0;0;0.05;0;0;0"
+                duration="5.0"
                 frame_id="world"
                 mode="offset"
             />
 
             <CartesianControlAction
                 server_name="cartesian_control"
-                offset="-0.2;0;0;0;0;0"
-                duration="15.0"
+                offset="0;-0.25;0;0;0;0"
+                duration="20.0"
                 frame_id="world"
                 mode="offset"
             />
+
+
+            <!-- MOVE TO PRINTER -->
+
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="scaled_pos_joint_traj_controller"
+            />
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="0.65788;-0.14736;1.0277;-0.0040468;0.25717;-0.047303;0.9652"
+                translational_offset="0;0;0"
+            />
+
+            <DetectFrame
+                source_frame="plate_metal_component_pregrasp"
+                target_frame="world"
+                output_pose="{plate_metal_component_pregrasp_pose}"
+                timeout="3.0"
+            />
+
+            <ManipulationAction
+                server_name="manip_as"
+                id="arm_pose"
+                pose="{plate_metal_component_pregrasp_pose}"
+                translational_offset="0;0;0"
+            />
+
+            <SwitchControllerService
+                service_name="controller_manager/switch_controller"
+                controller="forward_cartesian_traj_controller"
+            />
+
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0.25;0;0;0;0;0"
+                duration="20.0"
+                frame_id="world"
+                mode="offset"
+            />
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="0;0;-0.0575;0;0;0"
+                duration="10.0"
+                frame_id="world"
+                mode="offset"
+            />
+
+            <GripperAction
+                server_name="gripper_controller/gripper_cmd"
+                position="0"
+                max_effort="8"
+            />
+
+            <CartesianControlAction
+                server_name="cartesian_control"
+                offset="-0.3;0;0.0575;0;0;0"
+                duration="20.0"
+                frame_id="gripper_tip_link"
+                mode="offset"
+            />
+
         </Sequence>
 
     </BehaviorTree>
