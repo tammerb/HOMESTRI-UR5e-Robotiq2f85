@@ -7,7 +7,7 @@
                 controller="scaled_pos_joint_traj_controller"
             />
             <Sequence name="detect AprilTags for tools and pallet">
-                <SubTreePlus
+                <SubTree
                     ID="detect pose"
                     name="detect pose of objects in the scene"
                     view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
@@ -15,7 +15,7 @@
                     object="tool_a"
                     object_pose="{tool_a_pose}"
                 />
-                <SubTreePlus
+                <SubTree
                     ID="detect pose"
                     name="detect pose of objects in the scene"
                     view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
@@ -23,7 +23,7 @@
                     object="tool_c"
                     object_pose="{tool_c_pose}"
                 />
-                <SubTreePlus
+                <SubTree
                     ID="detect pose"
                     name="detect pose of objects in the scene"
                     view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
@@ -31,7 +31,7 @@
                     object="tool_e"
                     object_pose="{tool_e_pose}"
                 />
-                <SubTreePlus
+                <SubTree
                     ID="detect pose"
                     name="detect pose of objects in the scene"
                     view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
@@ -41,7 +41,7 @@
                 />
 
 
-                <SubTreePlus
+                <SubTree
                     ID="detect pose"
                     name="detect pose of objects in the scene"
                     view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
@@ -51,7 +51,7 @@
                 />
 
 
-                <SubTreePlus
+                <SubTree
                     ID="detect pose"
                     name="detect pose of objects in the scene"
                     view_pose="0.13689;0.46118;1.0014;-0.21523;0.20459;0.6762;0.67422"
@@ -62,7 +62,7 @@
 
             </Sequence>
             <Sequence name="pick and place phillips screwdriver">
-                <SubTreePlus
+                <SubTree
                     ID="pick tool"
                     name="pick the phillips screwdriver"
                     object="phillips screwdriver"
@@ -75,7 +75,7 @@
                     manip_duration_2="7.5"
                 />
 
-                <SubTreePlus
+                <SubTree
                     ID="place tool"
                     object="phillips screwdriver"
                     pose="{pallet_tool_slot_l_pose}"
@@ -83,7 +83,7 @@
             </Sequence>
 
             <Sequence name="pick and place nut driver">
-                <SubTreePlus
+                <SubTree
                     ID="pick tool"
                     name="pick nut driver"
                     object="nut driver"
@@ -95,7 +95,7 @@
                     manip_offset_2="-0.15;0;0;0;0;0"
                     manip_duration_2="7.5"
                 />
-                <SubTreePlus
+                <SubTree
                     ID="place tool"
                     object="nut driver"
                     pose="{pallet_tool_slot_r_pose}"
@@ -103,7 +103,7 @@
             </Sequence>
 
             <Sequence name="pick and place flathead screwdriver">
-                <SubTreePlus
+                <SubTree
                     ID="pick tool"
                     name="pick flathead screwdriver"
                     object="flathead screwdriver"
@@ -115,7 +115,7 @@
                     manip_offset_2="-0.15;0;0;0;0;0"
                     manip_duration_2="7.5"
                 />
-                <SubTreePlus
+                <SubTree
                     ID="place tool"
                     object="flathead screwdriver"
                     pose="{pallet_tool_slot_r_pose}"
