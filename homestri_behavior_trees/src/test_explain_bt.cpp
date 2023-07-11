@@ -2,7 +2,7 @@
 #include <iostream>
 #include <filesystem>
 
-#include <behaviortree_cpp_v3/bt_factory.h>
+#include <behaviortree_cpp/bt_factory.h>
 
 #include <homestri_behavior_trees/action_nodes.h>
 #include <homestri_behavior_trees/condition_nodes.h>

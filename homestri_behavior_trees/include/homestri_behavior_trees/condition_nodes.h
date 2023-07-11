@@ -2,7 +2,7 @@
 #define CONDITION_NODE_H
 
 #include <ros/ros.h>
-#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp/behavior_tree.h"
 #include <behaviortree_ros/bt_subscriber_node.h>
 #include <homestri_behavior_trees/node_input_conversions.h>
 #include <robotiq_2f_gripper_control/Robotiq2FGripper_robot_input.h>

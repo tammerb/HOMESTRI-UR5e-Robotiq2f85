@@ -5,7 +5,7 @@
 #include <geometry_msgs/Wrench.h>
 #include <geometry_msgs/Transform.h>
 #include <tf2/LinearMath/Quaternion.h>
-#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp/behavior_tree.h"
 
 namespace BT
 {

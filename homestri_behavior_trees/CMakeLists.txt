@@ -5,7 +5,7 @@ add_compile_options(-std=c++17)
 
 set(ROS_DEPENDENCIES
 roscpp
-behaviortree_cpp_v3
+behaviortree_cpp
 behaviortree_ros
 homestri_msgs
 explain_bt

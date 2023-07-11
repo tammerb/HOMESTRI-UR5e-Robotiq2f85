@@ -48,7 +48,7 @@
 #include <controller_manager_msgs/SwitchControllerRequest.h>
 #include <controller_manager_msgs/SwitchControllerResponse.h>
 
-#include "behaviortree_cpp_v3/behavior_tree.h"
+#include "behaviortree_cpp/behavior_tree.h"
 #include <behaviortree_ros/bt_action_node.h>
 #include <behaviortree_ros/bt_service_node.h>
 
