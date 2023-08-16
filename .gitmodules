@@ -1,0 +1,45 @@
+[submodule "catkin_ws/src/universal_robots/Universal_Robots_Client_Library"]
+	path = catkin_ws/src/universal_robots/Universal_Robots_Client_Library
+	url = https://github.com/UniversalRobots/Universal_Robots_Client_Library.git
+	branch = boost
+[submodule "catkin_ws/src/universal_robots/Universal_Robots_ROS_Driver"]
+	path = catkin_ws/src/universal_robots/Universal_Robots_ROS_Driver
+	url = https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
+	branch = master
+[submodule "catkin_ws/src/universal_robots/universal_robot"]
+	path = catkin_ws/src/universal_robots/universal_robot
+	url = https://github.com/ros-industrial/universal_robot.git
+	branch = melodic-devel-staging
+[submodule "catkin_ws/src/robotiq"]
+	path = catkin_ws/src/robotiq
+	url = https://github.com/ian-chuang/robotiq.git
+	branch = noetic-devel
+[submodule "catkin_ws/src/onrobot"]
+	path = catkin_ws/src/onrobot
+	url = https://github.com/ian-chuang/OnRobot_RG2-FT_ROS.git
+	branch = noetic-devel
+[submodule "catkin_ws/src/gazebo_pkgs/roboticsgroup_upatras_gazebo_plugins"]
+	path = catkin_ws/src/gazebo_pkgs/roboticsgroup_upatras_gazebo_plugins
+	url = https://github.com/ian-chuang/roboticsgroup_upatras_gazebo_plugins.git
+[submodule "catkin_ws/src/gazebo_pkgs/gazebo_gripper_action_controller"]
+	path = catkin_ws/src/gazebo_pkgs/gazebo_gripper_action_controller
+	url = https://github.com/ian-chuang/gazebo_gripper_action_controller.git
+[submodule "catkin_ws/src/behavior_trees/behaviortree_ros"]
+	path = catkin_ws/src/behavior_trees/behaviortree_ros
+	url = https://github.com/ian-chuang/BehaviorTree.ROS.git
+[submodule "catkin_ws/src/behavior_trees/behaviortree_cpp_v3"]
+	path = catkin_ws/src/behavior_trees/behaviortree_cpp_v3
+	url = https://github.com/ian-chuang/BehaviorTree.CPP.git
+	branch = v4.3
+[submodule "catkin_ws/src/behavior_trees/explain_bt"]
+	path = catkin_ws/src/behavior_trees/explain_bt
+	url = https://github.com/ian-chuang/robot-explanation-BTs.git
+[submodule "catkin_ws/src/cartesian_controllers"]
+	path = catkin_ws/src/cartesian_controllers
+	url = https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers
+[submodule "catkin_ws/src/apriltag"]
+	path = catkin_ws/src/apriltag
+	url = https://github.com/AprilRobotics/apriltag.git
+[submodule "catkin_ws/src/apriltag_ros"]
+	path = catkin_ws/src/apriltag_ros
+	url = https://github.com/ian-chuang/apriltag_ros.git
