@@ -1,7 +1,9 @@
 version: '3.9'
 services:
-  homestri-ros:
-    image: thbarkouki/homestri-ur5e-robotiq2f85:latest
+  homestri-ur:
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: tail -F anything
     environment:
       # Display X Server GUI.

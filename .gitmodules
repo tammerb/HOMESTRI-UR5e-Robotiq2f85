@@ -27,8 +27,8 @@
 [submodule "catkin_ws/src/behavior_trees/behaviortree_ros"]
 	path = catkin_ws/src/behavior_trees/behaviortree_ros
 	url = https://github.com/ian-chuang/BehaviorTree.ROS.git
-[submodule "catkin_ws/src/behavior_trees/behaviortree_cpp_v3"]
-	path = catkin_ws/src/behavior_trees/behaviortree_cpp_v3
+[submodule "catkin_ws/src/behavior_trees/behaviortree_cpp"]
+	path = catkin_ws/src/behavior_trees/behaviortree_cpp
 	url = https://github.com/ian-chuang/BehaviorTree.CPP.git
 	branch = v4.3
 [submodule "catkin_ws/src/behavior_trees/explain_bt"]
