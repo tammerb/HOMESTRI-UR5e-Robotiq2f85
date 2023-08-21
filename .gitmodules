@@ -21,9 +21,12 @@
 [submodule "catkin_ws/src/gazebo_pkgs/roboticsgroup_upatras_gazebo_plugins"]
 	path = catkin_ws/src/gazebo_pkgs/roboticsgroup_upatras_gazebo_plugins
 	url = https://github.com/ian-chuang/roboticsgroup_upatras_gazebo_plugins.git
+	branch = master
 [submodule "catkin_ws/src/gazebo_pkgs/gazebo_gripper_action_controller"]
 	path = catkin_ws/src/gazebo_pkgs/gazebo_gripper_action_controller
 	url = https://github.com/ian-chuang/gazebo_gripper_action_controller.git
-[submodule "catkin_ws/src/cartesian_controllers"]
-	path = catkin_ws/src/cartesian_controllers
-	url = https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers
+	branch = melodic-devel
+[submodule "catkin_ws/src/controllers/cartesian_controllers"]
+	path = catkin_ws/src/controllers/cartesian_controllers
+	url = https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers.git
+	branch = master
