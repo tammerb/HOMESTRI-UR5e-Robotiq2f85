@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<robot name="simple_pedestal" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="simple_pedestal"
+    params="height:=0.2 radius:=0.2 prefix parent">
+
+    <link name="${prefix}pedestal">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 ${-height/2}" />
+        <geometry>
+          <cylinder length="${height}" radius="${radius}" />
+        </geometry>
+        <material name="grey">
+          <color rgba=".5 .5 .5 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 ${-height/2}" />
+        <geometry>
+          <cylinder length="${height}" radius="${radius}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0.0 0.0 0.02" rpy="0 0 0" />
+        <mass value=".006784" />
+        <inertia ixx=".18e-05" iyy=".18e-05" izz=".18e-05" ixy="0.0" iyz="0.0" ixz="0.0" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}pedestal_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${prefix}pedestal" />
+      <origin xyz="0 0 ${height}" />
+    </joint>
+  </xacro:macro>
+
+</robot>

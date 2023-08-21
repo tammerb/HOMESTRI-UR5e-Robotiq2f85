@@ -5,12 +5,14 @@
     <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
 
 
-    <xacro:include filename="$(find homestri_description)/urdf/workspaces/pedestal_workspace.xacro" />
+    <xacro:include filename="$(find homestri_description)/urdf/macros/simple_pedestal_macro.xacro" />
     <xacro:include filename="$(find homestri_description)/urdf/macros/b_bot_macro.xacro" />
 
-    <xacro:pedestal_workspace
-        pedestal_height="0.6"
-        pedestal_radius="0.15"
+    <xacro:simple_pedestal
+        prefix=""
+        parent="world"
+        height="0.6"
+        radius="0.15"
     />
 
     <xacro:b_bot
