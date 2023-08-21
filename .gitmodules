@@ -30,3 +30,7 @@
 	path = catkin_ws/src/controllers/cartesian_controllers
 	url = https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers.git
 	branch = master
+[submodule "catkin_ws/src/controllers/low_pass_force_torque_sensor_controller"]
+	path = catkin_ws/src/controllers/low_pass_force_torque_sensor_controller
+	url = https://github.com/ian-chuang/Low-Pass-Force-Torque-Sensor-Controller
+	branch = noetic-devel
