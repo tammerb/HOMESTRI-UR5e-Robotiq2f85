@@ -1,5 +1,0 @@
-<launch>
-    <node name="servo_server" pkg="moveit_servo" type="servo_server" output="screen">
-        <rosparam command="load" file="$(find homestri_moveit_servo)/config/real_joystick_servo_config.yaml" />
-    </node>
-</launch>

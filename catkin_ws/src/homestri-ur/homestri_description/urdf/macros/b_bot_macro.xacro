@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="a_bot_scene">
+
+    <xacro:include filename="$(find homestri_description)/urdf/macros/ur5e_macro.xacro" />
+    <xacro:include filename="$(find homestri_description)/urdf/macros/d415_mount_macro.xacro" />
+    <xacro:include filename="$(find onrobot_rg2ft_description)/urdf/onrobot_rg2ft_macro.xacro" />
+
+    <xacro:macro name="b_bot"
+        params="
+        prefix 
+        parent 
+        transmission_hw_interface:=hardware_interface/PositionJointInterface
+        joint_limits_parameters_file:='$(find ur_description)/config/ur5e/joint_limits.yaml'
+        *origin">
+
+        <xacro:ur5e
+            prefix="${prefix}"
+            parent="${parent}"
+            tcp_offset="0.223"
+            joint_limits_parameters_file="${joint_limits_parameters_file}"
+            transmission_hw_interface="${transmission_hw_interface}"
+        >
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:ur5e>
+
+        <xacro:d415_mount
+            prefix="${prefix}"
+            parent="${prefix}wrist_3_link"
+        >
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </xacro:d415_mount>
+
+        <xacro:onrobot_rg2ft
+            prefix="${prefix}"
+            parent="${prefix}d415_mount_attach_link"
+            hw_interface="${transmission_hw_interface}"
+        >
+            <origin xyz="0 0 0.0026" rpy="0 0 ${pi}" /> 
+        </xacro:onrobot_rg2ft>
+
+    </xacro:macro>
+
+</robot>

@@ -51,6 +51,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>rqt_controller_manager</depend>
+  <depend>realsense2_camera</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

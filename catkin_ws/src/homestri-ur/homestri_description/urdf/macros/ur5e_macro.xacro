@@ -5,13 +5,19 @@
 
 <robot name="ur5e" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="ur5e" params="prefix parent transmission_hw_interface gripper_tip_offset *origin">
+  <xacro:macro name="ur5e" params="
+    prefix 
+    parent 
+    transmission_hw_interface:=hardware_interface/PositionJointInterface
+    joint_limits_parameters_file:='$(find ur_description)/config/ur5e/joint_limits.yaml'
+    tcp_offset 
+    *origin">
 
     <!-- ur5e -->
     <xacro:include filename="$(find ur_description)/urdf/inc/ur_macro.xacro" />
     <xacro:ur_robot
       prefix="${prefix}"
-      joint_limits_parameters_file='$(find homestri_description)/config/ur5e_joint_limits.yaml'
+      joint_limits_parameters_file="${joint_limits_parameters_file}"
       kinematics_parameters_file='$(find ur_description)/config/ur5e/default_kinematics.yaml'
       physical_parameters_file='$(find ur_description)/config/ur5e/physical_parameters.yaml'
       visual_parameters_file='$(find ur_description)/config/ur5e/visual_parameters.yaml'
@@ -26,77 +32,12 @@
       <xacro:insert_block name="origin" />
     </joint>
 
-    <!-- end effector link -->
-    <link name="${prefix}ee_link">
-      <collision>
-        <geometry>
-          <box size="0.01 0.01 0.01" />
-        </geometry>
-        <origin rpy="0 0 0" xyz="-0.01 0 0" />
-      </collision>
-    </link>
-    <joint name="${prefix}ee_fixed_joint" type="fixed">
-      <parent link="${prefix}wrist_3_link" />
-      <child link="${prefix}ee_link" />
-      <origin rpy="0.0 -1.57079632679 1.57079632679" xyz="0.0 0.0 0.0" />
-    </joint>
-
     <!-- Add an additional link to plan with. Oriented like the UR ee_link frame. -->
-    <link name="${prefix}gripper_tip_link" />
-    <joint name="${prefix}gripper_tip_link_joint" type="fixed">
-      <parent link="${prefix}ee_link" />
-      <child link="${prefix}gripper_tip_link" />
-      <origin rpy="0 0 0" xyz="${gripper_tip_offset} 0 0" />
+    <link name="${prefix}tcp_link" />
+    <joint name="${prefix}tcp_joint" type="fixed">
+      <parent link="${prefix}wrist_3_link" />
+      <child link="${prefix}tcp_link" />
+      <origin rpy="0 ${-pi/2} ${-pi/2}" xyz="0 0 ${tcp_offset}" />
     </joint>
-
-    <!-- ############ GAZEBO PROPERTIES ############ -->
-    <gazebo reference="${prefix}wrist_3_joint">
-        <provideFeedback>true</provideFeedback>
-    </gazebo>
-    <gazebo>
-      <plugin filename="libgazebo_ros_ft_sensor.so" name="ft_sensor">
-        <updateRate>100.0</updateRate>
-        <topicName>wrench</topicName>
-        <jointName>${prefix}wrist_3_joint</jointName>
-        <!-- <noise>
-          <type>gaussian</type>
-          <mean>0.0</mean>
-          <stddev>0.003</stddev>
-        </noise> -->
-      </plugin>
-    </gazebo>
-
-    <xacro:macro name="ur5e_gazebo_link_properties" params="reference">
-      <gazebo reference="${reference}">
-        <kp>1000000.0</kp>
-        <kd>1.0</kd>
-        <mu1>0.8</mu1>
-        <mu2>0.8</mu2>
-        <maxVel>0.0</maxVel>
-        <minDepth>0.001</minDepth>
-        <selfCollide>true</selfCollide>
-      </gazebo>
-    </xacro:macro>
-
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}shoulder_link" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}upper_arm_link" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}forearm_link" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_1_link" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_2_link" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_3_link" />
-
-    <xacro:macro name="ur5e_gazebo_joint_properties" params="reference">
-      <gazebo reference="${reference}">
-        <implicitSpringDamper>true</implicitSpringDamper>
-      </gazebo>
-    </xacro:macro>
-
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}shoulder_pan_joint" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}shoulder_lift_joint" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}elbow_joint" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_1_joint" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_2_joint" />
-    <xacro:ur5e_gazebo_link_properties reference="${prefix}wrist_3_joint" />
-
   </xacro:macro>
 </robot>

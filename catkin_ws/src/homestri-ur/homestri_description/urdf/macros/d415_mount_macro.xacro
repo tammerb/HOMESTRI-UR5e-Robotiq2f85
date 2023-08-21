@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="d415_mount" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find realsense2_description)/urdf/_d415.urdf.xacro" />
+
+    <xacro:macro name="d415_mount"
+        params="prefix parent *origin">
+
+        <link name="${prefix}d415_mount_link">
+            <inertial>
+                <origin xyz="-0.0019215269775362533 0.02238591812637603 0.00014773610274437554"
+                    rpy="0 0 0" />
+                <mass value="0.0478036670662668" />
+                <inertia ixx="4.3e-05" iyy="2.2e-05" izz="6.4e-05" ixy="3e-06" iyz="1e-06" ixz="0.0" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh
+                        filename="package://homestri_description/meshes/visual/d415_mount.stl"
+                        scale="0.001 0.001 0.001" />
+                </geometry>
+                <material name="">
+                    <color rgba="0.3 0.3 0.3 1" />
+                  </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh
+                        filename="package://homestri_description/meshes/collision/d415_mount.stl"
+                        scale="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${prefix}d415_mount_joint" type="fixed">
+            <parent link="${parent}" />
+            <child link="${prefix}d415_mount_link" />
+            <xacro:insert_block name="origin" />
+        </joint>
+
+        <link name="${prefix}d415_mount_attach_link"/>
+        <joint name="${prefix}d415_mount_attach_joint" type="fixed">
+            <parent link="${prefix}d415_mount_link" />
+            <child link="${prefix}d415_mount_attach_link" />
+            <origin xyz="0 0 0.005" rpy="0 0 0" />
+        </joint>
+
+        <xacro:arg name="use_nominal_extrinsics" default="true" />
+        <xacro:arg name="add_plug" default="false" />
+        <xacro:arg name="use_mesh" default="true" />
+        <xacro:sensor_d415 parent="${prefix}d415_mount_link"
+            use_nominal_extrinsics="$(arg use_nominal_extrinsics)" add_plug="$(arg add_plug)"
+            use_mesh="$(arg use_mesh)">
+            <origin xyz="0 ${-0.023/2 + 0.0575} ${0.01 + 0.005}" rpy="0 ${-pi/2} ${-pi/2}" />
+        </xacro:sensor_d415> 
+
+    </xacro:macro>
+</robot>

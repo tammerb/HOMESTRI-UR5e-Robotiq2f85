@@ -1,35 +1,28 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="a_bot_scene">
 
-    <xacro:include filename="$(find homestri_description)/urdf/workspaces/a_bot_workspace.xacro" />
-    <xacro:include filename="$(find homestri_description)/urdf/macros/ur5e_macro.xacro" />
-    <xacro:include
-        filename="$(find homestri_description)/urdf/macros/robotiq_realsense_macro.xacro" />
 
-    <xacro:a_bot_workspace 
+    <xacro:arg name="joint_limits_parameters_file"
+        default="$(find ur_description)/config/ur5e/joint_limits.yaml" />
+    <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+
+
+    <xacro:include filename="$(find homestri_description)/urdf/workspaces/pedestal_workspace.xacro" />
+    <xacro:include filename="$(find homestri_description)/urdf/macros/a_bot_macro.xacro" />
+
+    <xacro:pedestal_workspace
         pedestal_height="0.6"
         pedestal_radius="0.15"
-        table_height="0.4"
-        table_y="-0.8"
-        table_x="0.25"
     />
 
-    <xacro:ur5e
+    <xacro:a_bot
         prefix=""
         parent="pedestal"
-        gripper_tip_offset="0.163"
-        transmission_hw_interface="hardware_interface/PositionJointInterface"
+        transmission_hw_interface="$(arg transmission_hw_interface)"
+        joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     >
         <origin xyz="0 0 0" rpy="0 0 0" />
-    </xacro:ur5e>
-
-    <xacro:robotiq_realsense
-        prefix=""
-        parent="ee_link"
-        transmission_hw_interface="hardware_interface/PositionJointInterface"
-    >
-        <origin xyz="0 0 0" rpy="${-pi/2} ${0} ${-pi/2}" />
-    </xacro:robotiq_realsense>
+    </xacro:a_bot>
 
     <link name="world" />
 

@@ -1,29 +1,26 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="b_bot_scene">
+    <xacro:arg name="joint_limits_parameters_file"
+        default="$(find ur_description)/config/ur5e/joint_limits.yaml" />
+    <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
 
-    <xacro:include filename="$(find homestri_description)/urdf/workspaces/b_bot_workspace.xacro" />
-    <xacro:include filename="$(find homestri_description)/urdf/macros/ur5e_macro.xacro" />
-    <xacro:include
-        filename="$(find homestri_description)/urdf/macros/onrobot_realsense_macro.xacro" />
 
-    <xacro:b_bot_workspace />
+    <xacro:include filename="$(find homestri_description)/urdf/workspaces/pedestal_workspace.xacro" />
+    <xacro:include filename="$(find homestri_description)/urdf/macros/b_bot_macro.xacro" />
 
-    <xacro:ur5e
+    <xacro:pedestal_workspace
+        pedestal_height="0.6"
+        pedestal_radius="0.15"
+    />
+
+    <xacro:b_bot
         prefix=""
         parent="pedestal"
-        gripper_tip_offset="0.223"
-        transmission_hw_interface="hardware_interface/PositionJointInterface"
+        transmission_hw_interface="$(arg transmission_hw_interface)"
+        joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     >
         <origin xyz="0 0 0" rpy="0 0 0" />
-    </xacro:ur5e>
-
-    <xacro:onrobot_realsense
-        prefix=""
-        parent="ee_link"
-        transmission_hw_interface="hardware_interface/PositionJointInterface"
-    >
-        <origin xyz="0 0 0" rpy="${-pi/2} ${0} ${-pi/2}" />
-    </xacro:onrobot_realsense>
+    </xacro:b_bot>
 
     <link name="world" />
 

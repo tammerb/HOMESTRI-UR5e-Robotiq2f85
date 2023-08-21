@@ -1,8 +1,0 @@
-# Define the goal
-string xml
----
-# Define the result
-bool success
----
-# Define a feedback message
-string current_node

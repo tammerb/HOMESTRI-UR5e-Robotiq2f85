@@ -16,6 +16,8 @@ services:
     volumes:
       # Grant display access to X Server.
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - "/dev:/dev"
+      - ./catkin_ws/src:/root/catkin_ws/src
     deploy:
       resources:
         reservations:
