@@ -1,13 +1,13 @@
 Panels:
   - Class: rviz/Displays
-    Help Height: 84
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
-        - /MotionPlanning1/Scene Robot1
+        - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.5
-    Tree Height: 230
+    Tree Height: 314
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -40,7 +40,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 0.7
+    - Acceleration_Scaling_Factor: 0.1
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -89,7 +89,52 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          ee_link:
+          camera_bottom_screw_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_color_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_color_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_depth_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra1_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra1_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra2_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra2_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          d415_mount_attach_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          d415_mount_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -104,15 +149,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           gripper_body:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          gripper_tip_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          ground:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -162,31 +198,15 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          table:
+          tcp_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
           upper_arm_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          wall_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          wall_2:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          wall_3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -229,7 +249,7 @@ Visualization Manager:
         TextHeight: 0.07999999821186066
       Planning Request:
         Colliding Link Color: 255; 0; 0
-        Goal State Alpha: 0.5
+        Goal State Alpha: 1
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
@@ -237,7 +257,7 @@ Visualization Manager:
         Query Goal State: true
         Query Start State: false
         Show Workspace: false
-        Start State Alpha: 0.5
+        Start State Alpha: 1
         Start State Color: 0; 255; 0
       Planning Scene Topic: move_group/monitored_planning_scene
       Robot Description: robot_description
@@ -274,7 +294,52 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          ee_link:
+          camera_bottom_screw_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_color_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_color_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_depth_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_depth_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra1_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra1_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra2_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_infra2_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          d415_mount_attach_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          d415_mount_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -289,15 +354,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           gripper_body:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          gripper_tip_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          ground:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -347,31 +403,15 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          table:
+          tcp_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
           upper_arm_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          wall_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          wall_2:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          wall_3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -395,11 +435,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-        Robot Alpha: 1
+        Robot Alpha: 0.5
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.9
+      Velocity_Scaling_Factor: 0.1
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -416,7 +456,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.9696474075317383
+      Distance: 2.240000009536743
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -424,17 +464,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: 0.5405846834182739
-        Y: 0.108771413564682
-        Z: 0.3857361674308777
+        X: -0.10000000149011612
+        Y: 0.25
+        Z: 0.30000001192092896
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.32500019669532776
+      Pitch: 0.5
       Target Frame: world
-      Yaw: 1.5917627811431885
+      Yaw: 5.659949779510498
     Saved: ~
 Window Geometry:
   Displays:
@@ -452,5 +492,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1291
-  X: 2419
-  Y: 343
+  X: 2141
+  Y: 193

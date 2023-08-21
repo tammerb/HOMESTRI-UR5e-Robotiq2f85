@@ -52,22 +52,5 @@
         <arg name="my_rviz" value="-d $(find homestri_bringup)/rviz/a_bot_bringup.rviz" />
         <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
     </group>
-
-    <!-- launch realsense -->
-    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
-        <arg name="filters" value="pointcloud"/>
-    </include>
-
-    <!-- launch apriltag detection -->
-    <include file="$(find apriltag_ros)/launch/continuous_detection.launch">
-        <arg name="settings_path" value="$(find homestri_manipulation)/config/settings.yaml"/>
-        <arg name="tags_path" value="$(find homestri_manipulation)/config/tags.yaml"/>
-    </include>
-
-    <param name="static_transform" value="$(find homestri_manipulation)/config/static_transform.yaml" />
-    <node name="homestri_static_transform_publisher" pkg="homestri_manipulation" type="static_transform_publisher.py" respawn="false" output="screen" />
-
-        
-
-
+    
 </launch>
