@@ -71,9 +71,15 @@ The workspace also includes extra ROS package dependencies as git submodules in 
 
 Note that the same commands for "a_bot" also apply for "b_bot"—just swap the names.
 
-- Run fake robot in MoveIt: `roslaunch homestri_a_bot_moveit_config demo.launch`
+- Run fake robot in MoveIt: 
+    ```bash
+    roslaunch homestri_a_bot_moveit_config demo.launch
+    ````
 
-- Run simulated robot in Gazebo: `roslaunch homestri_a_bot_moveit_config demo_gazebo.launch`
+- Run simulated robot in Gazebo: 
+    ```bash
+    roslaunch homestri_a_bot_moveit_config demo_gazebo.launch
+    ````
 
 ### Running the Real Robot
 
@@ -81,9 +87,15 @@ Follow these steps to run the real robot:
 
 1. **Set Up External Control URCap**: Follow the steps for setting up external control URCap and programming on the UR teach pendant. This only needs to be done once. Refer to [this guide](https://github.com/UniversalRobots/Universal_Robots_ExternalControl_URCap).
 
-2. **Calibrate the Real Robot**: Calibrate the real robot using the following command, replacing `<a_bot robot ip>` with the actual IP of the "a_bot" robot: `roslaunch homestri_bringup a_bot_calibration.launch robot_ip:=<a_bot robot ip>`
+2. **Calibrate the Real Robot**: Calibrate the real robot using the following command, replacing `<a_bot robot ip>` with the actual IP of the "a_bot" robot: 
+    ```bash
+    roslaunch homestri_bringup a_bot_calibration.launch robot_ip:=<a_bot robot ip>
+    ```
 
-3. **Start Up the Real Robot**: Launch the real robot using the following command, replacing `<a_bot robot ip>` with the actual IP of the "a_bot" robot and `<host computer ip>` with the IP of your host computer: `roslaunch homestri_bringup a_bot_bringup.launch robot_ip:=<a_bot robot ip> reverse_ip:=<host computer ip>`
+3. **Start Up the Real Robot**: Launch the real robot using the following command, replacing `<a_bot robot ip>` with the actual IP of the "a_bot" robot and `<host computer ip>` with the IP of your host computer: 
+    ```bash
+    roslaunch homestri_bringup a_bot_bringup.launch robot_ip:=<a_bot robot ip> reverse_ip:=<host computer ip>
+    ```
 
 4. **Run the External Control Program**: Run the external control program you have set up on the teach pendant.
 
