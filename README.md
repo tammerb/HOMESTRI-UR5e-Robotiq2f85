@@ -1,16 +1,11 @@
 # HOMESTRI-UR
 
-<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;">
-  <div style="flex: 1; min-width: 150px; padding: 0px;">
-    <img src="images/a_bot.gif" alt="a_bot GIF" style="max-width: 100%; height: auto;">
-  </div>
-  <div style="flex: 1; min-width: 150px; padding: 0px;">
-    <img src="images/b_bot.gif" alt="b_bot GIF" style="max-width: 100%; height: auto;">
-  </div>
-  <div style="flex: 1; min-width: 150px; padding: 0px;">
-    <img src="images/impedance.gif" alt="impedance GIF" style="max-width: 100%; height: auto;">
-  </div>
-</div>
+<p align="center">
+  <img src="images/a_bot.gif" alt="a_bot GIF" width="33%">
+  <img src="images/b_bot.gif" alt="b_bot GIF" width="33%">
+  <img src="images/impedance.gif" alt="impedance GIF" width="33%">
+</p>
+
 
 Welcome to the HOMESTRI-UR repository! This repository provides a Dockerized workspace tailored for working with UR5e robot arms at the HRVIP Lab and HOME Space Technology Research Institute. The Docker container is preconfigured with all the necessary dependencies and settings, streamlining the process of developing and experimenting with UR5e robots within a consistent and isolated environment.
 
