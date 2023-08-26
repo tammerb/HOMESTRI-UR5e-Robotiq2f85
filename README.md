@@ -1,9 +1,9 @@
 # HOMESTRI-UR
 
 <p align="center">
-  <img src="images/a_bot.gif" alt="a_bot GIF" width="33%">
-  <img src="images/b_bot.gif" alt="b_bot GIF" width="33%">
-  <img src="images/impedance.gif" alt="impedance GIF" width="33%">
+  <img src="images/a_bot.gif" alt="a_bot GIF" width="32%">
+  <img src="images/b_bot.gif" alt="b_bot GIF" width="32%">
+  <img src="images/impedance.gif" alt="impedance GIF" width="32%">
 </p>
 
 
