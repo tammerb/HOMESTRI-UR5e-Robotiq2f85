@@ -18,8 +18,8 @@
     <remap from="cartesian_force_controller/target_wrench" to="target_wrench" />
     <remap from="cartesian_compliance_controller/target_wrench" to="target_wrench" />
     <!-- Read wrenches via one topic -->
-    <remap from="cartesian_force_controller/ft_sensor_wrench" to="wrench" />
-    <remap from="cartesian_compliance_controller/ft_sensor_wrench" to="wrench" />
+    <remap from="cartesian_force_controller/ft_sensor_wrench" to="wrench_filtered" />
+    <remap from="cartesian_compliance_controller/ft_sensor_wrench" to="wrench_filtered" />
     <!-- ur5e driver -->
     <include file="$(find ur_robot_driver)/launch/ur5e_bringup.launch">
         <arg name="robot_ip" value="$(arg robot_ip)" />

@@ -5,13 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1/Planned Path1
-        - /TF1
         - /TF1/Frames1
-        - /TF1/Frames1/target_frame1
-        - /TF1/Frames1/target_frame1/Position1
-        - /TF1/Frames1/target_frame1/Orientation1
       Splitter Ratio: 0.5
-    Tree Height: 578
+    Tree Height: 493
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -88,6 +84,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          cable_protector:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           camera_bottom_screw_frame:
             Alpha: 1
             Show Axes: false
@@ -134,7 +135,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          ee_link:
+          d415_mount_attach_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          d415_mount_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -149,15 +154,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           gripper_body:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          gripper_tip_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          ground:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -187,7 +183,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          realsense_mount:
+          pedestal:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -222,6 +218,10 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          tcp_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           tool0:
             Alpha: 1
             Show Axes: false
@@ -309,6 +309,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          cable_protector:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           camera_bottom_screw_frame:
             Alpha: 1
             Show Axes: false
@@ -355,7 +360,11 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          ee_link:
+          d415_mount_attach_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          d415_mount_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -370,15 +379,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           gripper_body:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          gripper_tip_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          ground:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -408,7 +408,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          realsense_mount:
+          pedestal:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -443,6 +443,10 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          tcp_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           tool0:
             Alpha: 1
             Show Axes: false
@@ -478,16 +482,18 @@ Visualization Manager:
       Velocity_Scaling_Factor: 0.1
     - Class: rviz/TF
       Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        aruco_marker_frame:
-          Value: true
         base:
           Value: false
         base_link:
           Value: false
         base_link_inertia:
+          Value: false
+        cable_protector:
           Value: false
         camera_bottom_screw_frame:
           Value: false
@@ -511,17 +517,15 @@ Visualization Manager:
           Value: false
         coupler:
           Value: false
-        ee_link:
+        d415_mount_attach_link:
+          Value: false
+        d415_mount_link:
           Value: false
         flange:
           Value: false
         forearm_link:
           Value: false
         gripper_body:
-          Value: false
-        gripper_tip_link:
-          Value: false
-        ground:
           Value: false
         left_inner_finger:
           Value: false
@@ -533,7 +537,7 @@ Visualization Manager:
           Value: false
         left_outer_knuckle:
           Value: false
-        realsense_mount:
+        pedestal:
           Value: false
         right_inner_finger:
           Value: false
@@ -547,8 +551,8 @@ Visualization Manager:
           Value: false
         shoulder_link:
           Value: false
-        target_frame:
-          Value: true
+        tcp_link:
+          Value: false
         tool0:
           Value: false
         tool0_controller:
@@ -556,7 +560,7 @@ Visualization Manager:
         upper_arm_link:
           Value: false
         world:
-          Value: true
+          Value: false
         wrist_1_link:
           Value: false
         wrist_2_link:
@@ -571,28 +575,24 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          base_link:
-            base:
-              tool0_controller:
-                {}
-            base_link_inertia:
-              shoulder_link:
-                upper_arm_link:
-                  forearm_link:
-                    wrist_1_link:
-                      wrist_2_link:
-                        wrist_3_link:
-                          ee_link:
-                            gripper_tip_link:
-                              {}
-                            realsense_mount:
+          pedestal:
+            base_link:
+              base:
+                tool0_controller:
+                  {}
+              base_link_inertia:
+                shoulder_link:
+                  upper_arm_link:
+                    forearm_link:
+                      wrist_1_link:
+                        wrist_2_link:
+                          wrist_3_link:
+                            d415_mount_link:
                               camera_bottom_screw_frame:
                                 camera_link:
                                   camera_color_frame:
                                     camera_color_optical_frame:
-                                      aruco_marker_frame:
-                                        target_frame:
-                                          {}
+                                      {}
                                   camera_depth_frame:
                                     camera_depth_optical_frame:
                                       {}
@@ -602,40 +602,31 @@ Visualization Manager:
                                   camera_infra2_frame:
                                     camera_infra2_optical_frame:
                                       {}
-                              coupler:
-                                gripper_body:
-                                  left_inner_knuckle:
+                              d415_mount_attach_link:
+                                coupler:
+                                  cable_protector:
                                     {}
-                                  left_outer_knuckle:
-                                    left_outer_finger:
-                                      left_inner_finger:
-                                        left_inner_finger_pad:
-                                          {}
-                                  right_inner_knuckle:
-                                    {}
-                                  right_outer_knuckle:
-                                    right_outer_finger:
-                                      right_inner_finger:
-                                        right_inner_finger_pad:
-                                          {}
-                          flange:
-                            tool0:
+                                  gripper_body:
+                                    left_inner_knuckle:
+                                      {}
+                                    left_outer_knuckle:
+                                      left_outer_finger:
+                                        left_inner_finger:
+                                          left_inner_finger_pad:
+                                            {}
+                                    right_inner_knuckle:
+                                      {}
+                                    right_outer_knuckle:
+                                      right_outer_finger:
+                                        right_inner_finger:
+                                          right_inner_finger_pad:
+                                            {}
+                            flange:
+                              tool0:
+                                {}
+                            tcp_link:
                               {}
-          ground:
-            {}
       Update Interval: 0
-      Value: true
-    - Class: rviz/Image
-      Enabled: true
-      Image Topic: /aruco_single/result
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
-      Queue Size: 2
-      Transport Hint: raw
-      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -653,7 +644,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.1295231580734253
+      Distance: 2.13454532623291
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -661,35 +652,33 @@ Visualization Manager:
         Value: false
       Field of View: 0.75
       Focal Point:
-        X: 0.7327381372451782
-        Y: 0.28017228841781616
-        Z: 0.11515531688928604
+        X: 0.5261314511299133
+        Y: 0.29964175820350647
+        Z: 0.4011145234107971
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.04500037059187889
+      Pitch: 0.3300004005432129
       Target Frame: world
-      Yaw: 6.229979038238525
+      Yaw: 5.109978199005127
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1376
+  Height: 1016
   Help:
     collapsed: false
   Hide Left Dock: false
   Hide Right Dock: false
-  Image:
-    collapsed: false
   MotionPlanning:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002e20000050afc020000000cfb000000100044006900730070006c006100790073010000003b0000027d000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000002be000001990000016900fffffffb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d006100670065000000041a000000950000000000000000fb0000000a0049006d006100670065010000045d000000e80000001600ffffff0000053e0000050a00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002e2000003a2fc020000000cfb000000100044006900730070006c006100790073010000003b00000228000000c700fffffffb0000000800480065006c00700000000342000000bb0000006e00fffffffb0000000a00560069006500770073000000010c000000a4000000a000fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000001600000016fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000269000001740000016900fffffffb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d00610067006500000003db000000d40000000000000000fb0000000a0049006d006100670065000000041a000000950000000000000000fb0000000a0049006d006100670065010000045d000000e80000000000000000000006d0000003a200000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 2086
-  X: 74
+  Width: 2488
+  X: 72
   Y: 27
