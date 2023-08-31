@@ -36,7 +36,10 @@ Follow these steps to set up your environment for UR5e robot development:
 3. **Clone the Repository**: Clone this repository to your local machine using the following command:
 
     ```bash
-    git clone -b minimal https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git
+    git clone -b minimal https://github.com/tammerb/HOMESTRI-UR5e-Robotiq2f85.git homestri_ur
+    cd homestri_ur
+    git submodule init
+    git submodule update
     ```
 
 4. **Install Visual Studio Code Extensions**: Install the Docker extension and Remote Development extension for Visual Studio Code.
