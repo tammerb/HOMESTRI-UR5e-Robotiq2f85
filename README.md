@@ -44,7 +44,7 @@ Follow these steps to set up your environment for UR5e robot development:
 5. **Run the Docker Container**: Navigate to the root folder of the cloned repository and run the following command to start the Docker container:
 
     ```bash
-    docker-compose up
+    docker compose up
     ```
 
 6. **Attach Visual Studio Code**: Open Visual Studio Code, go to the Docker tab, right-click on the container, and select "Attach VSCode." This action will provide you with a Visual Studio Code environment within the container, preconfigured with ROS settings.
