@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="robot_ip" default="192.168.1.103" />
-    <arg name="target_filename" default="$(find homestri_bringup)/config/b_bot_calibration.yaml" />
+    <arg name="target_filename" default="$(find homestri_bringup)/etc/b_bot_calibration.yaml" />
 
     <include file="$(find ur_calibration)/launch/calibration_correction.launch">
         <arg name="robot_ip" value="$(arg robot_ip)" />

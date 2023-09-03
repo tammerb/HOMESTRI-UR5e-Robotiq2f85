@@ -42,7 +42,7 @@
         <joint name="finger_joint" value="0.8"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="a_bot_endeffector" parent_link="tcp_link" group="gripper" parent_group="arm"/>
+    <end_effector name="tcp" parent_link="tcp_link" group="gripper" parent_group="arm"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="pedestal"/>
     <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->

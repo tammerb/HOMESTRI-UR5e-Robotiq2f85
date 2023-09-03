@@ -10,6 +10,7 @@
         prefix 
         parent 
         transmission_hw_interface:=hardware_interface/PositionJointInterface
+        kinematics_parameters_file:='$(find ur_description)/config/ur5e/default_kinematics.yaml'
         joint_limits_parameters_file:='$(find ur_description)/config/ur5e/joint_limits.yaml'
         *origin">
 
@@ -18,6 +19,7 @@
             parent="${parent}"
             tcp_offset="0.223"
             joint_limits_parameters_file="${joint_limits_parameters_file}"
+            kinematics_parameters_file="${kinematics_parameters_file}"
             transmission_hw_interface="${transmission_hw_interface}"
         >
             <origin xyz="0 0 0" rpy="0 0 0" />

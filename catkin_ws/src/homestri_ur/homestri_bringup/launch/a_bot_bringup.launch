@@ -2,11 +2,21 @@
     <arg name="robot_ip" default="192.168.1.102" />
     <arg name="reverse_ip" default="192.168.1.2" />
     <arg name="tool_device_name" default="/tmp/ttyUR" />
-    <arg name="kinematics_config" default="$(find homestri_bringup)/config/a_bot_calibration.yaml" />
+    <arg name="kinematics_config" default="$(find homestri_bringup)/etc/a_bot_calibration.yaml" />
     <arg name="controllers" default="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller"/>
     <arg name="stopped_controllers" default="joint_group_vel_controller motion_control_handle cartesian_motion_controller cartesian_force_controller cartesian_compliance_controller"/>
     <arg name="controller_config_file" default="$(find homestri_bringup)/config/a_bot_controllers.yaml" />
+    <arg name="moveit_controller_config_file" default="$(find homestri_bringup)/config/a_bot_moveit_controllers.yaml" />
+    <arg name="urdf_path" default="$(find homestri_description)/urdf/scenes/a_bot_scene.xacro"/>
     <arg name="use_rviz" default="true" />
+
+    <!-- Set the robot urdf on the parameter server -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(arg urdf_path)' 
+        kinematics_parameters_file:=$(arg kinematics_config)" 
+    />
+
+    <!-- Convert joint states to /tf tranforms -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
     <!-- Control motion and compliance controller with one handle -->
     <remap from="motion_control_handle/target_frame" to="target_frame" />
@@ -19,7 +29,7 @@
     <remap from="cartesian_force_controller/ft_sensor_wrench" to="wrench_filtered" />
     <remap from="cartesian_compliance_controller/ft_sensor_wrench" to="wrench_filtered" />
     <!-- ur5e driver -->
-    <include file="$(find ur_robot_driver)/launch/ur5e_bringup.launch">
+    <include file="$(find ur_robot_driver)/launch/ur_control.launch">
         <arg name="robot_ip" value="$(arg robot_ip)" />
         <arg name="reverse_ip" value="$(arg reverse_ip)" />
         <arg name="use_tool_communication" value="true" />
@@ -38,14 +48,11 @@
 
     <!-- launch moveit -->
     <include file="$(find homestri_a_bot_moveit_config)/launch/move_group.launch">
-        <arg name="allow_trajectory_execution" value="true"/>
         <arg name="moveit_controller_manager" value="simple" />
-        <arg name="fake_execution_type" value="interpolate"/>
-        <arg name="info" value="true"/>
-        <arg name="debug" value="false"/>
-        <arg name="pipeline" value="ompl"/>
-        <arg name="load_robot_description" value="true"/>
+        <arg name="load_robot_description" value="false"/>
     </include>
+    <!-- Load moveit controller list to the parameter server -->
+    <rosparam file="$(arg moveit_controller_config_file)" ns="move_group"/>
 
     <!-- launch rviz -->
     <group if="$(arg use_rviz)">
