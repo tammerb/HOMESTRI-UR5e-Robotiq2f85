@@ -4,7 +4,7 @@
 
     <xacro:arg name="joint_limits_parameters_file"
         default="$(find ur_description)/config/ur5e/joint_limits.yaml" />
-    <xacro:arg name="joint_limits_parameters_file"
+    <xacro:arg name="kinematics_parameters_file"
         default="$(find ur_description)/config/ur5e/default_kinematics.yaml" />
     <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
 
