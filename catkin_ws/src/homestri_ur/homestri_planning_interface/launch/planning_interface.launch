@@ -1,0 +1,9 @@
+<launch>
+    <rosparam file="$(find homestri_planning_interface)/config/planning_interface.yaml" />
+    <node
+        name="planning_interface"
+        pkg="homestri_planning_interface"
+        type="planning_interface"
+        output="screen" 
+    />
+</launch>

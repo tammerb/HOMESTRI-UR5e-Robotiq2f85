@@ -1,0 +1,4 @@
+planning_interface:
+  move_group: arm
+  default_vel_scaling: 0.1
+  default_acc_scaling: 0.1

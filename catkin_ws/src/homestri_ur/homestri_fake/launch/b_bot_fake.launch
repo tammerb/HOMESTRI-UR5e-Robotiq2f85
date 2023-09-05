@@ -1,5 +1,5 @@
 <launch>
-    <arg name="controllers" default="joint_state_controller pos_joint_traj_controller gripper_action_controller"/>
+    <arg name="controllers" default="joint_state_controller pos_joint_traj_controller gripper_action_controller cartesian_traj_publisher"/>
     <arg name="stopped_controllers" default="cartesian_motion_controller motion_control_handle cartesian_force_controller cartesian_compliance_controller"/>
     <arg name="controller_config_file" default="$(find homestri_fake)/config/b_bot_controllers.yaml" />
     <arg name="moveit_controller_config_file" default="$(find homestri_fake)/config/b_bot_moveit_controllers.yaml" />
@@ -17,6 +17,7 @@
     <remap from="motion_control_handle/target_frame" to="target_frame" />
     <remap from="cartesian_motion_controller/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller/target_frame" to="target_frame" />
+    <remap from="cartesian_traj_publisher/reference_pose" to="target_frame" />
     <!-- Control wrenches via one topic -->
     <remap from="cartesian_force_controller/target_wrench" to="target_wrench" />
     <remap from="cartesian_compliance_controller/target_wrench" to="target_wrench" />
@@ -36,6 +37,15 @@
     <node name="ros_control_stopped_spawner" pkg="controller_manager" type="spawner" respawn="false"
         output="screen" args="--stopped $(arg stopped_controllers)" unless="$(eval arg('stopped_controllers') == '')"/>
 
+    <!-- compliant trajectory action server -->
+    <remap from="compliant_traj_action_server/target_wrench" to="target_wrench" />
+    <node 
+        name="compliant_traj_action_server" 
+        pkg="compliant_trajectory_control" 
+        type="follow_compliant_trajectory_action_server" 
+        output="screen"
+    />
+
     <!-- launch moveit -->
     <include file="$(find homestri_b_bot_moveit_config)/launch/move_group.launch">
         <arg name="moveit_controller_manager" value="simple" />
@@ -49,5 +59,9 @@
         <arg name="my_rviz" value="-d $(find homestri_fake)/rviz/b_bot_fake.rviz" />
         <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
     </group>
+
+    <!-- launch simple planning interface -->
+    <include file="$(find homestri_planning_interface)/launch/planning_interface.launch">
+    </include>
     
 </launch>

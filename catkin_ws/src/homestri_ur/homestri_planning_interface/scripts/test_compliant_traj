@@ -1,0 +1,44 @@
+import rospy
+import actionlib
+from homestri_planning_interface.srv import SimplePlan, SimplePlanRequest
+from compliant_trajectory_control.msg import FollowCompliantTrajectoryGoal, FollowCompliantTrajectoryAction
+
+if __name__ == "__main__":
+    rospy.init_node("test_compliant_traj")
+
+    # Create a ROS service proxy for the /planning_interface/simple_plan service
+    rospy.wait_for_service("/planning_interface/simple_plan")
+    simple_plan_service = rospy.ServiceProxy("/planning_interface/simple_plan", SimplePlan)
+
+    # Create a request to send to the service
+    request = SimplePlanRequest()
+    # Set the request parameters as needed
+    request.mode = SimplePlanRequest.TARGET
+    request.target = "home"
+    request.vel_scaling = 0.02
+    request.acc_scaling = 0.02
+
+    try:
+        response = simple_plan_service(request)
+    except rospy.ServiceException as e:
+        print("Service call failed:", e)
+
+    
+    # Create an action client for the FollowCompliantTrajectoryAction
+    client = actionlib.SimpleActionClient('/compliant_traj_action_server/follow_compliant_trajectory', FollowCompliantTrajectoryAction)
+    client.wait_for_server()
+
+    # Create a FollowCompliantTrajectoryGoal
+    goal = FollowCompliantTrajectoryGoal()
+    goal.joint_trajectory = response.joint_trajectory
+    goal.wrench.header.frame_id = "base_link"
+    goal.wrench.wrench.force.y = 10.0
+
+    # Send the goal to the action server
+    client.send_goal(goal)
+
+    # Wait for the result (you can adjust the timeout as needed)
+    client.wait_for_result(rospy.Duration(30.0))
+
+
+

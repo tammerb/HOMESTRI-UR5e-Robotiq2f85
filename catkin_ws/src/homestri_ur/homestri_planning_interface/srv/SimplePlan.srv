@@ -1,0 +1,12 @@
+uint8 POSE=0
+uint8 POSE_LINE=1
+uint8 TARGET=2
+
+uint8 mode
+string target
+geometry_msgs/PoseStamped pose
+float64 vel_scaling
+float64 acc_scaling
+---
+trajectory_msgs/JointTrajectory joint_trajectory
+bool success

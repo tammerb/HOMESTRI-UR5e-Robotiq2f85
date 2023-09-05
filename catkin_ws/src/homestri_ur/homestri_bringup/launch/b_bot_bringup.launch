@@ -2,7 +2,7 @@
     <arg name="robot_ip" default="192.168.1.103" />
     <arg name="reverse_ip" default="192.168.1.2" />
     <arg name="kinematics_config" default="$(find homestri_bringup)/etc/b_bot_calibration.yaml" />
-    <arg name="controllers" default="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller"/>
+    <arg name="controllers" default="joint_state_controller scaled_pos_joint_traj_controller speed_scaling_state_controller force_torque_sensor_controller cartesian_traj_publisher"/>
     <arg name="stopped_controllers" default="joint_group_vel_controller motion_control_handle cartesian_motion_controller cartesian_force_controller cartesian_compliance_controller"/>
     <arg name="controller_config_file" default="$(find homestri_bringup)/config/b_bot_controllers.yaml" />
     <arg name="moveit_controller_config_file" default="$(find homestri_bringup)/config/b_bot_moveit_controllers.yaml" />
@@ -23,6 +23,7 @@
     <remap from="motion_control_handle/target_frame" to="target_frame" />
     <remap from="cartesian_motion_controller/target_frame" to="target_frame" />
     <remap from="cartesian_compliance_controller/target_frame" to="target_frame" />
+    <remap from="cartesian_traj_publisher/reference_pose" to="target_frame" />
     <!-- Control wrenches via one topic -->
     <remap from="cartesian_force_controller/target_wrench" to="target_wrench" />
     <remap from="cartesian_compliance_controller/target_wrench" to="target_wrench" />
@@ -38,6 +39,15 @@
         <arg name="stopped_controllers" value="$(arg stopped_controllers)" />
         <arg name="controller_config_file" value="$(arg controller_config_file)"/>
     </include>
+
+    <!-- compliant trajectory action server -->
+    <remap from="compliant_traj_action_server/target_wrench" to="target_wrench" />
+    <node 
+        name="compliant_traj_action_server" 
+        pkg="compliant_trajectory_control" 
+        type="follow_compliant_trajectory_action_server" 
+        output="screen"
+    />
 
     <!-- launch gripper driver -->
     <include file="$(find onrobot_rg2ft_action_server)/launch/onrobot_rg2ft_action_server.launch">
@@ -59,5 +69,9 @@
         <arg name="my_rviz" value="-d $(find homestri_bringup)/rviz/b_bot_bringup.rviz" />
         <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
     </group>
+
+    <!-- launch simple planning interface -->
+    <include file="$(find homestri_planning_interface)/launch/planning_interface.launch">
+    </include>
 
 </launch>

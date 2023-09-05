@@ -34,3 +34,6 @@
 	path = catkin_ws/src/controllers/low_pass_force_torque_sensor_controller
 	url = https://github.com/ian-chuang/Low-Pass-Force-Torque-Sensor-Controller
 	branch = noetic-devel
+[submodule "catkin_ws/src/controllers/compliant_trajectory_control"]
+	path = catkin_ws/src/controllers/compliant_trajectory_control
+	url = https://github.com/ian-chuang/CompliantTrajectoryControl.git
