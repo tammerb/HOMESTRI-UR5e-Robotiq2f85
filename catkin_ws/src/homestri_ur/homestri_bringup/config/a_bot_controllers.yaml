@@ -235,14 +235,10 @@ cartesian_compliance_controller:
     rot_y: { p: 2.0 }
     rot_z: { p: 2.0 }
 
-cartesian_traj_publisher:
-  type: cartesian_trajectory_publisher/CartesianTrajectoryPublisher
-  base: base_link
-  tip: tcp_link
-  joints: *robot_joints
-
 compliant_traj_action_server:
-  controller: cartesian_traj_publisher
+  end_effector_link: "tcp_link"
+  robot_base_link: "base_link"
+  joints: *robot_joints
   path_tolerance:
     pose_error: {trans_x: 0.3, trans_y: 0.3, trans_z: 0.3, rot_x: 1.0, rot_y: 1.0, rot_z: 1.0}
     twist_error: {trans_x: 1000000, trans_y: 1000000, trans_z: 1000000, rot_x: 1000000, rot_y: 1000000, rot_z: 1000000}
