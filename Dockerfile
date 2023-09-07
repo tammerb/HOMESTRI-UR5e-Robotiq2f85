@@ -45,7 +45,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 # Install python dependencies
 RUN pip3 install \ 
     pyserial \
-    pymodbus===2.1.0
+    pymodbus===2.1.0 \
+    numpy \
+    scipy 
 
 # Install ROS dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \

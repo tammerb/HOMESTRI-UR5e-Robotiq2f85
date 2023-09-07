@@ -1,7 +1,0 @@
-import rospy
-from homestri_planning_interface.planning_interface import PlanningInterface
-
-if __name__ == "__main__":
-    rospy.init_node('planning_interface')
-    planning_interface = PlanningInterface()
-    rospy.spin()

@@ -59,9 +59,5 @@
         <arg name="my_rviz" value="-d $(find homestri_fake)/rviz/b_bot_fake.rviz" />
         <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="$(arg my_rviz)" output="screen" />
     </group>
-
-    <!-- launch simple planning interface -->
-    <include file="$(find homestri_planning_interface)/launch/planning_interface.launch">
-    </include>
     
 </launch>
