@@ -33,3 +33,7 @@
 [submodule "catkin_ws/src/controllers/compliant_trajectory_control"]
 	path = catkin_ws/src/controllers/compliant_trajectory_control
 	url = https://github.com/ian-chuang/CompliantTrajectoryControl.git
+[submodule "catkin_ws/src/controllers/cartesian_controllers"]
+	path = catkin_ws/src/controllers/cartesian_controllers
+	url = https://github.com/ian-chuang/cartesian_controllers.git
+	branch = homestri-ur
